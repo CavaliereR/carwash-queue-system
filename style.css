@@ -1,0 +1,30 @@
+        body{
+            margin: 0;
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: Arial, Courier, monospace;
+            color: white;
+        }
+
+/*Navigation Bar*/
+        nav{
+                background-color: #0d9488;
+                padding: 15px 0;
+            }
+        .nav-container{
+                width: 90%;
+                margin: auto;
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+            }
+        nav a{
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            font-family: 'Arial', sans-serif;
+        }
+        nav a:hover{
+            color: skyblue;
+        }
