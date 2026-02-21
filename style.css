@@ -30,6 +30,10 @@
             color: black;
         }
 
+        .icon{
+            width: 30px;
+        }
+
         nav ul {
             display: flex;
             list-style: none;
