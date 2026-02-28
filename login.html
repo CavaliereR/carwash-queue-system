@@ -1,13 +1,41 @@
+<!DOCTYPE html>
 <html>
-    <head>
-    <link rel="stylesheet" href="style.css">
-    
-    <!--Icon needed-->
-    </head>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
 
-    <body> 
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
 
+<body>
 
-    </body>
+    <div class="login-container">
+        <div class="login-card">
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Please login to your account</p>
 
+            <form action="#" method="POST">
+                
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+
+                <p class="extra-text">
+                    Don’t have an account? <a href="#">Sign up</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+</body>
 </html>

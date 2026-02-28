@@ -1,62 +1,146 @@
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body{
-            margin: 0;
-            background-repeat: no-repeat;
-            background-size: cover;
-            font-family: Arial, Courier, monospace;
-            color: white;
-            line-height: 1.6;
-        }
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/*Navigation Bar*/
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #0d9488;
-        }
+/* Body */
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: 'Poppins', Arial, sans-serif;
+    color: #f1f5f9;
+    line-height: 1.6;
+}
 
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: black;
-        }
+/* Header */
+header {
+    backdrop-filter: blur(12px);
+    background: rgba(15, 23, 42, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-        .icon{
-            width: 30px;
-        }
+/* Navigation Container */
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
+/* Logo */
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #22d3ee, #14b8a6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
+/* Nav Links */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
 
-        nav a:hover {
-            color: skyblue;
-        }
+nav a {
+    color: #e2e8f0;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+}
 
-                header {
-            background: linear-gradient(135deg, green 0%, #2d2d2d 100%);
-            border-bottom: 4px solid black;
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+/* Underline animation */
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -6px;
+    left: 0;
+    background: linear-gradient(90deg, #22d3ee, #14b8a6);
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav a:hover {
+    color: #22d3ee;
+}
+
+/* Icon */
+.icon {
+    width: 28px;
+    transition: transform 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+}
+
+/* Services Section */
+.services-section {
+    padding: 80px 40px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    min-height: 100vh;
+}
+
+.services-title {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 50px;
+    color: #f1f5f9;
+}
+
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.service-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    color: #e2e8f0;
+    transition: 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(34, 211, 238, 0.3);
+    border-color: #22d3ee;
+}
+
+.service-card h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.service-card p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #cbd5e1;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #22d3ee;
+}
