@@ -321,7 +321,6 @@ tr.completed td { text-decoration: line-through; color: #94a3b8; }
     Car Wash Management
   </div>
 
-  <!-- ✅ NAV: click = scroll to section -->
   <nav>
     <ul>
       <li><a href="#top" id="navDashboard" class="active">Dashboard</a></li>
@@ -335,14 +334,12 @@ tr.completed td { text-decoration: line-through; color: #94a3b8; }
 
 <section class="dashboard" id="top">
 
- <!-- Action Buttons -->
-<div class="actions">
-  <button class="btn-new" id="btnNewTransaction">+ New Parking Transaction</button>
-  <button class="btn-view" id="btnShowAllSlots">Show All Slots</button>
-  <button class="btn-view" id="btnShowAvailableOnly">Available Only</button>
-</div>
+  <div class="actions">
+    <button class="btn-new" id="btnNewTransaction">+ New Parking Transaction</button>
+    <button class="btn-view" id="btnShowAllSlots">Show All Slots</button>
+    <button class="btn-view" id="btnShowAvailableOnly">Available Only</button>
+  </div>
 
-  <!-- Summary Cards -->
   <div class="summary-cards">
     <div class="card">
       <div>
@@ -368,12 +365,11 @@ tr.completed td { text-decoration: line-through; color: #94a3b8; }
     <div class="card">
       <div>
         <h3>Active Vehicles</h3>
-        <p>0</p>
+        <p id="statActiveVehicles">0</p>
       </div>
     </div>
   </div>
 
-  <!-- ✅ Active Transactions -->
   <div class="panel" id="dashboardSection">
     <h2 class="panel-title">Active Transactions</h2>
 
@@ -392,7 +388,6 @@ tr.completed td { text-decoration: line-through; color: #94a3b8; }
     </div>
   </div>
 
-  <!-- ✅ Parking Slot Overview -->
   <div class="panel slot-overview" id="slotsSection">
     <div class="topbar">
       <h2 class="panel-title" style="margin:0;">Parking Slot Overview</h2>
@@ -415,13 +410,11 @@ tr.completed td { text-decoration: line-through; color: #94a3b8; }
     <div class="small-note" id="slotFooterNote"></div>
   </div>
 
-  <!-- ✅ Available Services -->
   <div class="panel" id="servicesSection">
     <h2 class="panel-title">Available Services</h2>
     <div class="services-grid" id="servicesGrid"></div>
   </div>
 
-  <!-- ✅ Orders -->
   <div class="completed-orders" id="ordersSection">
     <h2>Completed Orders</h2>
     <table class="base-table">
@@ -497,6 +490,32 @@ const appData = {
   ]
 };
 
+/* ========= ✅ LocalStorage Keys (persistent) + SessionStorage (non-persistent) ========= */
+const STORAGE_KEYS = {
+  slots: "carwash_slots",              // localStorage
+  services: "carwash_services",        // localStorage
+  txsSession: "carwash_active_transactions" // sessionStorage (NOT saved after session)
+};
+
+function loadFromStorage(key, fallback, useSession = false) {
+  try {
+    const raw = useSession ? sessionStorage.getItem(key) : localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveToStorage(key, value, useSession = false) {
+  const json = JSON.stringify(value);
+  if (useSession) sessionStorage.setItem(key, json);
+  else localStorage.setItem(key, json);
+}
+
+/* ✅ Use saved slots/services if they exist */
+appData.slots = loadFromStorage(STORAGE_KEYS.slots, appData.slots, false);
+appData.services = loadFromStorage(STORAGE_KEYS.services, appData.services, false);
+
 /* ========= CONNECT: New Transaction button ========= */
 const btnNewTransaction = document.getElementById("btnNewTransaction");
 if (btnNewTransaction) {
@@ -533,14 +552,79 @@ navMap.forEach(n => {
   });
 });
 
-/* ========= Slot stats ========= */
+/* ========= ✅ ACTIVE TRANSACTIONS (sessionStorage) ========= */
+const activeTransactionsMount = document.getElementById("activeTransactionsMount");
+const ACTIVE_EMPTY_HTML = activeTransactionsMount ? activeTransactionsMount.innerHTML : "";
+
+function getActiveTransactions() {
+  return loadFromStorage(STORAGE_KEYS.txsSession, [], true);
+}
+function setActiveTransactions(list) {
+  saveToStorage(STORAGE_KEYS.txsSession, list, true);
+}
+
+/* helper: which slots are taken by active txs */
+function getTakenSlotIdSet() {
+  const txs = getActiveTransactions();
+  return new Set(txs.map(t => t.slotId).filter(Boolean));
+}
+
+const statActiveVehicles = document.getElementById("statActiveVehicles");
+
+function renderActiveTransactions() {
+  if (!activeTransactionsMount) return;
+
+  const txs = getActiveTransactions();
+  if (statActiveVehicles) statActiveVehicles.textContent = String(txs.length);
+
+  if (!txs.length) {
+    activeTransactionsMount.innerHTML = ACTIVE_EMPTY_HTML;
+    return;
+  }
+
+  let html = `
+    <div style="width:100%;">
+      <table class="base-table" style="text-align:left;">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Customer</th>
+            <th style="text-align:left;">Plate</th>
+            <th style="text-align:left;">Slot</th>
+            <th style="text-align:left;">Services</th>
+            <th style="text-align:left;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  txs.forEach(t => {
+    const serviceNames = (t.services || []).map(s => s.name).join(", ") || "-";
+    html += `
+      <tr>
+        <td style="text-align:left;">${t.customerName || "-"}</td>
+        <td style="text-align:left;">${t.plateNumber || "-"}</td>
+        <td style="text-align:left;">${t.slotId || "-"}</td>
+        <td style="text-align:left;">${serviceNames}</td>
+        <td style="text-align:left;">₱${t.total || 0}</td>
+      </tr>
+    `;
+  });
+
+  html += `</tbody></table></div>`;
+  activeTransactionsMount.innerHTML = html;
+}
+
+/* ========= Slot stats (effective availability: slot.isAvailable AND not taken) ========= */
 const statTotalSlots = document.getElementById("statTotalSlots");
 const statAvailableSlots = document.getElementById("statAvailableSlots");
 const statOccupiedSlots = document.getElementById("statOccupiedSlots");
 
 function updateSlotStats() {
+  const taken = getTakenSlotIdSet();
   const total = appData.slots.length;
-  const available = appData.slots.filter(s => s.isAvailable).length;
+
+  // effective: if taken -> occupied, even if isAvailable=true
+  const available = appData.slots.filter(s => s.isAvailable && !taken.has(s.slotId)).length;
   const occupied = total - available;
 
   statTotalSlots.textContent = total;
@@ -552,14 +636,19 @@ function updateSlotStats() {
 const slotTableMount = document.getElementById("slotTableMount");
 const slotFooterNote = document.getElementById("slotFooterNote");
 
-function slotStatusText(slot) {
-  return slot.isAvailable ? "Available" : "Occupied";
-}
-
 function renderSlots(filter = "ALL") {
-  let rows = appData.slots;
-  if (filter === "Available") rows = rows.filter(s => s.isAvailable);
-  if (filter === "Occupied") rows = rows.filter(s => !s.isAvailable);
+  const taken = getTakenSlotIdSet();
+
+  // build effective status list
+  const effectiveRows = appData.slots.map(s => {
+    const isTaken = taken.has(s.slotId);
+    const effectiveAvailable = s.isAvailable && !isTaken;
+    return { ...s, _isTaken: isTaken, _effectiveAvailable: effectiveAvailable };
+  });
+
+  let rows = effectiveRows;
+  if (filter === "Available") rows = rows.filter(s => s._effectiveAvailable);
+  if (filter === "Occupied") rows = rows.filter(s => !s._effectiveAvailable);
 
   let html = `
     <table>
@@ -575,8 +664,12 @@ function renderSlots(filter = "ALL") {
   `;
 
   rows.forEach(slot => {
-    const pillClass = slot.isAvailable ? "available" : "occupied";
-    const pillText = slotStatusText(slot);
+    const pillClass = slot._effectiveAvailable ? "available" : "occupied";
+    const pillText = slot._effectiveAvailable ? "Available" : "Occupied";
+
+    // if taken by tx -> we still allow changing status,
+    // but if admin sets Available, we remove the tx using this slot.
+    const baseSlot = appData.slots.find(s => s.slotId === slot.slotId);
 
     html += `
       <tr>
@@ -585,13 +678,13 @@ function renderSlots(filter = "ALL") {
         <td>
           <span class="status-pill ${pillClass}">
             <span class="mini-dot"></span>
-            ${pillText}
+            ${pillText}${slot._isTaken ? " (In Use)" : ""}
           </span>
         </td>
         <td>
           <select data-slot-id="${slot.slotId}" class="slot-status-select">
-            <option value="Available" ${slot.isAvailable ? "selected" : ""}>Available</option>
-            <option value="Occupied" ${!slot.isAvailable ? "selected" : ""}>Occupied</option>
+            <option value="Available" ${baseSlot && baseSlot.isAvailable ? "selected" : ""}>Available</option>
+            <option value="Occupied" ${baseSlot && !baseSlot.isAvailable ? "selected" : ""}>Occupied</option>
           </select>
         </td>
       </tr>
@@ -602,7 +695,6 @@ function renderSlots(filter = "ALL") {
   slotTableMount.innerHTML = html;
   slotFooterNote.textContent = `Showing ${rows.length} of ${appData.slots.length} slots`;
 
-  // status control
   document.querySelectorAll(".slot-status-select").forEach(sel => {
     sel.addEventListener("change", (e) => {
       const id = e.target.getAttribute("data-slot-id");
@@ -611,9 +703,23 @@ function renderSlots(filter = "ALL") {
       const slot = appData.slots.find(s => s.slotId === id);
       if (!slot) return;
 
+      // set base availability
       slot.isAvailable = (value === "Available");
-      updateSlotStats();
 
+      // ✅ If admin sets to Available, remove any active tx that uses this slot
+      if (value === "Available") {
+        const txs = getActiveTransactions();
+        const nextTxs = txs.filter(t => t.slotId !== id);
+        if (nextTxs.length !== txs.length) {
+          setActiveTransactions(nextTxs);
+        }
+        renderActiveTransactions();
+      }
+
+      // persist slots (localStorage)
+      saveToStorage(STORAGE_KEYS.slots, appData.slots, false);
+
+      updateSlotStats();
       const currentFilter = document.getElementById("filterStatus").value;
       renderSlots(currentFilter);
     });
@@ -660,6 +766,7 @@ function renderServices() {
     const checkbox = card.querySelector(`#${toggleId}`);
     checkbox.addEventListener("change", (e) => {
       service.isAvailable = e.target.checked;
+      saveToStorage(STORAGE_KEYS.services, appData.services, false);
       card.style.opacity = service.isAvailable ? "1" : "0.45";
     });
 
@@ -675,65 +782,19 @@ document.querySelectorAll('.complete-check').forEach(checkbox => {
   });
 });
 
-/* ========= ACTIVE TRANSACTIONS (reads from localStorage) =========
-   Later this becomes: fetch from PHP / database
-*/
-const activeTransactionsMount = document.getElementById("activeTransactionsMount");
-
-function getActiveTransactions() {
-  try {
-    const raw = localStorage.getItem("carwash_active_transactions");
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function renderActiveTransactions() {
-  const txs = getActiveTransactions();
-
-  if (!txs.length) {
-    // keep your empty state
-    return;
-  }
-
-  let html = `
-    <div style="width:100%;">
-      <table class="base-table" style="text-align:left;">
-        <thead>
-          <tr>
-            <th style="text-align:left;">Customer</th>
-            <th style="text-align:left;">Plate</th>
-            <th style="text-align:left;">Slot</th>
-            <th style="text-align:left;">Services</th>
-            <th style="text-align:left;">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-  `;
-
-  txs.forEach(t => {
-    const serviceNames = (t.services || []).map(s => s.name).join(", ") || "-";
-    html += `
-      <tr>
-        <td style="text-align:left;">${t.customerName}</td>
-        <td style="text-align:left;">${t.plateNumber}</td>
-        <td style="text-align:left;">${t.slotId}</td>
-        <td style="text-align:left;">${serviceNames}</td>
-        <td style="text-align:left;">₱${t.total || 0}</td>
-      </tr>
-    `;
-  });
-
-  html += `</tbody></table></div>`;
-  activeTransactionsMount.innerHTML = html;
-}
+/* ✅ Keep dashboard synced if you come back from new-transaction.html */
+window.addEventListener("focus", () => {
+  renderActiveTransactions();
+  updateSlotStats();
+  const currentFilter = document.getElementById("filterStatus").value;
+  renderSlots(currentFilter);
+});
 
 /* Initial load */
+renderActiveTransactions();
 updateSlotStats();
 renderSlots("ALL");
 renderServices();
-renderActiveTransactions();
 </script>
 
 </body>

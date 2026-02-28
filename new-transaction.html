@@ -396,6 +396,27 @@ const txState = {
   selectedServices: new Set()
 };
 
+/* ========= ✅ SESSION STORAGE for active transactions (NOT persistent) ========= */
+const ACTIVE_TX_KEY = "carwash_active_transactions";
+
+function getStoredTx() {
+  try {
+    const raw = sessionStorage.getItem(ACTIVE_TX_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+function setStoredTx(list) {
+  sessionStorage.setItem(ACTIVE_TX_KEY, JSON.stringify(list));
+}
+
+/* helper: slots already used by active txs (in this session) */
+function getTakenSlotIdSet() {
+  const txs = getStoredTx();
+  return new Set(txs.map(t => t.slotId).filter(Boolean));
+}
+
 /* ====== Step UI ====== */
 const panel1 = document.getElementById("panelStep1");
 const panel2 = document.getElementById("panelStep2");
@@ -467,31 +488,40 @@ const selectedSlotBadge = document.getElementById("selectedSlotBadge");
 function renderSlots(){
   slotRows.innerHTML = "";
 
+  const taken = getTakenSlotIdSet();
+
   appData.slots.forEach(slot => {
     const tr = document.createElement("tr");
 
-    const pill = slot.isAvailable
+    // effective availability: must be available AND not already taken by an active tx
+    const isTaken = taken.has(slot.slotId);
+    const canPick = slot.isAvailable && !isTaken;
+
+    const pill = canPick
       ? `<span class="status-pill available"><span class="mini-dot"></span>Available</span>`
-      : `<span class="status-pill occupied"><span class="mini-dot"></span>Occupied</span>`;
+      : `<span class="status-pill occupied"><span class="mini-dot"></span>${isTaken ? "In Use" : "Occupied"}</span>`;
 
     tr.innerHTML = `
       <td><strong>${slot.slotId}</strong></td>
       <td>${slot.location}</td>
       <td>${pill}</td>
       <td>
-        <button class="pick-btn" ${slot.isAvailable ? "" : "disabled"}>
+        <button class="pick-btn" ${canPick ? "" : "disabled"}>
           ${txState.selectedSlotId === slot.slotId ? "Selected" : "Pick"}
         </button>
       </td>
     `;
 
-    tr.querySelector(".pick-btn").addEventListener("click", () => {
-      txState.selectedSlotId = slot.slotId;
-      selectedSlotBadge.style.display = "inline-block";
-      selectedSlotBadge.textContent = `Selected: ${slot.slotId}`;
-      btnGoTo3.disabled = false;
-      renderSlots();
-    });
+    const pickBtn = tr.querySelector(".pick-btn");
+    if (pickBtn) {
+      pickBtn.addEventListener("click", () => {
+        txState.selectedSlotId = slot.slotId;
+        selectedSlotBadge.style.display = "inline-block";
+        selectedSlotBadge.textContent = `Selected: ${slot.slotId}`;
+        btnGoTo3.disabled = false;
+        renderSlots();
+      });
+    }
 
     slotRows.appendChild(tr);
   });
@@ -520,7 +550,6 @@ function renderServices(){
   servicesGrid.innerHTML = "";
 
   appData.services.forEach(service => {
-    // Only show available services as selectable
     const card = document.createElement("div");
     card.className = "service-card";
     const toggleId = `svc_${service.serviceId}`;
@@ -563,19 +592,7 @@ function updateSummary(){
 
 document.getElementById("btnBackTo2").addEventListener("click", () => setStep(2));
 
-/* Save -> localStorage (temporary) then redirect */
-function getStoredTx() {
-  try {
-    const raw = localStorage.getItem("carwash_active_transactions");
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-function setStoredTx(list) {
-  localStorage.setItem("carwash_active_transactions", JSON.stringify(list));
-}
-
+/* Save -> sessionStorage then redirect (admin will read and render it) */
 document.getElementById("btnSaveTransaction").addEventListener("click", () => {
   if(!txState.selectedSlotId){
     alert("Please select a slot first.");
