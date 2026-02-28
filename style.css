@@ -89,6 +89,71 @@ nav a:hover {
     transform: scale(1.1);
 }
 
+/* Completed Orders Section */
+.completed-orders {
+    padding: 60px 20px;
+    background: #0f172a;
+    color: white;
+}
+
+.completed-orders h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 28px;
+}
+
+.orders-table-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 15px;
+    text-align: center;
+}
+
+.orders-table thead {
+    background: rgba(34, 211, 238, 0.2);
+}
+
+.orders-table th {
+    font-weight: 600;
+}
+
+.orders-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.orders-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+/* Checkbox styling */
+.complete-check {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Strike-through row when checked */
+.orders-table tbody tr:has(.complete-check:checked) {
+    text-decoration: line-through;
+    opacity: 0.6;
+    background: rgba(34, 211, 238, 0.15);
+}
+
+
 /* Services Section */
 .services-section {
     padding: 80px 40px;
