@@ -209,3 +209,79 @@ nav a:hover {
     font-weight: 600;
     color: #22d3ee;
 }
+
+
+/* Slots Section */
+.slots-section {
+    padding: 80px 20px;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+}
+
+.slots-section h2 {
+    margin-bottom: 50px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+/* Summary Boxes */
+.slot-summary {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+}
+
+.summary-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 40px 60px;   /* Bigger */
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    min-width: 220px;
+    transition: 0.3s ease;
+}
+
+.summary-box h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.summary-box p {
+    font-size: 40px;  /* Bigger number */
+    font-weight: 700;
+    color: white;     /* No other text colors */
+}
+
+/* Slots Grid */
+.slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Bigger Slot Cards */
+.slot {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 50px 20px;   /* Bigger height */
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.slot input {
+    margin-right: 10px;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+}
+
+/* When slot is checked */
+.slot:has(input:checked) {
+    background: rgba(255, 255, 255, 0.15);
+    text-decoration: line-through;
+}
