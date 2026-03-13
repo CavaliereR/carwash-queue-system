@@ -7,145 +7,48 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   DESIGN SYSTEM — Industrial Terminal Aesthetic
-   Dark slate base · Amber accent · Crisp data density
-═══════════════════════════════════════════ */
-:root {
-  --bg0: #060c14;
-  --bg1: #0a1220;
-  --bg2: #0f1a2e;
-  --bg3: #152238;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-
-  --cyan:   #00d4ff;
-  --teal:   #00b89c;
-  --amber:  #f59e0b;
-  --amber2: #fbbf24;
-  --blue:   #3b82f6;
-  --green:  #22c55e;
-  --red:    #ef4444;
-  --purple: #a78bfa;
-
-  --text:   #e8f1ff;
-  --soft:   #8da0bc;
-  --muted:  #4a5e7a;
-
-  --r:   10px;
-  --r2:  16px;
-  --shadow: 0 20px 60px rgba(0,0,0,0.6);
-  --glow-cyan: 0 0 24px rgba(0,212,255,0.15);
+:root{
+  --bg0:#060c14;--bg1:#0a1220;--bg2:#0f1a2e;--bg3:#152238;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --cyan:#00d4ff;--teal:#00b89c;--amber:#f59e0b;--amber2:#fbbf24;
+  --blue:#3b82f6;--green:#22c55e;--red:#ef4444;--purple:#a78bfa;
+  --text:#e8f1ff;--soft:#8da0bc;--muted:#4a5e7a;
+  --r:10px;--r2:16px;--shadow:0 20px 60px rgba(0,0,0,0.6);
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:'Outfit',sans-serif;
-  background:var(--bg0);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* Mesh bg */
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;
+body{font-family:'Outfit',sans-serif;background:var(--bg0);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;
   background:
     radial-gradient(ellipse 900px 600px at -10% -5%,rgba(0,212,255,0.06) 0%,transparent 55%),
-    radial-gradient(ellipse 700px 500px at 110% 100%,rgba(0,184,156,0.05) 0%,transparent 55%),
-    radial-gradient(ellipse 400px 300px at 50% 50%,rgba(245,158,11,0.03) 0%,transparent 70%);
-  pointer-events:none;
-}
+    radial-gradient(ellipse 700px 500px at 110% 100%,rgba(0,184,156,0.05) 0%,transparent 55%);
+  pointer-events:none;}
 
 /* ── Sidebar ── */
-.sidebar{
-  position:fixed;left:0;top:0;bottom:0;
-  width:230px;
-  background:var(--bg1);
-  border-right:1px solid var(--border);
-  z-index:300;
-  display:flex;flex-direction:column;
-}
-.sb-logo{
-  display:flex;align-items:center;gap:10px;
-  padding:20px 18px 16px;
-  border-bottom:1px solid var(--border);
-}
-.sb-logo-mark{
-  width:32px;height:32px;border-radius:9px;
-  background:linear-gradient(135deg,var(--cyan),var(--teal));
-  display:grid;place-items:center;flex-shrink:0;
-}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--bg1);border-right:1px solid var(--border);z-index:300;display:flex;flex-direction:column;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:20px 18px 16px;border-bottom:1px solid var(--border);}
+.sb-logo-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--cyan),var(--teal));display:grid;place-items:center;flex-shrink:0;}
 .sb-logo-mark svg{width:18px;height:18px;fill:var(--bg0);}
-.sb-logo-text{
-  font-family:'Syne',sans-serif;font-weight:800;font-size:15px;
-  background:linear-gradient(90deg,var(--cyan),var(--teal));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  line-height:1.2;
-}
+.sb-logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;background:linear-gradient(90deg,var(--cyan),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2;}
 .sb-logo-sub{font-size:10px;color:var(--muted);letter-spacing:0.8px;text-transform:uppercase;}
-
 .nav-group{padding:14px 10px 4px;}
-.nav-group-label{
-  font-size:10px;font-weight:600;letter-spacing:1.2px;
-  text-transform:uppercase;color:var(--muted);
-  padding:0 8px;margin-bottom:6px;
-}
-.nav-btn{
-  display:flex;align-items:center;gap:10px;
-  width:100%;padding:10px 10px;
-  border-radius:var(--r);border:none;background:transparent;
-  color:var(--soft);font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:500;
-  cursor:pointer;transition:all .18s;text-align:left;
-}
+.nav-group-label{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);padding:0 8px;margin-bottom:6px;}
+.nav-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border-radius:var(--r);border:none;background:transparent;color:var(--soft);font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;transition:all .18s;text-align:left;}
 .nav-btn svg{width:17px;height:17px;flex-shrink:0;opacity:.65;transition:opacity .18s;}
 .nav-btn:hover{background:rgba(255,255,255,0.05);color:var(--text);}
 .nav-btn:hover svg{opacity:1;}
 .nav-btn.active{background:rgba(0,212,255,0.10);color:var(--cyan);}
 .nav-btn.active svg{opacity:1;stroke:var(--cyan);}
-
 .sb-bottom{margin-top:auto;padding:12px 10px;}
 .sb-divider{height:1px;background:var(--border);margin:10px 0;}
-
-/* Live badge */
-.live-badge{
-  display:flex;align-items:center;gap:7px;
-  padding:8px 10px;border-radius:var(--r);
-  background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.15);
-  font-size:11px;color:#86efac;font-weight:500;
-  margin:0 0 8px;
-}
-.live-dot{
-  width:7px;height:7px;border-radius:999px;background:var(--green);
-  animation:livePulse 2s infinite;
-}
+.live-badge{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:var(--r);background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.15);font-size:11px;color:#86efac;font-weight:500;margin:0 0 8px;}
+.live-dot{width:7px;height:7px;border-radius:999px;background:var(--green);animation:livePulse 2s infinite;}
 @keyframes livePulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
 
 /* ── Main ── */
-.main{
-  margin-left:230px;
-  padding:0 28px 60px;
-  position:relative;z-index:1;
-  min-height:100vh;
-}
-
-/* ── Topbar ── */
-.topbar{
-  position:sticky;top:0;z-index:200;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 0;
-  background:rgba(6,12,20,0.85);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  gap:16px;
-  flex-wrap:wrap;
-}
+.main{margin-left:230px;padding:0 28px 60px;position:relative;z-index:1;min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 0;background:rgba(6,12,20,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);gap:16px;flex-wrap:wrap;}
 .topbar-left{display:flex;flex-direction:column;}
-.topbar-title{
-  font-family:'Syne',sans-serif;font-size:20px;font-weight:800;
-  letter-spacing:-.3px;
-}
+.topbar-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.3px;}
 .topbar-sub{font-size:12px;color:var(--muted);margin-top:1px;}
 .topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 
@@ -155,124 +58,57 @@ body::before{
 @keyframes fadeIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 
 /* ── Stat cards ── */
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-  margin-bottom:22px;
-}
-.stat-card{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:var(--r2);
-  padding:20px;
-  position:relative;overflow:hidden;
-  transition:transform .2s,border-color .2s;
-}
-.stat-card::after{
-  content:'';position:absolute;top:-40px;right:-40px;
-  width:110px;height:110px;border-radius:999px;opacity:.06;
-}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:20px;position:relative;overflow:hidden;transition:transform .2s;}
+.stat-card::after{content:'';position:absolute;top:-40px;right:-40px;width:110px;height:110px;border-radius:999px;opacity:.06;}
 .stat-card:hover{transform:translateY(-2px);}
-.sc-icon{
-  width:34px;height:34px;border-radius:9px;
-  display:grid;place-items:center;margin-bottom:14px;
-}
+.sc-icon{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;margin-bottom:14px;}
 .sc-icon svg{width:17px;height:17px;}
-.sc-val{
-  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
-  margin-bottom:2px;line-height:1;
-}
+.sc-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:2px;line-height:1;}
 .sc-label{font-size:12px;color:var(--soft);font-weight:500;}
 .sc-sub{font-size:11px;color:var(--muted);margin-top:3px;}
-
 .stat-card.s-total::after{background:var(--cyan);}
 .stat-card.s-total .sc-icon{background:rgba(0,212,255,0.10);}
 .stat-card.s-total .sc-val{color:var(--cyan);}
-
 .stat-card.s-pending::after{background:var(--amber);}
 .stat-card.s-pending .sc-icon{background:rgba(245,158,11,0.10);}
 .stat-card.s-pending .sc-val{color:var(--amber);}
-
 .stat-card.s-done::after{background:var(--green);}
 .stat-card.s-done .sc-icon{background:rgba(34,197,94,0.10);}
 .stat-card.s-done .sc-val{color:var(--green);}
-
 .stat-card.s-top::after{background:var(--purple);}
 .stat-card.s-top .sc-icon{background:rgba(167,139,250,0.10);}
 .stat-card.s-top .sc-val{color:var(--purple);font-size:16px;padding-top:6px;}
 
 /* ── Panel ── */
-.panel{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:var(--r2);
-  margin-bottom:18px;
-  overflow:hidden;
-}
-.panel-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 20px;
-  border-bottom:1px solid var(--border);
-  gap:12px;flex-wrap:wrap;
-}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:18px;overflow:hidden;}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap;}
 .panel-head-l{display:flex;align-items:center;gap:10px;}
-.panel-title{
-  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
-  color:var(--text);
-}
+.panel-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);}
 .panel-body{padding:20px;}
 
-/* ── Toolbar (search + filters) ── */
-.toolbar{
-  display:flex;align-items:center;gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:16px;
-}
-.search-wrap{
-  position:relative;flex:1;min-width:200px;max-width:320px;
-}
-.search-wrap svg{
-  position:absolute;left:11px;top:50%;transform:translateY(-50%);
-  width:15px;height:15px;opacity:.4;pointer-events:none;
-}
-.search-input{
-  width:100%;padding:9px 12px 9px 34px;
-  border-radius:var(--r);border:1.5px solid var(--border2);
-  background:var(--bg3);color:var(--text);
-  font-family:'Outfit',sans-serif;font-size:13px;
-  outline:none;transition:all .2s;
-}
+/* ── Tab bar ── */
+.tab-bar{display:flex;gap:4px;margin-bottom:20px;background:var(--bg3);padding:4px;border-radius:var(--r);width:fit-content;}
+.tab-btn{padding:8px 18px;border-radius:8px;border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:7px;}
+.tab-btn.active{background:rgba(0,212,255,0.12);color:var(--cyan);}
+.tab-btn:hover:not(.active){color:var(--soft);}
+.tab-count{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:rgba(255,255,255,0.08);color:var(--soft);font-size:10px;font-weight:700;}
+.tab-btn.active .tab-count{background:rgba(0,212,255,0.2);color:var(--cyan);}
+
+/* ── Toolbar ── */
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:320px;}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;opacity:.4;pointer-events:none;}
+.search-input{width:100%;padding:9px 12px 9px 34px;border-radius:var(--r);border:1.5px solid var(--border2);background:var(--bg3);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:all .2s;}
 .search-input::placeholder{color:var(--muted);}
 .search-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
-
-.filter-select{
-  padding:9px 12px;
-  border-radius:var(--r);border:1.5px solid var(--border2);
-  background:var(--bg3);color:var(--text);
-  font-family:'Outfit',sans-serif;font-size:13px;
-  outline:none;cursor:pointer;
-  transition:border-color .2s;
-}
+.filter-select{padding:9px 12px;border-radius:var(--r);border:1.5px solid var(--border2);background:var(--bg3);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;cursor:pointer;transition:border-color .2s;}
 .filter-select:focus{border-color:var(--cyan);}
-
-.filter-input-date{
-  padding:9px 12px;
-  border-radius:var(--r);border:1.5px solid var(--border2);
-  background:var(--bg3);color:var(--text);
-  font-family:'Outfit',sans-serif;font-size:13px;
-  outline:none;transition:border-color .2s;
-}
+.filter-input-date{padding:9px 12px;border-radius:var(--r);border:1.5px solid var(--border2);background:var(--bg3);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
 .filter-input-date:focus{border-color:var(--cyan);}
 
 /* ── Buttons ── */
-.btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:9px 16px;
-  border-radius:var(--r);border:none;cursor:pointer;
-  font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;
-  transition:all .18s;white-space:nowrap;
-}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:all .18s;white-space:nowrap;}
 .btn svg{width:14px;height:14px;flex-shrink:0;}
 .btn-primary{background:linear-gradient(90deg,var(--teal),var(--cyan));color:var(--bg0);box-shadow:0 6px 20px rgba(0,212,255,0.15);}
 .btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px);}
@@ -280,186 +116,104 @@ body::before{
 .btn-ghost:hover{background:rgba(255,255,255,0.08);color:var(--text);}
 .btn-danger{background:rgba(239,68,68,0.10);border:1.5px solid rgba(239,68,68,0.25);color:#fca5a5;}
 .btn-danger:hover{background:rgba(239,68,68,0.18);}
-.btn-warning{background:rgba(245,158,11,0.10);border:1.5px solid rgba(245,158,11,0.25);color:#fcd34d;}
-.btn-warning:hover{background:rgba(245,158,11,0.18);}
+.btn-success{background:rgba(34,197,94,0.12);border:1.5px solid rgba(34,197,94,0.3);color:#86efac;}
+.btn-success:hover{background:rgba(34,197,94,0.22);transform:translateY(-1px);}
 .btn-sm{padding:6px 11px;font-size:12px;}
 
 /* ── Table ── */
 .tbl-wrap{overflow-x:auto;}
 table.orders-table{width:100%;border-collapse:collapse;}
-.orders-table th{
-  font-size:11px;font-weight:600;letter-spacing:.8px;
-  text-transform:uppercase;color:var(--muted);
-  padding:0 14px 12px;text-align:left;white-space:nowrap;
-}
-.orders-table td{
-  padding:13px 14px;font-size:13px;
-  border-top:1px solid var(--border);
-  vertical-align:middle;
-}
+.orders-table th{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);padding:0 14px 12px;text-align:left;white-space:nowrap;}
+.orders-table td{padding:12px 14px;font-size:13px;border-top:1px solid var(--border);vertical-align:middle;}
 .orders-table tbody tr{transition:background .15s;}
 .orders-table tbody tr:hover td{background:rgba(255,255,255,0.025);}
 
 /* Status badges */
-.status-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:4px 10px;border-radius:999px;
-  font-size:11px;font-weight:600;white-space:nowrap;
-}
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;white-space:nowrap;}
 .status-badge .bdot{width:6px;height:6px;border-radius:999px;background:currentColor;}
-.s-pending  {background:rgba(245,158,11,0.12);color:#fcd34d;}
+.s-pending{background:rgba(245,158,11,0.12);color:#fcd34d;}
 .s-inprogress{background:rgba(59,130,246,0.12);color:#93c5fd;}
 .s-completed{background:rgba(34,197,94,0.12);color:#86efac;}
-.s-cancelled {background:rgba(239,68,68,0.12);color:#fca5a5;}
+.s-cancelled{background:rgba(239,68,68,0.12);color:#fca5a5;}
 
-/* Plate number monospace */
-.plate-tag{
-  font-family:'DM Mono',monospace;font-size:12px;
-  padding:3px 8px;border-radius:6px;
-  background:rgba(255,255,255,0.06);border:1px solid var(--border2);
-  color:var(--amber2);letter-spacing:.5px;
-}
-/* Ref tag */
-.ref-tag{
-  font-family:'DM Mono',monospace;font-size:11px;
-  color:var(--cyan);opacity:.85;
-}
-/* Price */
-.price-tag{
-  font-family:'Syne',sans-serif;font-weight:700;
-  color:var(--cyan);
-}
-
-/* row action buttons */
-.row-actions{display:flex;gap:6px;align-items:center;}
-
-/* source badge */
-.src-badge{
-  display:inline-flex;align-items:center;gap:4px;
-  font-size:10px;padding:2px 7px;border-radius:999px;
-  font-weight:600;
-}
+.plate-tag{font-family:'DM Mono',monospace;font-size:12px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:var(--amber2);letter-spacing:.5px;}
+.ref-tag{font-family:'DM Mono',monospace;font-size:11px;color:var(--cyan);opacity:.85;}
+.price-tag{font-family:'Syne',sans-serif;font-weight:700;color:var(--cyan);}
+.row-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap;min-width:180px;}
+.src-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 7px;border-radius:999px;font-weight:600;}
 .src-kiosk{background:rgba(0,212,255,0.10);color:var(--cyan);}
 .src-admin{background:rgba(167,139,250,0.10);color:#c4b5fd;}
 
+/* Time info */
+.time-cell{font-size:11px;color:var(--muted);line-height:1.8;}
+.time-cell strong{color:var(--soft);}
+.dur-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:999px;background:rgba(0,212,255,0.08);color:var(--cyan);font-weight:600;margin-top:2px;}
+
 /* Empty state */
-.empty-state{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:12px;padding:56px 24px;text-align:center;
-}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:56px 24px;text-align:center;}
 .empty-state svg{opacity:.3;}
 .empty-state h3{font-size:15px;color:var(--soft);}
 .empty-state p{font-size:13px;color:var(--muted);}
 
+/* Confirm-complete button */
+.btn-done{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;border:1.5px solid rgba(34,197,94,0.35);background:rgba(34,197,94,0.10);color:#86efac;font-size:11px;font-weight:700;cursor:pointer;transition:.18s;white-space:nowrap;font-family:'Outfit',sans-serif;}
+.btn-done:hover{background:rgba(34,197,94,0.22);transform:translateY(-1px);}
+
 /* ── Modal ── */
-.modal-overlay{
-  display:none;position:fixed;inset:0;z-index:600;
-  background:rgba(4,9,18,0.70);
-  backdrop-filter:blur(14px);
-  align-items:center;justify-content:center;
-}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(4,9,18,0.70);backdrop-filter:blur(14px);align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
-.modal{
-  background:var(--bg2);
-  border:1px solid var(--border2);
-  border-radius:var(--r2);
-  padding:28px;
-  width:min(540px,calc(100% - 32px));
-  box-shadow:var(--shadow);
-  animation:fadeIn .25s ease both;
-  max-height:90vh;overflow-y:auto;
-}
-.modal-header{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  margin-bottom:22px;gap:12px;
-}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:28px;width:min(540px,calc(100% - 32px));box-shadow:var(--shadow);animation:fadeIn .25s ease both;max-height:90vh;overflow-y:auto;}
+.modal-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;gap:12px;}
 .modal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;}
 .modal-title-sub{font-size:12px;color:var(--muted);margin-top:2px;}
-.modal-close{
-  width:30px;height:30px;border-radius:8px;
-  border:1.5px solid var(--border2);background:rgba(255,255,255,0.04);
-  color:var(--soft);cursor:pointer;font-size:18px;
-  display:grid;place-items:center;transition:all .15s;flex-shrink:0;
-}
+.modal-close{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border2);background:rgba(255,255,255,0.04);color:var(--soft);cursor:pointer;font-size:18px;display:grid;place-items:center;transition:all .15s;flex-shrink:0;}
 .modal-close:hover{background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.3);color:#fca5a5;}
+.readonly-banner{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:var(--r);padding:10px 14px;font-size:12px;color:#86efac;margin-bottom:18px;}
 
 /* Form */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .form-row.single{grid-template-columns:1fr;}
 .form-group{display:flex;flex-direction:column;gap:6px;}
 .form-label{font-size:11px;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);}
-.form-input,.form-select{
-  padding:11px 13px;
-  border-radius:var(--r);border:1.5px solid var(--border2);
-  background:var(--bg3);color:var(--text);
-  font-family:'Outfit',sans-serif;font-size:14px;
-  outline:none;transition:all .2s;
-}
+.form-input,.form-select{padding:11px 13px;border-radius:var(--r);border:1.5px solid var(--border2);background:var(--bg3);color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:all .2s;}
 .form-input::placeholder{color:var(--muted);}
 .form-input:focus,.form-select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
 .form-input.error,.form-select.error{border-color:var(--red)!important;box-shadow:0 0 0 3px rgba(239,68,68,0.10)!important;}
+.form-input:disabled,.form-select:disabled{opacity:.5;cursor:not-allowed;}
 .form-error{font-size:11px;color:#fca5a5;margin-top:3px;display:none;}
 .form-error.visible{display:block;}
 .form-hint{font-size:11px;color:var(--muted);margin-top:2px;}
-
-.price-display{
-  padding:11px 13px;border-radius:var(--r);
-  border:1.5px solid rgba(0,212,255,0.2);background:rgba(0,212,255,0.05);
-  font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--cyan);
-}
-
+.price-display{padding:11px 13px;border-radius:var(--r);border:1.5px solid rgba(0,212,255,0.2);background:rgba(0,212,255,0.05);font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--cyan);}
 .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;}
+.modal-alert{display:none;padding:10px 14px;border-radius:var(--r);font-size:12px;margin-bottom:14px;}
+.modal-alert.visible{display:block;}
+.modal-alert.warn{background:rgba(245,158,11,0.10);border:1px solid rgba(245,158,11,0.25);color:#fcd34d;}
+.modal-alert.error{background:rgba(239,68,68,0.10);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;}
 
-/* Confirm modal */
-.confirm-modal{max-width:400px;}
-.confirm-body{font-size:14px;color:var(--soft);line-height:1.6;margin-bottom:20px;}
-
-/* Toast */
-.toast-container{
-  position:fixed;bottom:24px;right:24px;
-  z-index:1000;display:flex;flex-direction:column;gap:8px;
-}
-.toast{
-  display:flex;align-items:center;gap:10px;
-  padding:12px 16px;border-radius:var(--r);
-  background:var(--bg2);border:1px solid var(--border2);
-  font-size:13px;box-shadow:var(--shadow);
-  animation:toastIn .3s ease both;
-  min-width:260px;max-width:360px;
-}
-@keyframes toastIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
-@keyframes toastOut{from{opacity:1;transform:translateX(0);}to{opacity:0;transform:translateX(20px);}}
-.toast.leaving{animation:toastOut .3s ease both;}
-.toast-icon{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;flex-shrink:0;}
-.toast-icon svg{width:12px;height:12px;}
-.toast.success .toast-icon{background:rgba(34,197,94,0.2);}
-.toast.success .toast-icon svg{stroke:var(--green);}
-.toast.error   .toast-icon{background:rgba(239,68,68,0.2);}
-.toast.error   .toast-icon svg{stroke:var(--red);}
-.toast.warn    .toast-icon{background:rgba(245,158,11,0.2);}
-.toast.warn    .toast-icon svg{stroke:var(--amber);}
-.toast.info    .toast-icon{background:rgba(0,212,255,0.2);}
-.toast.info    .toast-icon svg{stroke:var(--cyan);}
-.toast-msg{flex:1;color:var(--text);}
-
-/* Count badge */
-.count-badge{
-  display:inline-grid;place-items:center;
-  min-width:20px;height:20px;padding:0 6px;
-  border-radius:999px;
-  background:rgba(0,212,255,0.12);color:var(--cyan);
-  font-size:11px;font-weight:700;font-family:'Syne',sans-serif;
-}
+/* Services admin */
+.svc-admin-row{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--border);transition:opacity .2s;margin-bottom:10px;}
+.svc-admin-name{flex:1;font-size:14px;font-weight:500;}
+.price-pair{display:flex;gap:16px;font-size:12px;color:var(--muted);}
+.price-pair strong{color:var(--text);}
+.switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;}
+.switch input{display:none;}
+.slider{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.14);transition:.2s;border-radius:999px;}
+.slider::before{position:absolute;content:"";height:16px;width:16px;left:4px;top:50%;transform:translateY(-50%);background:rgba(6,12,20,.95);transition:.2s;border-radius:999px;}
+.switch input:checked+.slider{background:rgba(0,184,156,0.35);border-color:rgba(0,184,156,0.6);}
+.switch input:checked+.slider::before{transform:translate(20px,-50%);}
+.price-edit-inputs{display:none;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.price-edit-inputs.open{display:flex;}
+.price-input{width:90px;padding:5px 8px;border-radius:7px;border:1px solid rgba(34,211,238,0.35);background:var(--bg2);color:var(--text);font-size:13px;outline:none;}
+.price-input:focus{border-color:var(--cyan);}
+.btn-edit-price{font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.06);color:var(--soft);cursor:pointer;transition:.15s;}
+.btn-edit-price:hover{background:rgba(34,211,238,0.12);color:var(--cyan);}
+.btn-save-price{font-size:11px;padding:4px 10px;border-radius:6px;border:none;background:rgba(0,184,156,0.25);color:#5eead4;cursor:pointer;font-weight:600;}
+.btn-save-price:hover{background:rgba(0,184,156,0.4);}
+.btn-cancel-price{font-size:11px;padding:4px 8px;border-radius:6px;border:none;background:rgba(255,255,255,0.05);color:var(--muted);cursor:pointer;}
 
 /* Slot grid */
-.slot-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;
-}
-.slot-tile{
-  border-radius:var(--r);border:1.5px solid;
-  padding:14px 12px;cursor:pointer;transition:all .18s;
-  position:relative;
-}
+.slot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}
+.slot-tile{border-radius:var(--r);border:1.5px solid;padding:14px 12px;cursor:pointer;transition:all .18s;}
 .slot-tile.av{border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.05);}
 .slot-tile.av:hover{border-color:var(--green);background:rgba(34,197,94,0.10);}
 .slot-tile.oc{border-color:rgba(239,68,68,0.2);background:rgba(239,68,68,0.04);cursor:not-allowed;opacity:.55;}
@@ -469,87 +223,36 @@ table.orders-table{width:100%;border-collapse:collapse;}
 .slot-tile.av .slot-status-txt{color:#86efac;}
 .slot-tile.oc .slot-status-txt{color:#fca5a5;}
 
-/* Services admin toggle section */
-.svc-admin-wrap{display:flex;flex-direction:column;gap:10px;}
-.svc-admin-row{
-  display:flex;align-items:center;gap:14px;
-  padding:13px 16px;border-radius:var(--r);
-  background:var(--bg3);border:1px solid var(--border);
-  transition:opacity .2s;
-}
-.svc-admin-name{flex:1;font-size:14px;font-weight:500;}
-.price-pair{display:flex;gap:16px;font-size:12px;color:var(--muted);}
-.price-pair strong{color:var(--text);}
-.switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;}
-.switch input{display:none;}
-.slider{
-  position:absolute;cursor:pointer;inset:0;
-  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.14);
-  transition:.2s;border-radius:999px;
-}
-.slider::before{
-  position:absolute;content:"";
-  height:16px;width:16px;left:4px;top:50%;
-  transform:translateY(-50%);
-  background:rgba(6,12,20,.95);transition:.2s;border-radius:999px;
-}
-.switch input:checked+.slider{background:rgba(0,184,156,0.35);border-color:rgba(0,184,156,0.6);}
-.switch input:checked+.slider::before{transform:translate(20px,-50%);}
+/* Confirm modal */
+.confirm-body{font-size:14px;color:var(--soft);line-height:1.6;margin-bottom:20px;}
 
-/* Price edit inline */
-.price-edit-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.price-edit-inputs{display:none;align-items:center;gap:8px;flex-wrap:wrap;}
-.price-edit-inputs.open{display:flex;}
-.price-input{
-  width:90px;padding:5px 8px;border-radius:7px;
-  border:1px solid rgba(34,211,238,0.35);
-  background:var(--bg2);color:var(--text);font-size:13px;
-  outline:none;
-}
-.price-input:focus{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(0,212,255,0.12);}
-.btn-edit-price{
-  font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.14);
-  background:rgba(255,255,255,0.06);color:var(--soft);cursor:pointer;transition:.15s;
-}
-.btn-edit-price:hover{background:rgba(34,211,238,0.12);color:var(--cyan);border-color:rgba(34,211,238,0.3);}
-.btn-save-price{
-  font-size:11px;padding:4px 10px;border-radius:6px;border:none;
-  background:rgba(0,184,156,0.25);color:#5eead4;cursor:pointer;transition:.15s;font-weight:600;
-}
-.btn-save-price:hover{background:rgba(0,184,156,0.4);}
-.btn-cancel-price{
-  font-size:11px;padding:4px 8px;border-radius:6px;border:none;
-  background:rgba(255,255,255,0.05);color:var(--muted);cursor:pointer;
-}
-.btn-cancel-price:hover{background:rgba(239,68,68,0.12);color:#fca5a5;}
+/* Toast */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;gap:8px;}
+.toast{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--r);background:var(--bg2);border:1px solid var(--border2);font-size:13px;box-shadow:var(--shadow);animation:toastIn .3s ease both;min-width:260px;max-width:360px;}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+@keyframes toastOut{from{opacity:1;}to{opacity:0;transform:translateX(20px);}}
+.toast.leaving{animation:toastOut .3s ease both;}
+.toast-icon{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;flex-shrink:0;}
+.toast-icon svg{width:12px;height:12px;}
+.toast.success .toast-icon{background:rgba(34,197,94,0.2);}
+.toast.success .toast-icon svg{stroke:var(--green);}
+.toast.error .toast-icon{background:rgba(239,68,68,0.2);}
+.toast.error .toast-icon svg{stroke:var(--red);}
+.toast.warn .toast-icon{background:rgba(245,158,11,0.2);}
+.toast.warn .toast-icon svg{stroke:var(--amber);}
+.toast.info .toast-icon{background:rgba(0,212,255,0.2);}
+.toast.info .toast-icon svg{stroke:var(--cyan);}
+.toast-msg{flex:1;color:var(--text);}
+.count-badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:rgba(0,212,255,0.12);color:var(--cyan);font-size:11px;font-weight:700;font-family:'Syne',sans-serif;}
 
-/* Completed orders tab indicator */
-.tab-bar{display:flex;gap:4px;margin-bottom:16px;background:var(--bg3);padding:4px;border-radius:var(--r);width:fit-content;}
-.tab-btn{
-  padding:7px 14px;border-radius:8px;border:none;background:transparent;
-  font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;
-  color:var(--muted);cursor:pointer;transition:all .18s;
-}
-.tab-btn.active{background:rgba(0,212,255,0.10);color:var(--cyan);}
-.tab-btn:hover:not(.active){color:var(--soft);}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:6px;height:6px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.09);border-radius:99px;}
+/* Loading spinner */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--cyan);border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
 /* Responsive */
-@media(max-width:960px){
-  .sidebar{display:none;}
-  .main{margin-left:0;}
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .form-row{grid-template-columns:1fr;}
-}
-@media(max-width:560px){
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .topbar{padding:12px 16px;}
-  .main{padding:0 16px 50px;}
-}
+@media(max-width:960px){.sidebar{display:none;}.main{margin-left:0;}.stats-grid{grid-template-columns:repeat(2,1fr);}.form-row{grid-template-columns:1fr;}}
+@media(max-width:560px){.stats-grid{grid-template-columns:1fr 1fr;}.main{padding:0 16px 50px;}}
+::-webkit-scrollbar{width:6px;height:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.09);border-radius:99px;}
 </style>
 </head>
 <body>
@@ -565,32 +268,27 @@ table.orders-table{width:100%;border-collapse:collapse;}
       <div class="sb-logo-sub">Admin Panel</div>
     </div>
   </div>
-
   <div class="nav-group">
     <div class="nav-group-label">Main</div>
-    <button class="nav-btn active" onclick="showSection('dashboard',this)">
+    <button class="nav-btn active" id="navDash" onclick="showSection('dashboard',this)">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
       Dashboard
     </button>
-    <button class="nav-btn" onclick="showSection('orders',this)">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+    <button class="nav-btn" id="navOrders" onclick="showSection('orders',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>
       Orders
     </button>
-    <button class="nav-btn" onclick="showSection('slots',this)">
+    <button class="nav-btn" id="navSlots" onclick="showSection('slots',this)">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3" stroke-linecap="round"/><path stroke-linecap="round" d="M3 9h18M9 21V9"/></svg>
       Slots
     </button>
-    <button class="nav-btn" onclick="showSection('services',this)">
+    <button class="nav-btn" id="navServices" onclick="showSection('services',this)">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
       Services
     </button>
   </div>
-
   <div class="sb-bottom">
-    <div class="live-badge">
-      <span class="live-dot"></span>
-      Live sync active
-    </div>
+    <div class="live-badge"><span class="live-dot"></span>Live sync active</div>
     <div class="sb-divider"></div>
     <a href="login.html" class="nav-btn" style="text-decoration:none;">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
@@ -618,7 +316,7 @@ table.orders-table{width:100%;border-collapse:collapse;}
     </div>
   </div>
 
-  <!-- ══ DASHBOARD SECTION ══ -->
+  <!-- ══ DASHBOARD ══ -->
   <section class="section active" id="sec-dashboard">
     <div class="stats-grid">
       <div class="stat-card s-total">
@@ -647,19 +345,31 @@ table.orders-table{width:100%;border-collapse:collapse;}
       </div>
     </div>
 
-    <!-- Recent orders on dashboard -->
+    <!-- Recent Activity — Active Orders -->
     <div class="panel">
       <div class="panel-head">
         <div class="panel-head-l">
-          <div class="panel-title">Recent Activity</div>
-          <span class="count-badge" id="recentCount">0</span>
+          <div class="panel-title">Active Orders</div>
+          <span class="count-badge" id="dashActiveCount">0</span>
         </div>
-        <button class="btn btn-ghost btn-sm" onclick="showSection('orders',document.querySelector('.nav-btn:nth-child(2)'))">View All →</button>
+        <button class="btn btn-ghost btn-sm" onclick="showSection('orders',document.getElementById('navOrders'));switchOrderTab('active')">View All →</button>
       </div>
-      <div id="recentMount"></div>
+      <div id="dashActiveMount"></div>
     </div>
 
-    <!-- Slot overview mini -->
+    <!-- Recent Completed -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-head-l">
+          <div class="panel-title">Recently Completed</div>
+          <span class="count-badge" id="dashDoneCount">0</span>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="showSection('orders',document.getElementById('navOrders'));switchOrderTab('completed')">View All →</button>
+      </div>
+      <div id="dashDoneMount"></div>
+    </div>
+
+    <!-- Bay Status -->
     <div class="panel">
       <div class="panel-head">
         <div class="panel-title">Bay Status</div>
@@ -668,18 +378,16 @@ table.orders-table{width:100%;border-collapse:collapse;}
           <span>🔴 <span id="occCount">0</span> occupied</span>
         </div>
       </div>
-      <div class="panel-body">
-        <div class="slot-grid" id="dashSlotGrid"></div>
-      </div>
+      <div class="panel-body"><div class="slot-grid" id="dashSlotGrid"></div></div>
     </div>
   </section>
 
-  <!-- ══ ORDERS SECTION ══ -->
+  <!-- ══ ORDERS ══ -->
   <section class="section" id="sec-orders">
     <div class="panel">
       <div class="panel-head">
         <div class="panel-head-l">
-          <div class="panel-title">All Orders</div>
+          <div class="panel-title">Orders</div>
           <span class="count-badge" id="ordersCount">0</span>
         </div>
         <button class="btn btn-primary btn-sm" onclick="openAddModal()">
@@ -688,11 +396,20 @@ table.orders-table{width:100%;border-collapse:collapse;}
         </button>
       </div>
       <div class="panel-body">
+        <!-- Tab bar -->
+        <div class="tab-bar">
+          <button class="tab-btn active" id="tabActive" onclick="switchOrderTab('active')">
+            Active Orders <span class="tab-count" id="tcActive">0</span>
+          </button>
+          <button class="tab-btn" id="tabCompleted" onclick="switchOrderTab('completed')">
+            Completed / Cancelled <span class="tab-count" id="tcDone">0</span>
+          </button>
+        </div>
         <!-- Toolbar -->
         <div class="toolbar">
           <div class="search-wrap">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
-            <input class="search-input" id="searchInput" placeholder="Customer name or plate number…" oninput="applyFilters()">
+            <input class="search-input" id="searchInput" placeholder="Customer name or plate…" oninput="applyFilters()">
           </div>
           <select class="filter-select" id="filterVehicle" onchange="applyFilters()">
             <option value="">All Vehicle Types</option>
@@ -705,51 +422,44 @@ table.orders-table{width:100%;border-collapse:collapse;}
             <option>Wax &amp; Polish</option><option>Engine Cleaning</option><option>Valet Service</option>
             <option>Overnight Parking</option><option>Tire Cleaning</option>
           </select>
-          <select class="filter-select" id="filterStatus" onchange="applyFilters()">
-            <option value="">All Statuses</option>
-            <option>Pending</option><option>In Progress</option><option>Completed</option><option>Cancelled</option>
-          </select>
           <input type="date" class="filter-input-date" id="filterDate" onchange="applyFilters()" title="Filter by date">
           <button class="btn btn-ghost btn-sm" onclick="clearFilters()">Clear</button>
         </div>
-        <div class="tbl-wrap" id="ordersTableWrap"></div>
+        <div id="ordersTableWrap"></div>
       </div>
     </div>
   </section>
 
-  <!-- ══ SLOTS SECTION ══ -->
+  <!-- ══ SLOTS ══ -->
   <section class="section" id="sec-slots">
     <div class="panel">
       <div class="panel-head">
         <div class="panel-title">Bay / Slot Management</div>
         <div style="display:flex;gap:8px;">
-          <button class="btn btn-ghost btn-sm" id="filterAllSlots" onclick="renderSlotsSection('ALL',this)">All</button>
-          <button class="btn btn-ghost btn-sm" id="filterAvSlots" onclick="renderSlotsSection('available',this)">Available</button>
-          <button class="btn btn-ghost btn-sm" id="filterOcSlots" onclick="renderSlotsSection('occupied',this)">Occupied</button>
+          <button class="btn btn-ghost btn-sm active" onclick="renderSlotsSection('ALL',this)">All</button>
+          <button class="btn btn-ghost btn-sm" onclick="renderSlotsSection('available',this)">Available</button>
+          <button class="btn btn-ghost btn-sm" onclick="renderSlotsSection('occupied',this)">Occupied</button>
         </div>
       </div>
-      <div class="panel-body">
-        <div class="slot-grid" id="adminSlotGrid"></div>
-      </div>
+      <div class="panel-body"><div class="slot-grid" id="adminSlotGrid"></div></div>
     </div>
   </section>
 
-  <!-- ══ SERVICES SECTION ══ -->
+  <!-- ══ SERVICES ══ -->
   <section class="section" id="sec-services">
     <div class="panel">
       <div class="panel-head">
         <div class="panel-title">Service Configuration</div>
-        <div style="font-size:12px;color:var(--muted);">Toggle availability · Prices are fixed per vehicle type</div>
+        <div style="font-size:12px;color:var(--muted);">Toggle availability · Edit Car &amp; Moto prices</div>
       </div>
       <div class="panel-body">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" id="svcAdminMount"></div>
       </div>
     </div>
   </section>
-
 </main>
 
-<!-- ═══ ADD / EDIT MODAL ═══ -->
+<!-- ═══ ADD / EDIT ORDER MODAL ═══ -->
 <div class="modal-overlay" id="orderModal">
   <div class="modal">
     <div class="modal-header">
@@ -759,54 +469,52 @@ table.orders-table{width:100%;border-collapse:collapse;}
       </div>
       <button class="modal-close" onclick="closeModal('orderModal')">✕</button>
     </div>
+    <div class="readonly-banner" id="readonlyBanner" style="display:none;">
+      ✓ This order is completed and cannot be modified.
+    </div>
+    <div class="modal-alert" id="modalAlert"></div>
 
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Customer Name *</label>
-        <input class="form-input" id="fCustName" placeholder="Full name" oninput="clearErr('fCustName')">
+        <input class="form-input" id="fCustName" placeholder="Full name" oninput="clearErr('fCustName','errCustName')">
         <div class="form-error" id="errCustName"></div>
       </div>
       <div class="form-group">
         <label class="form-label">Plate Number *</label>
-        <input class="form-input" id="fPlate" placeholder="e.g. ABC-1234" style="font-family:'DM Mono',monospace;" oninput="clearErr('fPlate')">
+        <input class="form-input" id="fPlate" placeholder="e.g. ABC-1234" style="font-family:'DM Mono',monospace;" oninput="clearErr('fPlate','errPlate')">
         <div class="form-error" id="errPlate"></div>
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Vehicle Type *</label>
-        <select class="form-select" id="fVehicle" onchange="onVehicleChange();clearErr('fVehicle')">
+        <select class="form-select" id="fVehicle" onchange="onVehicleChange();clearErr('fVehicle','errVehicle')">
           <option value="">Select type…</option>
-          <optgroup label="Car">
-            <option>Sedan</option><option>SUV</option><option>Hatchback</option><option>Pickup</option><option>Van</option>
-          </optgroup>
-          <optgroup label="Motorcycle">
-            <option>Scooter</option><option>Underbone</option><option>Big Bike</option>
-          </optgroup>
+          <optgroup label="Car"><option>Sedan</option><option>SUV</option><option>Hatchback</option><option>Pickup</option><option>Van</option></optgroup>
+          <optgroup label="Motorcycle"><option>Scooter</option><option>Underbone</option><option>Big Bike</option></optgroup>
         </select>
         <div class="form-error" id="errVehicle"></div>
       </div>
       <div class="form-group">
         <label class="form-label">Slot / Bay *</label>
-        <select class="form-select" id="fSlot" onchange="clearErr('fSlot')">
+        <select class="form-select" id="fSlot" onchange="clearErr('fSlot','errSlot')">
           <option value="">Select slot…</option>
         </select>
         <div class="form-error" id="errSlot"></div>
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Service *</label>
-        <select class="form-select" id="fService" onchange="onServiceChange();clearErr('fService')">
+        <select class="form-select" id="fService" onchange="onServiceChange();clearErr('fService','errService')">
           <option value="">Select service…</option>
         </select>
         <div class="form-error" id="errService"></div>
       </div>
       <div class="form-group">
         <label class="form-label">Status *</label>
-        <select class="form-select" id="fStatus" onchange="clearErr('fStatus')">
+        <select class="form-select" id="fStatus" onchange="clearErr('fStatus','errStatus')">
           <option value="Pending">Pending</option>
           <option value="In Progress">In Progress</option>
           <option value="Completed">Completed</option>
@@ -815,15 +523,13 @@ table.orders-table{width:100%;border-collapse:collapse;}
         <div class="form-error" id="errStatus"></div>
       </div>
     </div>
-
     <div class="form-row single">
       <div class="form-group">
         <label class="form-label">Total Price (auto-calculated)</label>
         <div class="price-display" id="priceDisplay">₱0</div>
-        <div class="form-hint">Price is automatically set based on service and vehicle type.</div>
+        <div class="form-hint">Price updates automatically based on service and vehicle type.</div>
       </div>
     </div>
-
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('orderModal')">Cancel</button>
       <button class="btn btn-primary" id="modalSaveBtn" onclick="saveOrder()">Save Order</button>
@@ -831,11 +537,11 @@ table.orders-table{width:100%;border-collapse:collapse;}
   </div>
 </div>
 
-<!-- ═══ CONFIRM DELETE MODAL ═══ -->
+<!-- ═══ CONFIRM MODAL ═══ -->
 <div class="modal-overlay" id="confirmModal">
-  <div class="modal confirm-modal">
+  <div class="modal" style="max-width:400px;">
     <div class="modal-header">
-      <div class="modal-title" style="color:var(--red);">Confirm Action</div>
+      <div class="modal-title" id="confirmTitle" style="color:var(--red);">Confirm Action</div>
       <button class="modal-close" onclick="closeModal('confirmModal')">✕</button>
     </div>
     <div class="confirm-body" id="confirmBody"></div>
@@ -846,12 +552,11 @@ table.orders-table{width:100%;border-collapse:collapse;}
   </div>
 </div>
 
-<!-- ═══ TOAST CONTAINER ═══ -->
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
 /* ════════════════════════════════════════════
-   API HELPER — replaces localStorage
+   API
 ════════════════════════════════════════════ */
 const API = 'api.php';
 async function apiFetch(action, data=null){
@@ -863,22 +568,21 @@ async function apiFetch(action, data=null){
   return res.json();
 }
 
-/* ── In-memory state (loaded from DB on init) ── */
+/* ── State ── */
 let slots    = [];
 let services = [];
 let orders   = [];
 let editingOrderId = null;
+let currentOrderTab = 'active'; // 'active' | 'completed'
 
-/* ── Helpers ── */
-const MOTO_INCOMPATIBLE = ["Premium Wash"];
-const CAR_INCOMPATIBLE  = [];
-function isMoto(v){return ['Scooter','Underbone','Big Bike'].includes(v);}
-function isCar(v){return ['Sedan','SUV','Hatchback','Pickup','Van'].includes(v);}
+const MOTO_INCOMPATIBLE = ['Premium Wash'];
+function isMoto(v){ return ['Scooter','Underbone','Big Bike'].includes(v); }
+function isCar(v){  return ['Sedan','SUV','Hatchback','Pickup','Van'].includes(v); }
 
-function getServicePrice(svcName,vehicleType){
+function getServicePrice(svcName, vehicleType){
   const svc = services.find(s=>s.name===svcName);
   if(!svc) return 0;
-  return isMoto(vehicleType)?Number(svc.motoPrice):Number(svc.carPrice);
+  return isMoto(vehicleType) ? Number(svc.motoPrice) : Number(svc.carPrice);
 }
 
 function getOccupiedSlotIds(){
@@ -886,31 +590,35 @@ function getOccupiedSlotIds(){
     orders.filter(o=>o.status==='Pending'||o.status==='In Progress').map(o=>o.slotId)
   );
 }
-function isSlotEffectivelyAvailable(slotId, excludeOrderId=null){
+
+function isSlotAvailableForEdit(slotId, excludeOrderId){
   const slot = slots.find(s=>s.slotId===slotId);
-  if(!slot||!Number(slot.isAvailable)) return false;
-  const occupied = getOccupiedSlotIds();
+  if(!slot || !Number(slot.isAvailable)) return false;
   if(excludeOrderId){
-    const editOrder = orders.find(o=>o.id==excludeOrderId);
-    if(editOrder && editOrder.slotId===slotId) return true;
+    const editO = orders.find(o=>o.id==excludeOrderId);
+    if(editO && editO.slotId===slotId) return true;
   }
-  return !occupied.has(slotId);
+  return !getOccupiedSlotIds().has(slotId);
 }
 
 /* ════════════════════════════════════════════
-   LOAD ALL DATA FROM DATABASE
+   LOAD ALL
 ════════════════════════════════════════════ */
 async function loadAll(){
-  [slots, services, orders] = await Promise.all([
+  const [s, sv, o] = await Promise.all([
     apiFetch('get_slots'),
     apiFetch('get_services'),
     apiFetch('get_orders')
   ]);
-  // cast booleans
-  slots    = slots.map(s=>({...s, isAvailable:!!Number(s.isAvailable)}));
-  services = services.map(s=>({...s, isAvailable:!!Number(s.isAvailable)}));
+  slots    = s.map(x=>({...x, isAvailable:!!Number(x.isAvailable)}));
+  services = sv.map(x=>({...x, isAvailable:!!Number(x.isAvailable)}));
+  orders   = o;
+  renderAll();
+}
+
+function renderAll(){
   renderDashboard();
-  renderOrdersTable([...orders]);
+  renderOrdersSection();
   renderSlotsSection('ALL', null);
   renderServicesAdmin();
 }
@@ -918,150 +626,206 @@ async function loadAll(){
 /* ════════════════════════════════════════════
    NAVIGATION
 ════════════════════════════════════════════ */
-const SECTIONS={
-  dashboard:{el:'sec-dashboard',title:'Dashboard',sub:'Overview of all operations'},
-  orders:   {el:'sec-orders',   title:'Orders',   sub:'Manage and track all car wash orders'},
-  slots:    {el:'sec-slots',    title:'Slots / Bays', sub:'Manage washing bay availability'},
-  services: {el:'sec-services', title:'Services', sub:'Configure service availability'}
+const SECTIONS = {
+  dashboard:{ el:'sec-dashboard', title:'Dashboard',       sub:'Overview of all operations' },
+  orders:   { el:'sec-orders',    title:'Orders',          sub:'Manage all car wash orders' },
+  slots:    { el:'sec-slots',     title:'Slots / Bays',    sub:'Manage washing bay availability' },
+  services: { el:'sec-services',  title:'Services',        sub:'Configure service availability and pricing' },
 };
-
-function showSection(key,btn){
+function showSection(key, btn){
   Object.values(SECTIONS).forEach(s=>document.getElementById(s.el).classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const sec=SECTIONS[key];
+  const sec = SECTIONS[key];
   document.getElementById(sec.el).classList.add('active');
   if(btn) btn.classList.add('active');
-  document.getElementById('topbarTitle').textContent=sec.title;
-  document.getElementById('topbarSub').textContent=sec.sub;
-  if(key==='slots')    renderSlotsSection('ALL',null);
-  if(key==='services') renderServicesAdmin();
-  if(key==='orders')   renderOrdersTable(getFilteredOrders());
-  if(key==='dashboard')renderDashboard();
+  document.getElementById('topbarTitle').textContent = sec.title;
+  document.getElementById('topbarSub').textContent   = sec.sub;
 }
 
 /* ════════════════════════════════════════════
    DASHBOARD
 ════════════════════════════════════════════ */
 function renderDashboard(){
-  const total=orders.length;
-  const pending=orders.filter(o=>o.status==='Pending'||o.status==='In Progress').length;
-  const done=orders.filter(o=>o.status==='Completed').length;
-  const revenue=orders.filter(o=>o.status==='Completed').reduce((s,o)=>s+(Number(o.total)||0),0);
+  const active    = orders.filter(o=>o.status==='Pending'||o.status==='In Progress');
+  const completed = orders.filter(o=>o.status==='Completed');
+  const revenue   = completed.reduce((s,o)=>s+(Number(o.total)||0),0);
+  const pending   = active.length;
 
-  document.getElementById('statTotal').textContent=total;
-  document.getElementById('statTotalSub').textContent=`${orders.filter(o=>o.source==='kiosk').length} from kiosk`;
-  document.getElementById('statPending').textContent=pending;
-  document.getElementById('statDone').textContent=done;
-  document.getElementById('statRevenue').textContent=`₱${revenue.toLocaleString()} revenue`;
+  document.getElementById('statTotal').textContent      = orders.length;
+  document.getElementById('statTotalSub').textContent   = orders.filter(o=>o.source==='kiosk').length + ' from kiosk';
+  document.getElementById('statPending').textContent    = pending;
+  document.getElementById('statDone').textContent       = completed.length;
+  document.getElementById('statRevenue').textContent    = '₱' + revenue.toLocaleString() + ' revenue';
 
-  const svcCount={};
+  const svcCount = {};
   orders.forEach(o=>{
     if(!o.service) return;
-    o.service.split(',').forEach(s=>{
-      const t=s.trim();
-      svcCount[t]=(svcCount[t]||0)+1;
-    });
+    o.service.split(',').forEach(s=>{ const t=s.trim(); svcCount[t]=(svcCount[t]||0)+1; });
   });
-  const topSvc=Object.entries(svcCount).sort((a,b)=>b[1]-a[1])[0];
-  document.getElementById('statTopSvc').textContent=topSvc?topSvc[0].split(' ')[0]:'—';
-  document.getElementById('statTopSvcCount').textContent=topSvc?`${topSvc[1]} orders`:'No data';
+  const topSvc = Object.entries(svcCount).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('statTopSvc').textContent      = topSvc ? topSvc[0].split(' ')[0] : '—';
+  document.getElementById('statTopSvcCount').textContent = topSvc ? topSvc[1]+' orders' : 'No data';
 
-  const recent=orders.slice(0,5);
-  document.getElementById('recentCount').textContent=recent.length;
-  const rm=document.getElementById('recentMount');
-  if(!recent.length){
-    rm.innerHTML=`<div class="empty-state"><svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" d="M9 12h6M9 16h6M7 4h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg><h3>No orders yet</h3><p>Orders from the kiosk or manually added will appear here.</p></div>`;
-    return;
+  // Active orders panel
+  document.getElementById('dashActiveCount').textContent = active.length;
+  const am = document.getElementById('dashActiveMount');
+  if(!active.length){
+    am.innerHTML = emptyState('No active orders right now.','Orders from kiosk or manually added will appear here.');
+  } else {
+    am.innerHTML = '<div class="tbl-wrap">' + buildOrdersTable(active.slice(0,5), true) + '</div>';
   }
-  rm.innerHTML=`<div class="tbl-wrap">${buildOrdersTable(recent,true)}</div>`;
+
+  // Completed orders panel
+  document.getElementById('dashDoneCount').textContent = completed.length;
+  const dm = document.getElementById('dashDoneMount');
+  if(!completed.length){
+    dm.innerHTML = emptyState('No completed orders yet.','Completed orders will appear here.');
+  } else {
+    dm.innerHTML = '<div class="tbl-wrap">' + buildOrdersTable(completed.slice(0,5), true) + '</div>';
+  }
+
+  // Bay status
   renderDashboardSlots();
 }
 
 function renderDashboardSlots(){
-  const occupied=getOccupiedSlotIds();
-  let avail=0,occ=0;
-  const grid=document.getElementById('dashSlotGrid');
-  grid.innerHTML='';
+  const occupied = getOccupiedSlotIds();
+  let avail=0, occ=0;
+  const grid = document.getElementById('dashSlotGrid');
+  grid.innerHTML = '';
   slots.forEach(s=>{
-    const effAv=s.isAvailable&&!occupied.has(s.slotId);
-    if(effAv)avail++;else occ++;
-    const div=document.createElement('div');
-    div.className='slot-tile '+(effAv?'av':'oc');
-    div.innerHTML=`<div class="slot-id">${s.slotId}</div><div class="slot-loc">${s.location}</div><div class="slot-status-txt">${effAv?'Available':'Occupied'}</div>`;
+    const eff = s.isAvailable && !occupied.has(s.slotId);
+    if(eff) avail++; else occ++;
+    const div = document.createElement('div');
+    div.className = 'slot-tile ' + (eff?'av':'oc');
+    div.innerHTML = '<div class="slot-id">'+s.slotId+'</div><div class="slot-loc">'+s.location+'</div><div class="slot-status-txt">'+(eff?'Available':'Occupied')+'</div>';
     grid.appendChild(div);
   });
-  document.getElementById('availCount').textContent=avail;
-  document.getElementById('occCount').textContent=occ;
+  document.getElementById('availCount').textContent = avail;
+  document.getElementById('occCount').textContent   = occ;
+}
+
+function emptyState(h, p){
+  return '<div class="empty-state"><svg width="44" height="44" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg><h3>'+h+'</h3><p>'+p+'</p></div>';
 }
 
 /* ════════════════════════════════════════════
-   ORDERS TABLE
+   ORDERS SECTION — tab-based
 ════════════════════════════════════════════ */
-let currentFiltered=[];
+function switchOrderTab(tab){
+  currentOrderTab = tab;
+  document.getElementById('tabActive').classList.toggle('active', tab==='active');
+  document.getElementById('tabCompleted').classList.toggle('active', tab==='completed');
+  applyFilters();
+}
+
+function renderOrdersSection(){
+  const active    = orders.filter(o=>o.status==='Pending'||o.status==='In Progress');
+  const completed = orders.filter(o=>o.status==='Completed'||o.status==='Cancelled');
+  document.getElementById('tcActive').textContent   = active.length;
+  document.getElementById('tcDone').textContent     = completed.length;
+  applyFilters();
+}
 
 function getFilteredOrders(){
-  const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();
-  const fv=(document.getElementById('filterVehicle')?.value||'');
-  const fs=(document.getElementById('filterService')?.value||'');
-  const fst=(document.getElementById('filterStatus')?.value||'');
-  const fd=(document.getElementById('filterDate')?.value||'');
-  if(q==='' && fv==='' && fs==='' && fst==='' && fd==='') return [...orders];
-  return orders.filter(o=>{
-    if(q){ if(!o.customerName.toLowerCase().includes(q)&&!o.plateNumber.toLowerCase().includes(q)) return false; }
-    if(fv && o.vehicleType!==fv) return false;
+  const q   = (document.getElementById('searchInput')?.value||'').trim().toLowerCase();
+  const fv  = (document.getElementById('filterVehicle')?.value||'');
+  const fs  = (document.getElementById('filterService')?.value||'');
+  const fd  = (document.getElementById('filterDate')?.value||'');
+
+  const isActive = currentOrderTab === 'active';
+  let list = isActive
+    ? orders.filter(o=>o.status==='Pending'||o.status==='In Progress')
+    : orders.filter(o=>o.status==='Completed'||o.status==='Cancelled');
+
+  return list.filter(o=>{
+    if(q  && !o.customerName.toLowerCase().includes(q) && !o.plateNumber.toLowerCase().includes(q)) return false;
+    if(fv && o.vehicleType !== fv) return false;
     if(fs && !o.service.includes(fs)) return false;
-    if(fst && o.status!==fst) return false;
-    if(fd){ const oDate=(o.timestamp||'').slice(0,10); if(oDate!==fd) return false; }
+    if(fd && !(o.timestamp||'').startsWith(fd)) return false;
     return true;
   });
 }
 
-function applyFilters(){ renderOrdersTable(getFilteredOrders()); }
+function applyFilters(){
+  const list = getFilteredOrders();
+  document.getElementById('ordersCount').textContent = list.length;
+  const wrap = document.getElementById('ordersTableWrap');
+  if(!list.length){
+    wrap.innerHTML = '<div class="empty-state"><svg width="44" height="44" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><h3>No orders found.</h3><p>Try adjusting your search or filter criteria.</p></div>';
+    return;
+  }
+  wrap.innerHTML = '<div class="tbl-wrap">' + buildOrdersTable(list, false) + '</div>';
+}
+
 function clearFilters(){
   document.getElementById('searchInput').value='';
   document.getElementById('filterVehicle').value='';
   document.getElementById('filterService').value='';
-  document.getElementById('filterStatus').value='';
   document.getElementById('filterDate').value='';
-  renderOrdersTable([...orders]);
+  applyFilters();
 }
 
-function renderOrdersTable(list){
-  currentFiltered=list;
-  document.getElementById('ordersCount').textContent=list.length;
-  const wrap=document.getElementById('ordersTableWrap');
-  if(!list.length){
-    wrap.innerHTML=`<div class="empty-state"><svg width="44" height="44" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><h3>No orders found for this filter.</h3><p>Try adjusting your search or filter criteria.</p></div>`;
-    return;
+/* ════════════════════════════════════════════
+   BUILD ORDERS TABLE
+════════════════════════════════════════════ */
+function buildOrdersTable(list, mini){
+  const showActions = !mini;
+  let h = '<table class="orders-table"><thead><tr>';
+  h += '<th>Ref</th><th>Customer</th><th>Plate</th><th>Vehicle</th><th>Slot</th><th>Service</th><th>Total</th><th>Status</th>';
+  if(!mini){
+    h += '<th>Time / Duration</th><th>Source</th><th>Actions</th>';
   }
-  wrap.innerHTML=buildOrdersTable(list,false);
-}
+  h += '</tr></thead><tbody>';
 
-function buildOrdersTable(list,mini){
-  let h=`<table class="orders-table"><thead><tr>
-    <th>Ref</th><th>Customer</th><th>Plate</th><th>Vehicle</th>
-    <th>Slot</th><th>Service</th><th>Total</th><th>Status</th>
-    ${!mini?'<th>Source</th><th>Actions</th>':''}
-  </tr></thead><tbody>`;
   list.forEach(o=>{
-    const sc=statusCls(o.status);
-    h+=`<tr>
-      <td><span class="ref-tag">${o.refId||'–'}</span></td>
-      <td><strong>${esc(o.customerName)}</strong><div style="font-size:11px;color:var(--muted);">${o.timestamp||''}</div></td>
-      <td><span class="plate-tag">${esc(o.plateNumber)}</span></td>
-      <td>${esc(o.vehicleType)}</td>
-      <td><strong>${esc(o.slotId)}</strong></td>
-      <td style="max-width:160px;font-size:12px;color:var(--soft);">${esc(o.service)}</td>
-      <td><span class="price-tag">₱${(Number(o.total)||0).toLocaleString()}</span></td>
-      <td><span class="status-badge ${sc}"><span class="bdot"></span>${o.status}</span></td>
-      ${!mini?`<td><span class="src-badge ${o.source==='kiosk'?'src-kiosk':'src-admin'}">${o.source==='kiosk'?'Kiosk':'Admin'}</span></td>`:''}
-      ${!mini?`<td><div class="row-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openEditModal(${o.id})">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder(${o.id})">Delete</button>
-      </div></td>`:''}
-    </tr>`;
+    const sc = statusCls(o.status);
+
+    // Time cell
+    let timeCell = '<span style="color:var(--muted)">—</span>';
+    if(!mini){
+      const parts = [];
+      if(o.startTime)   parts.push('<strong>Start:</strong> '+fmtTime(o.startTime));
+      if(o.endTime)     parts.push('<strong>End:</strong> '+fmtTime(o.endTime));
+      if(o.duration)    parts.push('<span class="dur-badge">⏱ '+esc(o.duration)+'</span>');
+      if(parts.length)  timeCell = '<div class="time-cell">'+parts.join('<br>')+'</div>';
+    }
+
+    // Action buttons
+    let actions = '';
+    if(showActions){
+      if(o.status === 'Pending'){
+        actions += '<button class="btn-done" onclick="quickComplete('+o.id+',\'In Progress\')">▶ Start</button>';
+        actions += '<button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">Edit</button>';
+        actions += '<button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';
+      } else if(o.status === 'In Progress'){
+        actions += '<button class="btn-done" onclick="confirmComplete('+o.id+')">✓ Done</button>';
+        actions += '<button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">Edit</button>';
+        actions += '<button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';
+      } else {
+        // Completed / Cancelled — view only
+        actions += '<button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">View</button>';
+        actions += '<button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';
+      }
+    }
+
+    h += '<tr>';
+    h += '<td><span class="ref-tag">'+esc(o.refId||'–')+'</span></td>';
+    h += '<td><strong>'+esc(o.customerName)+'</strong><div style="font-size:11px;color:var(--muted);">'+(o.timestamp||'')+'</div></td>';
+    h += '<td><span class="plate-tag">'+esc(o.plateNumber)+'</span></td>';
+    h += '<td>'+esc(o.vehicleType)+'</td>';
+    h += '<td><strong>'+esc(o.slotId)+'</strong></td>';
+    h += '<td style="max-width:160px;font-size:12px;color:var(--soft);">'+esc(o.service)+'</td>';
+    h += '<td><span class="price-tag">₱'+(Number(o.total)||0).toLocaleString()+'</span></td>';
+    h += '<td><span class="status-badge '+sc+'"><span class="bdot"></span>'+o.status+'</span></td>';
+    if(!mini){
+      h += '<td>'+timeCell+'</td>';
+      h += '<td><span class="src-badge '+(o.source==='kiosk'?'src-kiosk':'src-admin')+'">'+(o.source==='kiosk'?'Kiosk':'Admin')+'</span></td>';
+      h += '<td><div class="row-actions">'+actions+'</div></td>';
+    }
+    h += '</tr>';
   });
-  h+=`</tbody></table>`;
+  h += '</tbody></table>';
   return h;
 }
 
@@ -1073,130 +837,227 @@ function statusCls(s){
   return '';
 }
 
+function fmtTime(ts){
+  if(!ts) return '—';
+  try{ return new Date(ts).toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit'}); }
+  catch{ return ts; }
+}
+
 /* ════════════════════════════════════════════
-   ADD / EDIT ORDER MODAL
+   QUICK STATUS SHORTCUTS
+════════════════════════════════════════════ */
+async function quickComplete(id, newStatus){
+  const o = orders.find(x=>x.id==id);
+  if(!o) return;
+
+  // Slot conflict check for In Progress
+  if(newStatus === 'In Progress'){
+    const conflict = orders.find(x=>x.id!=id && x.slotId===o.slotId && x.status==='In Progress');
+    if(conflict){
+      toast('error', o.slotId+' is currently occupied by another vehicle in progress.');
+      return;
+    }
+  }
+
+  try{
+    await apiFetch('update_order_status',{ id, status:newStatus });
+    toast('success', 'Order moved to '+newStatus+'.');
+    await refreshAll();
+  } catch(e){ toast('error','Failed: '+e.message); }
+}
+
+function confirmComplete(id){
+  const o = orders.find(x=>x.id==id);
+  if(!o) return;
+  document.getElementById('confirmTitle').textContent = 'Mark as Completed?';
+  document.getElementById('confirmTitle').style.color = 'var(--green)';
+  document.getElementById('confirmBody').innerHTML =
+    'Mark order <strong>'+esc(o.refId)+'</strong> for <strong>'+esc(o.customerName)+'</strong> as <strong style="color:#86efac;">Completed</strong>?<br><br>This will record the completion time and free the slot.';
+  document.getElementById('confirmOkBtn').className = 'btn btn-success';
+  document.getElementById('confirmOkBtn').textContent = '✓ Confirm Complete';
+  document.getElementById('confirmOkBtn').onclick = ()=>doComplete(id);
+  document.getElementById('confirmModal').classList.add('open');
+}
+
+async function doComplete(id){
+  closeModal('confirmModal');
+  try{
+    await apiFetch('update_order_status',{ id, status:'Completed' });
+    toast('success','Order marked as Completed. Slot released.');
+    await refreshAll();
+  } catch(e){ toast('error','Failed: '+e.message); }
+}
+
+/* ════════════════════════════════════════════
+   ADD / EDIT MODAL
 ════════════════════════════════════════════ */
 function openAddModal(){
-  editingOrderId=null;
-  document.getElementById('modalTitle').textContent='Add New Order';
-  document.getElementById('modalSub').textContent='Manually create an order';
-  document.getElementById('modalSaveBtn').textContent='Save Order';
-  resetForm();
+  // Max capacity check
+  const availSlots   = slots.filter(s=>s.isAvailable).length;
+  const activeOrders = orders.filter(o=>o.status==='Pending'||o.status==='In Progress').length;
+  if(availSlots > 0 && activeOrders >= availSlots){
+    toast('warn','All wash slots are currently occupied.');
+    showModalAlert('warn','All wash slots are currently occupied. Please wait until a slot becomes available before adding a new order.');
+  }
+
+  editingOrderId = null;
+  document.getElementById('modalTitle').textContent   = 'Add New Order';
+  document.getElementById('modalSub').textContent     = 'Manually create an order';
+  document.getElementById('modalSaveBtn').textContent = 'Save Order';
+  document.getElementById('modalSaveBtn').style.display = '';
+  document.getElementById('readonlyBanner').style.display = 'none';
+  resetForm(false);
   populateSlotDropdown(null);
   populateServiceDropdown('');
   document.getElementById('orderModal').classList.add('open');
 }
 
 function openEditModal(id){
-  const o=orders.find(x=>x.id==id);
+  const o = orders.find(x=>x.id==id);
   if(!o) return;
-  if(o.status==='Completed'){ toast('warn','Completed orders cannot be edited.'); return; }
-  editingOrderId=id;
-  document.getElementById('modalTitle').textContent='Edit Order';
-  document.getElementById('modalSub').textContent=`Ref: ${o.refId}`;
-  document.getElementById('modalSaveBtn').textContent='Update Order';
-  resetForm();
-  document.getElementById('fCustName').value=o.customerName;
-  document.getElementById('fPlate').value=o.plateNumber;
-  document.getElementById('fVehicle').value=o.vehicleType;
-  document.getElementById('fStatus').value=o.status;
+
+  const isReadOnly = (o.status==='Completed' || o.status==='Cancelled');
+  editingOrderId = id;
+
+  document.getElementById('modalTitle').textContent   = isReadOnly ? 'View Order' : 'Edit Order';
+  document.getElementById('modalSub').textContent     = 'Ref: '+o.refId;
+  document.getElementById('modalSaveBtn').textContent = 'Update Order';
+  document.getElementById('modalSaveBtn').style.display = isReadOnly ? 'none' : '';
+  document.getElementById('readonlyBanner').style.display = isReadOnly ? '' : 'none';
+  document.getElementById('modalAlert').className = 'modal-alert';
+  resetForm(isReadOnly);
+
+  document.getElementById('fCustName').value = o.customerName;
+  document.getElementById('fPlate').value    = o.plateNumber;
+  document.getElementById('fVehicle').value  = o.vehicleType;
+  document.getElementById('fStatus').value   = o.status;
+
   populateSlotDropdown(id);
-  document.getElementById('fSlot').value=o.slotId;
+  document.getElementById('fSlot').value = o.slotId;
   populateServiceDropdown(o.vehicleType);
-  const firstSvc=o.service.split(',')[0].trim();
-  document.getElementById('fService').value=firstSvc;
+  const firstSvc = o.service.split(',')[0].trim();
+  document.getElementById('fService').value = firstSvc;
   updatePriceDisplay();
+
   document.getElementById('orderModal').classList.add('open');
 }
 
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
-function resetForm(){
-  ['fCustName','fPlate','fVehicle','fSlot','fService'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){el.value='';el.classList.remove('error');}
+function resetForm(readonly){
+  ['fCustName','fPlate','fVehicle','fSlot','fService','fStatus'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.value=''; el.classList.remove('error'); el.disabled=readonly; }
   });
-  document.getElementById('fStatus').value='Pending';
-  document.querySelectorAll('.form-error').forEach(e=>{e.textContent='';e.classList.remove('visible');});
-  document.getElementById('priceDisplay').textContent='₱0';
+  document.getElementById('fStatus').value = 'Pending';
+  document.querySelectorAll('.form-error').forEach(e=>{ e.textContent=''; e.classList.remove('visible'); });
+  document.getElementById('priceDisplay').textContent = '₱0';
+  document.getElementById('modalAlert').className = 'modal-alert';
+}
+
+function showModalAlert(type, msg){
+  const el = document.getElementById('modalAlert');
+  el.textContent = msg;
+  el.className = 'modal-alert '+type+' visible';
 }
 
 function populateSlotDropdown(excludeOrderId){
-  const sel=document.getElementById('fSlot');
-  sel.innerHTML='<option value="">Select slot…</option>';
+  const sel = document.getElementById('fSlot');
+  sel.innerHTML = '<option value="">Select slot…</option>';
   slots.forEach(s=>{
-    if(isSlotEffectivelyAvailable(s.slotId,excludeOrderId)){
-      sel.innerHTML+=`<option value="${s.slotId}">${s.slotId} — ${s.location}</option>`;
+    if(isSlotAvailableForEdit(s.slotId, excludeOrderId)){
+      sel.innerHTML += '<option value="'+s.slotId+'">'+s.slotId+' — '+s.location+'</option>';
     }
   });
+  if(sel.options.length === 1){
+    sel.innerHTML += '<option value="" disabled>No available slots</option>';
+  }
 }
 
 function populateServiceDropdown(vehicleType){
-  const sel=document.getElementById('fService');
-  const isMotoVehicle=isMoto(vehicleType);
-  sel.innerHTML='<option value="">Select service…</option>';
+  const sel = document.getElementById('fService');
+  const isMotoV = isMoto(vehicleType);
+  sel.innerHTML = '<option value="">Select service…</option>';
   services.filter(s=>s.isAvailable).forEach(s=>{
-    if(isMotoVehicle && MOTO_INCOMPATIBLE.includes(s.name)) return;
-    sel.innerHTML+=`<option value="${s.name}">${s.name}</option>`;
+    if(isMotoV && MOTO_INCOMPATIBLE.includes(s.name)) return;
+    sel.innerHTML += '<option value="'+s.name+'">'+s.name+'</option>';
   });
 }
 
 function onVehicleChange(){
-  const v=document.getElementById('fVehicle').value;
+  const v = document.getElementById('fVehicle').value;
   populateServiceDropdown(v);
-  document.getElementById('fService').value='';
-  document.getElementById('priceDisplay').textContent='₱0';
+  document.getElementById('fService').value = '';
+  document.getElementById('priceDisplay').textContent = '₱0';
 }
+
 function onServiceChange(){ updatePriceDisplay(); }
+
 function updatePriceDisplay(){
-  const v=document.getElementById('fVehicle').value;
-  const s=document.getElementById('fService').value;
-  if(!v||!s){document.getElementById('priceDisplay').textContent='₱0';return;}
-  document.getElementById('priceDisplay').textContent='₱'+getServicePrice(s,v).toLocaleString();
+  const v = document.getElementById('fVehicle').value;
+  const s = document.getElementById('fService').value;
+  if(!v||!s){ document.getElementById('priceDisplay').textContent='₱0'; return; }
+  document.getElementById('priceDisplay').textContent = '₱'+getServicePrice(s,v).toLocaleString();
 }
 
 async function saveOrder(){
-  const name   = document.getElementById('fCustName').value.trim();
-  const plate  = document.getElementById('fPlate').value.trim();
-  const vehicle= document.getElementById('fVehicle').value;
-  const slotId = document.getElementById('fSlot').value;
-  const service= document.getElementById('fService').value;
-  const status = document.getElementById('fStatus').value;
+  const name    = document.getElementById('fCustName').value.trim();
+  const plate   = document.getElementById('fPlate').value.trim();
+  const vehicle = document.getElementById('fVehicle').value;
+  const slotId  = document.getElementById('fSlot').value;
+  const service = document.getElementById('fService').value;
+  const status  = document.getElementById('fStatus').value;
 
-  let valid=true;
-  if(!name)   {setErr('fCustName','errCustName','Customer name is required.');valid=false;}
-  if(!plate)  {setErr('fPlate','errPlate','Plate number is required.');valid=false;}
-  if(!vehicle){setErr('fVehicle','errVehicle','Vehicle type is required.');valid=false;}
-  if(!service){setErr('fService','errService','Please select a service.');valid=false;}
-  if(!slotId) {setErr('fSlot','errSlot','Please select an available slot.');valid=false;}
-  else {
-    const occupied=getOccupiedSlotIds();
-    const currentOrderSlot=editingOrderId?orders.find(o=>o.id==editingOrderId)?.slotId:null;
-    if(occupied.has(slotId)&&slotId!==currentOrderSlot){
-      setErr('fSlot','errSlot','This slot is already occupied.');valid=false;
+  let valid = true;
+  if(!name)   { setErr('fCustName','errCustName','Customer name is required.'); valid=false; }
+  if(!plate)  { setErr('fPlate','errPlate','Plate number is required.'); valid=false; }
+  if(!vehicle){ setErr('fVehicle','errVehicle','Vehicle type is required.'); valid=false; }
+  if(!service){ setErr('fService','errService','Please select a service.'); valid=false; }
+  if(!slotId) { setErr('fSlot','errSlot','Please select an available slot.'); valid=false; }
+
+  if(valid && slotId){
+    const occupied = getOccupiedSlotIds();
+    const curSlot  = editingOrderId ? orders.find(o=>o.id==editingOrderId)?.slotId : null;
+    if(occupied.has(slotId) && slotId !== curSlot){
+      setErr('fSlot','errSlot','This slot is already occupied by another active order.'); valid=false;
     }
   }
-  if(service&&vehicle&&isMoto(vehicle)&&MOTO_INCOMPATIBLE.includes(service)){
-    setErr('fService','errService','This service is not available for the selected vehicle type.');valid=false;
-  }
-  if(editingOrderId&&status==='Completed'){
-    const prev=orders.find(o=>o.id==editingOrderId);
-    if(prev&&prev.status==='Pending'){
-      setErr('fStatus','errStatus','Order must be "In Progress" before marking as Completed.');valid=false;
+
+  // Slot conflict: In Progress → same slot
+  if(valid && status==='In Progress' && slotId){
+    const curId    = editingOrderId;
+    const conflict = orders.find(o=>o.id!=curId && o.slotId===slotId && o.status==='In Progress');
+    if(conflict){
+      setErr('fSlot','errSlot',slotId+' is currently occupied by another vehicle in progress. Please select another slot or wait until the slot becomes available.');
+      valid=false;
     }
   }
+
+  // Moto incompatibility
+  if(valid && service && vehicle && isMoto(vehicle) && MOTO_INCOMPATIBLE.includes(service)){
+    setErr('fService','errService','This service is not available for motorcycles.'); valid=false;
+  }
+
+  // Status workflow: Pending → Completed requires In Progress first
+  if(valid && editingOrderId && status==='Completed'){
+    const prev = orders.find(o=>o.id==editingOrderId);
+    if(prev && prev.status==='Pending'){
+      setErr('fStatus','errStatus','Order must go through "In Progress" before Completed.'); valid=false;
+    }
+  }
+
   if(!valid) return;
 
-  const price=getServicePrice(service,vehicle);
-  const payload={customerName:name,plateNumber:plate,vehicleType:vehicle,slotId,service,total:price,status};
+  const price   = getServicePrice(service, vehicle);
+  const payload = { customerName:name, plateNumber:plate, vehicleType:vehicle, slotId, service, total:price, status };
 
   try{
     if(editingOrderId){
-      await apiFetch('update_order',{...payload,id:editingOrderId});
-      toast('success','Order updated successfully.');
+      await apiFetch('update_order', {...payload, id:editingOrderId});
+      toast('success','Order updated.');
     } else {
-      await apiFetch('add_order',{...payload,source:'admin'});
-      toast('success','Order added successfully.');
+      await apiFetch('add_order', {...payload, source:'admin'});
+      toast('success','Order added.');
     }
     closeModal('orderModal');
     await refreshAll();
@@ -1204,14 +1065,18 @@ async function saveOrder(){
 }
 
 /* ════════════════════════════════════════════
-   DELETE ORDER
+   DELETE
 ════════════════════════════════════════════ */
 function confirmDeleteOrder(id){
-  const o=orders.find(x=>x.id==id);
+  const o = orders.find(x=>x.id==id);
   if(!o) return;
-  document.getElementById('confirmBody').innerHTML=
-    `Are you sure you want to delete order <strong>${o.refId}</strong> for <strong>${esc(o.customerName)}</strong>? This cannot be undone.`;
-  document.getElementById('confirmOkBtn').onclick=()=>deleteOrder(id);
+  document.getElementById('confirmTitle').textContent = 'Confirm Delete';
+  document.getElementById('confirmTitle').style.color = 'var(--red)';
+  document.getElementById('confirmBody').innerHTML =
+    'Delete order <strong>'+esc(o.refId)+'</strong> for <strong>'+esc(o.customerName)+'</strong>? This cannot be undone.';
+  document.getElementById('confirmOkBtn').className = 'btn btn-danger';
+  document.getElementById('confirmOkBtn').textContent = 'Delete';
+  document.getElementById('confirmOkBtn').onclick = ()=>deleteOrder(id);
   document.getElementById('confirmModal').classList.add('open');
 }
 
@@ -1229,40 +1094,38 @@ async function deleteOrder(id){
 ════════════════════════════════════════════ */
 function renderSlotsSection(filter, btn){
   if(btn){
-    document.querySelectorAll('#sec-slots .btn-sm').forEach(b=>b.classList.remove('active','btn-primary'));
+    document.querySelectorAll('#sec-slots .btn-sm').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
   }
-  const occupied=getOccupiedSlotIds();
-  let list=slots.map(s=>({...s,_eff:s.isAvailable&&!occupied.has(s.slotId)}));
-  if(filter==='available') list=list.filter(s=>s._eff);
-  if(filter==='occupied')  list=list.filter(s=>!s._eff);
+  const occupied = getOccupiedSlotIds();
+  let list = slots.map(s=>({...s, _eff:s.isAvailable && !occupied.has(s.slotId)}));
+  if(filter==='available') list = list.filter(s=>s._eff);
+  if(filter==='occupied')  list = list.filter(s=>!s._eff);
 
-  const grid=document.getElementById('adminSlotGrid');
-  grid.innerHTML='';
+  const grid = document.getElementById('adminSlotGrid');
+  grid.innerHTML = '';
   list.forEach(s=>{
-    const div=document.createElement('div');
-    div.className='slot-tile '+(s._eff?'av':'oc');
-    div.innerHTML=`
-      <div class="slot-id">${s.slotId}</div>
-      <div class="slot-loc">${s.location}</div>
-      <div class="slot-status-txt" style="margin-bottom:10px;">${s._eff?'Available':'Occupied'}</div>
-      <select class="filter-select" style="width:100%;font-size:12px;padding:6px 8px;" data-slotid="${s.slotId}">
-        <option value="available" ${s.isAvailable?'selected':''}>✓ Available</option>
-        <option value="occupied"  ${!s.isAvailable?'selected':''}>✗ Occupied</option>
-      </select>
-    `;
-    div.querySelector('select').addEventListener('change',async e=>{
-      const slotId=e.target.getAttribute('data-slotid');
-      const avail=(e.target.value==='available')?1:0;
+    const div = document.createElement('div');
+    div.className = 'slot-tile '+(s._eff?'av':'oc');
+    div.innerHTML =
+      '<div class="slot-id">'+s.slotId+'</div>'+
+      '<div class="slot-loc">'+s.location+'</div>'+
+      '<div class="slot-status-txt" style="margin-bottom:10px;">'+(s._eff?'Available':'Occupied')+'</div>'+
+      '<select class="filter-select" style="width:100%;font-size:12px;padding:6px 8px;" data-slotid="'+s.slotId+'">'+
+        '<option value="available"'+(s.isAvailable?' selected':'')+'>✓ Available</option>'+
+        '<option value="occupied"'+(!s.isAvailable?' selected':'')+'>✗ Occupied</option>'+
+      '</select>';
+    div.querySelector('select').addEventListener('change', async e=>{
+      const slotId = e.target.getAttribute('data-slotid');
+      const avail  = e.target.value==='available' ? 1 : 0;
       try{
-        const res = await apiFetch('toggle_slot',{slotId,isAvailable:avail});
-        if(!res.ok){ toast('error','DB error: '+(res.error||'unknown')); return; }
-        const sl=slots.find(x=>x.slotId===slotId);
-        if(sl) sl.isAvailable=!!avail;
+        await apiFetch('toggle_slot',{slotId, isAvailable:avail});
+        const sl = slots.find(x=>x.slotId===slotId);
+        if(sl) sl.isAvailable = !!avail;
         toast('success', slotId+' marked '+(avail?'Available':'Occupied'));
-        renderSlotsSection(filter,null);
+        renderSlotsSection(filter, null);
         renderDashboardSlots();
-      } catch(err){ toast('error','Failed to update slot: '+err.message); }
+      } catch(err){ toast('error','Failed: '+err.message); }
     });
     grid.appendChild(div);
   });
@@ -1272,133 +1135,122 @@ function renderSlotsSection(filter, btn){
    SERVICES ADMIN
 ════════════════════════════════════════════ */
 function renderServicesAdmin(){
-  const m=document.getElementById('svcAdminMount');
-  m.innerHTML='';
+  const m = document.getElementById('svcAdminMount');
+  m.innerHTML = '';
   services.forEach(s=>{
-    const col=document.createElement('div');
-    col.innerHTML=`
-      <div class="svc-admin-row" id="svcrow_${s.id}" style="opacity:${s.isAvailable?1:.45}">
-        <div class="svc-admin-name">${s.name}</div>
-        <div style="flex:1;">
-          <div class="price-edit-wrap" id="priceDisplay_${s.id}">
-            <div class="price-pair">
-              <span>Car: <strong id="carLbl_${s.id}">₱${s.carPrice}</strong></span>
-              <span>Moto: <strong id="motoLbl_${s.id}">₱${s.motoPrice}</strong></span>
-            </div>
-            <button class="btn-edit-price" onclick="openPriceEdit(${s.id})">✏ Edit Price</button>
-          </div>
-          <div class="price-edit-inputs" id="priceInputs_${s.id}">
-            <label style="font-size:11px;color:var(--muted);">Car ₱</label>
-            <input class="price-input" id="carInput_${s.id}" type="number" min="0" value="${s.carPrice}">
-            <label style="font-size:11px;color:var(--muted);">Moto ₱</label>
-            <input class="price-input" id="motoInput_${s.id}" type="number" min="0" value="${s.motoPrice}">
-            <button class="btn-save-price" onclick="savePrice(${s.id})">Save</button>
-            <button class="btn-cancel-price" onclick="closePriceEdit(${s.id})">Cancel</button>
-          </div>
-        </div>
-        <label class="switch" title="Toggle">
-          <input type="checkbox" ${s.isAvailable?'checked':''} onchange="toggleService(${s.id},this)">
-          <span class="slider"></span>
-        </label>
-      </div>
-    `;
+    const col = document.createElement('div');
+    col.innerHTML =
+      '<div class="svc-admin-row" id="svcrow_'+s.id+'" style="opacity:'+(s.isAvailable?1:.45)+'">'+
+        '<div class="svc-admin-name">'+esc(s.name)+'</div>'+
+        '<div style="flex:1;">'+
+          '<div id="priceLbls_'+s.id+'" style="display:flex;align-items:center;gap:10px;">'+
+            '<div class="price-pair">'+
+              '<span>Car: <strong id="carLbl_'+s.id+'">₱'+s.carPrice+'</strong></span>'+
+              '<span>Moto: <strong id="motoLbl_'+s.id+'">₱'+s.motoPrice+'</strong></span>'+
+            '</div>'+
+            '<button class="btn-edit-price" onclick="openPriceEdit('+s.id+')">✏ Edit</button>'+
+          '</div>'+
+          '<div class="price-edit-inputs" id="priceInputs_'+s.id+'">'+
+            '<label style="font-size:11px;color:var(--muted);">Car ₱</label>'+
+            '<input class="price-input" id="carIn_'+s.id+'" type="number" min="0" value="'+s.carPrice+'">'+
+            '<label style="font-size:11px;color:var(--muted);">Moto ₱</label>'+
+            '<input class="price-input" id="motoIn_'+s.id+'" type="number" min="0" value="'+s.motoPrice+'">'+
+            '<button class="btn-save-price" onclick="savePrice('+s.id+')">Save</button>'+
+            '<button class="btn-cancel-price" onclick="closePriceEdit('+s.id+')">Cancel</button>'+
+          '</div>'+
+        '</div>'+
+        '<label class="switch">'+
+          '<input type="checkbox"'+(s.isAvailable?' checked':'')+' onchange="toggleService('+s.id+',this)">'+
+          '<span class="slider"></span>'+
+        '</label>'+
+      '</div>';
     m.appendChild(col);
   });
 }
 
 function openPriceEdit(id){
-  document.getElementById('priceDisplay_'+id).querySelector('.price-edit-wrap') ;
+  document.getElementById('priceLbls_'+id).style.display = 'none';
   document.getElementById('priceInputs_'+id).classList.add('open');
-  document.getElementById('priceDisplay_'+id).querySelector('.price-pair').style.display='none';
-  document.getElementById('priceDisplay_'+id).querySelector('.btn-edit-price').style.display='none';
-  document.getElementById('carInput_'+id).focus();
+  document.getElementById('carIn_'+id).focus();
 }
-
 function closePriceEdit(id){
+  document.getElementById('priceLbls_'+id).style.display = '';
   document.getElementById('priceInputs_'+id).classList.remove('open');
-  document.getElementById('priceDisplay_'+id).querySelector('.price-pair').style.display='';
-  document.getElementById('priceDisplay_'+id).querySelector('.btn-edit-price').style.display='';
 }
 
 async function savePrice(id){
-  const carPrice  = parseFloat(document.getElementById('carInput_'+id).value);
-  const motoPrice = parseFloat(document.getElementById('motoInput_'+id).value);
-  if(isNaN(carPrice)||carPrice<0||isNaN(motoPrice)||motoPrice<0){
-    toast('warn','Please enter valid prices.'); return;
-  }
+  const car  = parseFloat(document.getElementById('carIn_'+id).value);
+  const moto = parseFloat(document.getElementById('motoIn_'+id).value);
+  if(isNaN(car)||car<0||isNaN(moto)||moto<0){ toast('warn','Invalid prices.'); return; }
   try{
-    const res = await apiFetch('update_price',{id, carPrice, motoPrice});
-    if(!res.ok){ toast('error','Save failed: '+(res.error||'unknown')); return; }
-    // Update in-memory
-    const s=services.find(x=>x.id==id);
-    if(s){ s.carPrice=carPrice; s.motoPrice=motoPrice; }
-    // Update labels
-    document.getElementById('carLbl_'+id).textContent='₱'+carPrice;
-    document.getElementById('motoLbl_'+id).textContent='₱'+motoPrice;
+    await apiFetch('update_price',{id, carPrice:car, motoPrice:moto});
+    const s = services.find(x=>x.id==id);
+    if(s){ s.carPrice=car; s.motoPrice=moto; }
+    document.getElementById('carLbl_'+id).textContent  = '₱'+car;
+    document.getElementById('motoLbl_'+id).textContent = '₱'+moto;
     closePriceEdit(id);
-    toast('success','Price updated successfully.');
-  } catch(e){ toast('error','Failed to save price: '+e.message); }
+    toast('success','Prices updated.');
+  } catch(e){ toast('error','Failed: '+e.message); }
 }
 
-async function toggleService(id,cb){
-  const avail=cb.checked?1:0;
+async function toggleService(id, cb){
+  const avail = cb.checked?1:0;
   try{
-    await apiFetch('toggle_service',{id,isAvailable:avail});
-    const s=services.find(x=>x.id==id);
-    if(s) s.isAvailable=!!avail;
-    const row=document.getElementById('svcrow_'+id);
-    if(row) row.style.opacity=cb.checked?'1':'0.45';
-  } catch(e){ toast('error','Failed to update service.'); cb.checked=!cb.checked; }
+    await apiFetch('toggle_service',{id, isAvailable:avail});
+    const s = services.find(x=>x.id==id);
+    if(s) s.isAvailable = !!avail;
+    const row = document.getElementById('svcrow_'+id);
+    if(row) row.style.opacity = cb.checked?'1':'0.45';
+  } catch(e){ toast('error','Failed.'); cb.checked=!cb.checked; }
 }
 
 /* ════════════════════════════════════════════
-   HELPER
+   HELPERS
 ════════════════════════════════════════════ */
-function setErr(inputId,errId,msg){
+function setErr(inputId, errId, msg){
   document.getElementById(inputId).classList.add('error');
-  const el=document.getElementById(errId);
-  el.textContent=msg;el.classList.add('visible');
+  const el = document.getElementById(errId);
+  el.textContent=msg; el.classList.add('visible');
 }
-function clearErr(inputId){
+function clearErr(inputId, errId){
   document.getElementById(inputId).classList.remove('error');
-  const errId='err'+inputId.charAt(1).toUpperCase()+inputId.slice(2);
-  const el=document.getElementById(errId);
-  if(el){el.classList.remove('visible');el.textContent='';}
+  const el = document.getElementById(errId);
+  if(el){ el.textContent=''; el.classList.remove('visible'); }
 }
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-function toast(type,msg,duration=3500){
+function toast(type, msg, dur=3500){
   const icons={
     success:'<polyline points="20 6 9 17 4 12"/>',
     error:'<path d="M18 6L6 18M6 6l12 12"/>',
     warn:'<path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke-linecap="round"/>',
     info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01" stroke-linecap="round"/>'
   };
-  const t=document.createElement('div');
-  t.className=`toast ${type}`;
-  t.innerHTML=`<div class="toast-icon"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">${icons[type]||icons.info}</svg></div><span class="toast-msg">${msg}</span>`;
+  const t = document.createElement('div');
+  t.className = 'toast '+type;
+  t.innerHTML = '<div class="toast-icon"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">'+(icons[type]||icons.info)+'</svg></div><span class="toast-msg">'+msg+'</span>';
   document.getElementById('toastContainer').appendChild(t);
-  setTimeout(()=>{t.classList.add('leaving');setTimeout(()=>t.remove(),300);},duration);
+  setTimeout(()=>{ t.classList.add('leaving'); setTimeout(()=>t.remove(),300); }, dur);
 }
 
 async function refreshAll(){
-  [slots, services, orders] = await Promise.all([
+  const [s, sv, o] = await Promise.all([
     apiFetch('get_slots'),
     apiFetch('get_services'),
     apiFetch('get_orders')
   ]);
-  slots    = slots.map(s=>({...s,isAvailable:!!Number(s.isAvailable)}));
-  services = services.map(s=>({...s,isAvailable:!!Number(s.isAvailable)}));
+  slots    = s.map(x=>({...x, isAvailable:!!Number(x.isAvailable)}));
+  services = sv.map(x=>({...x, isAvailable:!!Number(x.isAvailable)}));
+  orders   = o;
   if(document.getElementById('sec-dashboard').classList.contains('active')) renderDashboard();
-  if(document.getElementById('sec-orders').classList.contains('active'))    renderOrdersTable(getFilteredOrders());
+  if(document.getElementById('sec-orders').classList.contains('active'))    renderOrdersSection();
   if(document.getElementById('sec-slots').classList.contains('active'))     renderSlotsSection('ALL',null);
   if(document.getElementById('sec-services').classList.contains('active'))  renderServicesAdmin();
 }
 
-/* ── Auto-refresh every 30s ── */
+/* Auto-refresh every 30s */
 setInterval(refreshAll, 30000);
-
-/* ── Init ── */
+/* Init */
 loadAll();
 </script>
 </body>
