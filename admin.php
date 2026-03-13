@@ -1352,7 +1352,7 @@ async function toggleService(id,cb){
 }
 
 /* ════════════════════════════════════════════
-   HELPERS
+   HELPER
 ════════════════════════════════════════════ */
 function setErr(inputId,errId,msg){
   document.getElementById(inputId).classList.add('error');
