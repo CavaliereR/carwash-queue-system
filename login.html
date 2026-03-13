@@ -309,7 +309,7 @@ adminModal.addEventListener("click", e=>{
 });
 
 btnClient.addEventListener("click", () => {
-  window.location.href = "client.html";
+  window.location.href = "client.php";
 });
 
 document.getElementById("btnAdminLogin").addEventListener("click", () => {
@@ -317,7 +317,7 @@ document.getElementById("btnAdminLogin").addEventListener("click", () => {
     document.getElementById("adminUser").value === "admin" &&
     document.getElementById("adminPass").value === "admin123"
   ){
-    window.location.href = "admin.html";
+    window.location.href = "admin.php";
   } else {
     alert("Invalid credentials (demo: admin / admin123)");
   }
