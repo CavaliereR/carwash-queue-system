@@ -496,6 +496,33 @@ table.orders-table{width:100%;border-collapse:collapse;}
 .switch input:checked+.slider{background:rgba(0,184,156,0.35);border-color:rgba(0,184,156,0.6);}
 .switch input:checked+.slider::before{transform:translate(20px,-50%);}
 
+/* Price edit inline */
+.price-edit-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.price-edit-inputs{display:none;align-items:center;gap:8px;flex-wrap:wrap;}
+.price-edit-inputs.open{display:flex;}
+.price-input{
+  width:90px;padding:5px 8px;border-radius:7px;
+  border:1px solid rgba(34,211,238,0.35);
+  background:var(--bg2);color:var(--text);font-size:13px;
+  outline:none;
+}
+.price-input:focus{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(0,212,255,0.12);}
+.btn-edit-price{
+  font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.06);color:var(--soft);cursor:pointer;transition:.15s;
+}
+.btn-edit-price:hover{background:rgba(34,211,238,0.12);color:var(--cyan);border-color:rgba(34,211,238,0.3);}
+.btn-save-price{
+  font-size:11px;padding:4px 10px;border-radius:6px;border:none;
+  background:rgba(0,184,156,0.25);color:#5eead4;cursor:pointer;transition:.15s;font-weight:600;
+}
+.btn-save-price:hover{background:rgba(0,184,156,0.4);}
+.btn-cancel-price{
+  font-size:11px;padding:4px 8px;border-radius:6px;border:none;
+  background:rgba(255,255,255,0.05);color:var(--muted);cursor:pointer;
+}
+.btn-cancel-price:hover{background:rgba(239,68,68,0.12);color:#fca5a5;}
+
 /* Completed orders tab indicator */
 .tab-bar{display:flex;gap:4px;margin-bottom:16px;background:var(--bg3);padding:4px;border-radius:var(--r);width:fit-content;}
 .tab-btn{
@@ -824,115 +851,68 @@ table.orders-table{width:100%;border-collapse:collapse;}
 
 <script>
 /* ════════════════════════════════════════════
-   DATA
+   API HELPER — replaces localStorage
 ════════════════════════════════════════════ */
-const SLOTS_DEFAULT = [
-  {slotId:"A001",location:"Bay 1", isAvailable:false},
-  {slotId:"A002",location:"Bay 2", isAvailable:true },
-  {slotId:"A003",location:"Bay 3", isAvailable:false},
-  {slotId:"A004",location:"Bay 4", isAvailable:false},
-  {slotId:"A005",location:"Bay 5", isAvailable:false},
-  {slotId:"A006",location:"Bay 6", isAvailable:false},
-  {slotId:"A007",location:"Bay 7", isAvailable:false},
-  {slotId:"A008",location:"Bay 8", isAvailable:true },
-  {slotId:"A009",location:"Bay 9", isAvailable:false},
-  {slotId:"A010",location:"Bay 10",isAvailable:false}
-];
+const API = 'api.php';
+async function apiFetch(action, data=null){
+  const opts = data
+    ? {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)}
+    : {method:'GET'};
+  const res = await fetch(`${API}?action=${action}`, opts);
+  if(!res.ok) throw new Error(await res.text());
+  return res.json();
+}
 
-const SERVICES_DEFAULT = [
-  {id:1,name:"Basic Wash",       carPrice:150, motoPrice:80,  isAvailable:true},
-  {id:2,name:"Premium Wash",     carPrice:300, motoPrice:150, isAvailable:true},
-  {id:3,name:"Interior Cleaning",carPrice:200, motoPrice:100, isAvailable:true},
-  {id:4,name:"Wax & Polish",     carPrice:400, motoPrice:200, isAvailable:true},
-  {id:5,name:"Engine Cleaning",  carPrice:350, motoPrice:180, isAvailable:true},
-  {id:6,name:"Valet Service",    carPrice:100, motoPrice:80,  isAvailable:true},
-  {id:7,name:"Overnight Parking",carPrice:250, motoPrice:150, isAvailable:true},
-  {id:8,name:"Tire Cleaning",    carPrice:120, motoPrice:70,  isAvailable:true}
-];
-
-/* Motorcycle-only & Car-only services (for validation) */
-const MOTO_INCOMPATIBLE = ["Premium Wash"]; // car-only
-const CAR_INCOMPATIBLE  = [];               // none fully moto-only in our list
-
-/* ── Storage helpers ── */
-function lsGet(k,fb){try{const r=localStorage.getItem(k);return r?JSON.parse(r):fb;}catch{return fb;}}
-function lsSet(k,v){localStorage.setItem(k,JSON.stringify(v));}
-function ssGet(k,fb){try{const r=sessionStorage.getItem(k);return r?JSON.parse(r):fb;}catch{return fb;}}
-function ssSet(k,v){sessionStorage.setItem(k,JSON.stringify(v));}
-
-/* ── In-memory state ── */
-let slots    = lsGet('carwash_slots',SLOTS_DEFAULT);
-let services = lsGet('carwash_services',SERVICES_DEFAULT);
-let orders   = lsGet('carwash_admin_orders',[]);  // persistent admin orders
-
-/* ── Editing state ── */
+/* ── In-memory state (loaded from DB on init) ── */
+let slots    = [];
+let services = [];
+let orders   = [];
 let editingOrderId = null;
 
-/* ── Category helper ── */
+/* ── Helpers ── */
+const MOTO_INCOMPATIBLE = ["Premium Wash"];
+const CAR_INCOMPATIBLE  = [];
 function isMoto(v){return ['Scooter','Underbone','Big Bike'].includes(v);}
-function isCar(v) {return ['Sedan','SUV','Hatchback','Pickup','Van'].includes(v);}
+function isCar(v){return ['Sedan','SUV','Hatchback','Pickup','Van'].includes(v);}
 
 function getServicePrice(svcName,vehicleType){
   const svc = services.find(s=>s.name===svcName);
   if(!svc) return 0;
-  return isMoto(vehicleType)?svc.motoPrice:svc.carPrice;
+  return isMoto(vehicleType)?Number(svc.motoPrice):Number(svc.carPrice);
 }
 
-/* ── Slot availability (combine base slot + active orders) ── */
 function getOccupiedSlotIds(){
   return new Set(
-    orders
-      .filter(o=>o.status==='Pending'||o.status==='In Progress')
-      .map(o=>o.slotId)
+    orders.filter(o=>o.status==='Pending'||o.status==='In Progress').map(o=>o.slotId)
   );
 }
 function isSlotEffectivelyAvailable(slotId, excludeOrderId=null){
   const slot = slots.find(s=>s.slotId===slotId);
-  if(!slot||!slot.isAvailable) return false;
+  if(!slot||!Number(slot.isAvailable)) return false;
   const occupied = getOccupiedSlotIds();
   if(excludeOrderId){
-    // when editing: don't count the current order's slot as occupied
-    const editOrder = orders.find(o=>o.id===excludeOrderId);
+    const editOrder = orders.find(o=>o.id==excludeOrderId);
     if(editOrder && editOrder.slotId===slotId) return true;
   }
   return !occupied.has(slotId);
 }
 
 /* ════════════════════════════════════════════
-   KIOSK SYNC — pull from sessionStorage
+   LOAD ALL DATA FROM DATABASE
 ════════════════════════════════════════════ */
-function syncKioskOrders(){
-  const kiosk = ssGet('carwash_active_transactions',[]);
-  let imported = 0;
-  kiosk.forEach(tx=>{
-    // check if already imported
-    if(orders.find(o=>o.refId===tx.refId)) return;
-    // validate completeness
-    if(!tx.customerName||!tx.plateNumber||!tx.vehicleType||!tx.slotId){
-      toast('warn','Incomplete order data received (skipped).');
-      return;
-    }
-    const svcNames = (tx.services||[]).map(s=>s.name).join(', ')||'—';
-    const newOrder = {
-      id: genId(),
-      refId: tx.refId||genRef(),
-      customerName: tx.customerName,
-      plateNumber: tx.plateNumber,
-      vehicleType: tx.vehicleType,
-      slotId: tx.slotId,
-      service: svcNames,
-      total: tx.total||0,
-      status:'Pending',
-      source:'kiosk',
-      timestamp: tx.timestamp||new Date().toLocaleString('en-PH',{dateStyle:'short',timeStyle:'short'})
-    };
-    orders.unshift(newOrder);
-    imported++;
-  });
-  if(imported>0){
-    lsSet('carwash_admin_orders',orders);
-    toast('success',`${imported} new kiosk order${imported>1?'s':''} imported.`);
-  }
+async function loadAll(){
+  [slots, services, orders] = await Promise.all([
+    apiFetch('get_slots'),
+    apiFetch('get_services'),
+    apiFetch('get_orders')
+  ]);
+  // cast booleans
+  slots    = slots.map(s=>({...s, isAvailable:!!Number(s.isAvailable)}));
+  services = services.map(s=>({...s, isAvailable:!!Number(s.isAvailable)}));
+  renderDashboard();
+  renderOrdersTable([...orders]);
+  renderSlotsSection('ALL', null);
+  renderServicesAdmin();
 }
 
 /* ════════════════════════════════════════════
@@ -966,7 +946,7 @@ function renderDashboard(){
   const total=orders.length;
   const pending=orders.filter(o=>o.status==='Pending'||o.status==='In Progress').length;
   const done=orders.filter(o=>o.status==='Completed').length;
-  const revenue=orders.filter(o=>o.status==='Completed').reduce((s,o)=>s+(o.total||0),0);
+  const revenue=orders.filter(o=>o.status==='Completed').reduce((s,o)=>s+(Number(o.total)||0),0);
 
   document.getElementById('statTotal').textContent=total;
   document.getElementById('statTotalSub').textContent=`${orders.filter(o=>o.source==='kiosk').length} from kiosk`;
@@ -974,7 +954,6 @@ function renderDashboard(){
   document.getElementById('statDone').textContent=done;
   document.getElementById('statRevenue').textContent=`₱${revenue.toLocaleString()} revenue`;
 
-  // top service
   const svcCount={};
   orders.forEach(o=>{
     if(!o.service) return;
@@ -987,7 +966,6 @@ function renderDashboard(){
   document.getElementById('statTopSvc').textContent=topSvc?topSvc[0].split(' ')[0]:'—';
   document.getElementById('statTopSvcCount').textContent=topSvc?`${topSvc[1]} orders`:'No data';
 
-  // recent 5
   const recent=orders.slice(0,5);
   document.getElementById('recentCount').textContent=recent.length;
   const rm=document.getElementById('recentMount');
@@ -996,8 +974,6 @@ function renderDashboard(){
     return;
   }
   rm.innerHTML=`<div class="tbl-wrap">${buildOrdersTable(recent,true)}</div>`;
-
-  // slot grid
   renderDashboardSlots();
 }
 
@@ -1029,33 +1005,18 @@ function getFilteredOrders(){
   const fs=(document.getElementById('filterService')?.value||'');
   const fst=(document.getElementById('filterStatus')?.value||'');
   const fd=(document.getElementById('filterDate')?.value||'');
-
-  // search validation
   if(q==='' && fv==='' && fs==='' && fst==='' && fd==='') return [...orders];
-
   return orders.filter(o=>{
-    if(q){
-      const inName=o.customerName.toLowerCase().includes(q);
-      const inPlate=o.plateNumber.toLowerCase().includes(q);
-      if(!inName&&!inPlate) return false;
-    }
+    if(q){ if(!o.customerName.toLowerCase().includes(q)&&!o.plateNumber.toLowerCase().includes(q)) return false; }
     if(fv && o.vehicleType!==fv) return false;
     if(fs && !o.service.includes(fs)) return false;
     if(fst && o.status!==fst) return false;
-    if(fd){
-      // compare date part only
-      const oDate=new Date(o.timestamp||'').toISOString().slice(0,10) || '';
-      if(oDate!==fd) return false;
-    }
+    if(fd){ const oDate=(o.timestamp||'').slice(0,10); if(oDate!==fd) return false; }
     return true;
   });
 }
 
-function applyFilters(){
-  const filtered=getFilteredOrders();
-  renderOrdersTable(filtered);
-}
-
+function applyFilters(){ renderOrdersTable(getFilteredOrders()); }
 function clearFilters(){
   document.getElementById('searchInput').value='';
   document.getElementById('filterVehicle').value='';
@@ -1091,12 +1052,12 @@ function buildOrdersTable(list,mini){
       <td>${esc(o.vehicleType)}</td>
       <td><strong>${esc(o.slotId)}</strong></td>
       <td style="max-width:160px;font-size:12px;color:var(--soft);">${esc(o.service)}</td>
-      <td><span class="price-tag">₱${(o.total||0).toLocaleString()}</span></td>
+      <td><span class="price-tag">₱${(Number(o.total)||0).toLocaleString()}</span></td>
       <td><span class="status-badge ${sc}"><span class="bdot"></span>${o.status}</span></td>
       ${!mini?`<td><span class="src-badge ${o.source==='kiosk'?'src-kiosk':'src-admin'}">${o.source==='kiosk'?'Kiosk':'Admin'}</span></td>`:''}
       ${!mini?`<td><div class="row-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openEditModal('${o.id}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('${o.id}')">Delete</button>
+        <button class="btn btn-ghost btn-sm" onclick="openEditModal(${o.id})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder(${o.id})">Delete</button>
       </div></td>`:''}
     </tr>`;
   });
@@ -1113,7 +1074,7 @@ function statusCls(s){
 }
 
 /* ════════════════════════════════════════════
-   ADD ORDER MODAL
+   ADD / EDIT ORDER MODAL
 ════════════════════════════════════════════ */
 function openAddModal(){
   editingOrderId=null;
@@ -1127,34 +1088,23 @@ function openAddModal(){
 }
 
 function openEditModal(id){
-  const o=orders.find(x=>x.id===id);
+  const o=orders.find(x=>x.id==id);
   if(!o) return;
-
-  // Completed orders cannot be edited
-  if(o.status==='Completed'){
-    toast('warn','Completed orders cannot be edited.');
-    return;
-  }
-
+  if(o.status==='Completed'){ toast('warn','Completed orders cannot be edited.'); return; }
   editingOrderId=id;
   document.getElementById('modalTitle').textContent='Edit Order';
   document.getElementById('modalSub').textContent=`Ref: ${o.refId}`;
   document.getElementById('modalSaveBtn').textContent='Update Order';
-
   resetForm();
   document.getElementById('fCustName').value=o.customerName;
   document.getElementById('fPlate').value=o.plateNumber;
   document.getElementById('fVehicle').value=o.vehicleType;
   document.getElementById('fStatus').value=o.status;
-
   populateSlotDropdown(id);
   document.getElementById('fSlot').value=o.slotId;
-
   populateServiceDropdown(o.vehicleType);
-  // service may be combined; use first service for the dropdown
   const firstSvc=o.service.split(',')[0].trim();
   document.getElementById('fService').value=firstSvc;
-
   updatePriceDisplay();
   document.getElementById('orderModal').classList.add('open');
 }
@@ -1175,8 +1125,7 @@ function populateSlotDropdown(excludeOrderId){
   const sel=document.getElementById('fSlot');
   sel.innerHTML='<option value="">Select slot…</option>';
   slots.forEach(s=>{
-    const av=isSlotEffectivelyAvailable(s.slotId,excludeOrderId);
-    if(av){
+    if(isSlotEffectivelyAvailable(s.slotId,excludeOrderId)){
       sel.innerHTML+=`<option value="${s.slotId}">${s.slotId} — ${s.location}</option>`;
     }
   });
@@ -1187,7 +1136,6 @@ function populateServiceDropdown(vehicleType){
   const isMotoVehicle=isMoto(vehicleType);
   sel.innerHTML='<option value="">Select service…</option>';
   services.filter(s=>s.isAvailable).forEach(s=>{
-    // service/vehicle compatibility
     if(isMotoVehicle && MOTO_INCOMPATIBLE.includes(s.name)) return;
     sel.innerHTML+=`<option value="${s.name}">${s.name}</option>`;
   });
@@ -1199,107 +1147,81 @@ function onVehicleChange(){
   document.getElementById('fService').value='';
   document.getElementById('priceDisplay').textContent='₱0';
 }
-
-function onServiceChange(){
-  updatePriceDisplay();
-}
-
+function onServiceChange(){ updatePriceDisplay(); }
 function updatePriceDisplay(){
   const v=document.getElementById('fVehicle').value;
   const s=document.getElementById('fService').value;
   if(!v||!s){document.getElementById('priceDisplay').textContent='₱0';return;}
-  const price=getServicePrice(s,v);
-  document.getElementById('priceDisplay').textContent='₱'+price.toLocaleString();
+  document.getElementById('priceDisplay').textContent='₱'+getServicePrice(s,v).toLocaleString();
 }
 
-function saveOrder(){
-  const name=document.getElementById('fCustName').value.trim();
-  const plate=document.getElementById('fPlate').value.trim();
-  const vehicle=document.getElementById('fVehicle').value;
-  const slotId=document.getElementById('fSlot').value;
-  const service=document.getElementById('fService').value;
-  const status=document.getElementById('fStatus').value;
+async function saveOrder(){
+  const name   = document.getElementById('fCustName').value.trim();
+  const plate  = document.getElementById('fPlate').value.trim();
+  const vehicle= document.getElementById('fVehicle').value;
+  const slotId = document.getElementById('fSlot').value;
+  const service= document.getElementById('fService').value;
+  const status = document.getElementById('fStatus').value;
 
   let valid=true;
-  if(!name){setErr('fCustName','errCustName','Customer name is required.');valid=false;}
-  if(!plate){setErr('fPlate','errPlate','Plate number is required.');valid=false;}
+  if(!name)   {setErr('fCustName','errCustName','Customer name is required.');valid=false;}
+  if(!plate)  {setErr('fPlate','errPlate','Plate number is required.');valid=false;}
   if(!vehicle){setErr('fVehicle','errVehicle','Vehicle type is required.');valid=false;}
   if(!service){setErr('fService','errService','Please select a service.');valid=false;}
-
-  // slot validation
-  if(!slotId){
-    setErr('fSlot','errSlot','Please select an available slot.');valid=false;
-  } else {
-    // duplicate slot check (excluding self when editing)
+  if(!slotId) {setErr('fSlot','errSlot','Please select an available slot.');valid=false;}
+  else {
     const occupied=getOccupiedSlotIds();
-    const currentOrderSlot=editingOrderId?orders.find(o=>o.id===editingOrderId)?.slotId:null;
-    if(occupied.has(slotId) && slotId!==currentOrderSlot){
+    const currentOrderSlot=editingOrderId?orders.find(o=>o.id==editingOrderId)?.slotId:null;
+    if(occupied.has(slotId)&&slotId!==currentOrderSlot){
       setErr('fSlot','errSlot','This slot is already occupied.');valid=false;
     }
   }
-
-  // service / vehicle compatibility
-  if(service && vehicle){
-    if(isMoto(vehicle) && MOTO_INCOMPATIBLE.includes(service)){
-      setErr('fService','errService','This service is not available for the selected vehicle type.');valid=false;
-    }
+  if(service&&vehicle&&isMoto(vehicle)&&MOTO_INCOMPATIBLE.includes(service)){
+    setErr('fService','errService','This service is not available for the selected vehicle type.');valid=false;
   }
-
-  // status transition validation (Pending → Completed requires In Progress first)
-  if(editingOrderId && status==='Completed'){
-    const prev=orders.find(o=>o.id===editingOrderId);
-    if(prev && prev.status==='Pending'){
+  if(editingOrderId&&status==='Completed'){
+    const prev=orders.find(o=>o.id==editingOrderId);
+    if(prev&&prev.status==='Pending'){
       setErr('fStatus','errStatus','Order must be "In Progress" before marking as Completed.');valid=false;
     }
   }
-
   if(!valid) return;
 
   const price=getServicePrice(service,vehicle);
+  const payload={customerName:name,plateNumber:plate,vehicleType:vehicle,slotId,service,total:price,status};
 
-  if(editingOrderId){
-    const idx=orders.findIndex(o=>o.id===editingOrderId);
-    orders[idx]={
-      ...orders[idx],
-      customerName:name,plateNumber:plate,vehicleType:vehicle,
-      slotId,service,status,total:price
-    };
-    toast('success','Order updated successfully.');
-  } else {
-    const newOrder={
-      id:genId(),refId:genRef(),
-      customerName:name,plateNumber:plate,vehicleType:vehicle,
-      slotId,service,status,total:price,
-      source:'admin',
-      timestamp:new Date().toLocaleString('en-PH',{dateStyle:'short',timeStyle:'short'})
-    };
-    orders.unshift(newOrder);
-    toast('success','Order added successfully.');
-  }
-
-  lsSet('carwash_admin_orders',orders);
-  closeModal('orderModal');
-  refreshAll();
+  try{
+    if(editingOrderId){
+      await apiFetch('update_order',{...payload,id:editingOrderId});
+      toast('success','Order updated successfully.');
+    } else {
+      await apiFetch('add_order',{...payload,source:'admin'});
+      toast('success','Order added successfully.');
+    }
+    closeModal('orderModal');
+    await refreshAll();
+  } catch(e){ toast('error','Save failed: '+e.message); }
 }
 
 /* ════════════════════════════════════════════
    DELETE ORDER
 ════════════════════════════════════════════ */
 function confirmDeleteOrder(id){
-  const o=orders.find(x=>x.id===id);
+  const o=orders.find(x=>x.id==id);
   if(!o) return;
   document.getElementById('confirmBody').innerHTML=
-    `Are you sure you want to delete order <strong>${o.refId}</strong> for <strong>${esc(o.customerName)}</strong>? This action cannot be undone.`;
+    `Are you sure you want to delete order <strong>${o.refId}</strong> for <strong>${esc(o.customerName)}</strong>? This cannot be undone.`;
   document.getElementById('confirmOkBtn').onclick=()=>deleteOrder(id);
   document.getElementById('confirmModal').classList.add('open');
 }
 
-function deleteOrder(id){
-  orders=orders.filter(o=>o.id!==id);
-  lsSet('carwash_admin_orders',orders);
-  closeModal('confirmModal');
-  toast('success','Order deleted.');
-  refreshAll();
+async function deleteOrder(id){
+  try{
+    await apiFetch('delete_order',{id});
+    closeModal('confirmModal');
+    toast('success','Order deleted.');
+    await refreshAll();
+  } catch(e){ toast('error','Delete failed: '+e.message); }
 }
 
 /* ════════════════════════════════════════════
@@ -1329,13 +1251,18 @@ function renderSlotsSection(filter, btn){
         <option value="occupied"  ${!s.isAvailable?'selected':''}>✗ Occupied</option>
       </select>
     `;
-    div.querySelector('select').addEventListener('change',e=>{
-      const id=e.target.getAttribute('data-slotid');
-      const sl=slots.find(x=>x.slotId===id);
-      if(sl) sl.isAvailable=(e.target.value==='available');
-      lsSet('carwash_slots',slots);
-      renderSlotsSection(filter,null);
-      renderDashboardSlots();
+    div.querySelector('select').addEventListener('change',async e=>{
+      const slotId=e.target.getAttribute('data-slotid');
+      const avail=(e.target.value==='available')?1:0;
+      try{
+        const res = await apiFetch('toggle_slot',{slotId,isAvailable:avail});
+        if(!res.ok){ toast('error','DB error: '+(res.error||'unknown')); return; }
+        const sl=slots.find(x=>x.slotId===slotId);
+        if(sl) sl.isAvailable=!!avail;
+        toast('success', slotId+' marked '+(avail?'Available':'Occupied'));
+        renderSlotsSection(filter,null);
+        renderDashboardSlots();
+      } catch(err){ toast('error','Failed to update slot: '+err.message); }
     });
     grid.appendChild(div);
   });
@@ -1352,9 +1279,22 @@ function renderServicesAdmin(){
     col.innerHTML=`
       <div class="svc-admin-row" id="svcrow_${s.id}" style="opacity:${s.isAvailable?1:.45}">
         <div class="svc-admin-name">${s.name}</div>
-        <div class="price-pair">
-          <span>Car: <strong>₱${s.carPrice}</strong></span>
-          <span>Moto: <strong>₱${s.motoPrice}</strong></span>
+        <div style="flex:1;">
+          <div class="price-edit-wrap" id="priceDisplay_${s.id}">
+            <div class="price-pair">
+              <span>Car: <strong id="carLbl_${s.id}">₱${s.carPrice}</strong></span>
+              <span>Moto: <strong id="motoLbl_${s.id}">₱${s.motoPrice}</strong></span>
+            </div>
+            <button class="btn-edit-price" onclick="openPriceEdit(${s.id})">✏ Edit Price</button>
+          </div>
+          <div class="price-edit-inputs" id="priceInputs_${s.id}">
+            <label style="font-size:11px;color:var(--muted);">Car ₱</label>
+            <input class="price-input" id="carInput_${s.id}" type="number" min="0" value="${s.carPrice}">
+            <label style="font-size:11px;color:var(--muted);">Moto ₱</label>
+            <input class="price-input" id="motoInput_${s.id}" type="number" min="0" value="${s.motoPrice}">
+            <button class="btn-save-price" onclick="savePrice(${s.id})">Save</button>
+            <button class="btn-cancel-price" onclick="closePriceEdit(${s.id})">Cancel</button>
+          </div>
         </div>
         <label class="switch" title="Toggle">
           <input type="checkbox" ${s.isAvailable?'checked':''} onchange="toggleService(${s.id},this)">
@@ -1366,11 +1306,49 @@ function renderServicesAdmin(){
   });
 }
 
-function toggleService(id,cb){
-  const s=services.find(x=>x.id===id);
-  if(s){s.isAvailable=cb.checked;lsSet('carwash_services',services);}
-  const row=document.getElementById('svcrow_'+id);
-  if(row) row.style.opacity=cb.checked?'1':'0.45';
+function openPriceEdit(id){
+  document.getElementById('priceDisplay_'+id).querySelector('.price-edit-wrap') ;
+  document.getElementById('priceInputs_'+id).classList.add('open');
+  document.getElementById('priceDisplay_'+id).querySelector('.price-pair').style.display='none';
+  document.getElementById('priceDisplay_'+id).querySelector('.btn-edit-price').style.display='none';
+  document.getElementById('carInput_'+id).focus();
+}
+
+function closePriceEdit(id){
+  document.getElementById('priceInputs_'+id).classList.remove('open');
+  document.getElementById('priceDisplay_'+id).querySelector('.price-pair').style.display='';
+  document.getElementById('priceDisplay_'+id).querySelector('.btn-edit-price').style.display='';
+}
+
+async function savePrice(id){
+  const carPrice  = parseFloat(document.getElementById('carInput_'+id).value);
+  const motoPrice = parseFloat(document.getElementById('motoInput_'+id).value);
+  if(isNaN(carPrice)||carPrice<0||isNaN(motoPrice)||motoPrice<0){
+    toast('warn','Please enter valid prices.'); return;
+  }
+  try{
+    const res = await apiFetch('update_price',{id, carPrice, motoPrice});
+    if(!res.ok){ toast('error','Save failed: '+(res.error||'unknown')); return; }
+    // Update in-memory
+    const s=services.find(x=>x.id==id);
+    if(s){ s.carPrice=carPrice; s.motoPrice=motoPrice; }
+    // Update labels
+    document.getElementById('carLbl_'+id).textContent='₱'+carPrice;
+    document.getElementById('motoLbl_'+id).textContent='₱'+motoPrice;
+    closePriceEdit(id);
+    toast('success','Price updated successfully.');
+  } catch(e){ toast('error','Failed to save price: '+e.message); }
+}
+
+async function toggleService(id,cb){
+  const avail=cb.checked?1:0;
+  try{
+    await apiFetch('toggle_service',{id,isAvailable:avail});
+    const s=services.find(x=>x.id==id);
+    if(s) s.isAvailable=!!avail;
+    const row=document.getElementById('svcrow_'+id);
+    if(row) row.style.opacity=cb.checked?'1':'0.45';
+  } catch(e){ toast('error','Failed to update service.'); cb.checked=!cb.checked; }
 }
 
 /* ════════════════════════════════════════════
@@ -1388,10 +1366,7 @@ function clearErr(inputId){
   if(el){el.classList.remove('visible');el.textContent='';}
 }
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function genId(){return 'ord_'+Math.random().toString(36).slice(2,10);}
-function genRef(){return 'CW-'+Date.now().toString(36).toUpperCase().slice(-6);}
 
-/* ── TOAST ── */
 function toast(type,msg,duration=3500){
   const icons={
     success:'<polyline points="20 6 9 17 4 12"/>',
@@ -1406,22 +1381,25 @@ function toast(type,msg,duration=3500){
   setTimeout(()=>{t.classList.add('leaving');setTimeout(()=>t.remove(),300);},duration);
 }
 
-/* ── Refresh all ── */
-function refreshAll(){
-  syncKioskOrders();
+async function refreshAll(){
+  [slots, services, orders] = await Promise.all([
+    apiFetch('get_slots'),
+    apiFetch('get_services'),
+    apiFetch('get_orders')
+  ]);
+  slots    = slots.map(s=>({...s,isAvailable:!!Number(s.isAvailable)}));
+  services = services.map(s=>({...s,isAvailable:!!Number(s.isAvailable)}));
   if(document.getElementById('sec-dashboard').classList.contains('active')) renderDashboard();
-  if(document.getElementById('sec-orders').classList.contains('active'))   renderOrdersTable(getFilteredOrders());
-  if(document.getElementById('sec-slots').classList.contains('active'))    renderSlotsSection('ALL',null);
-  if(document.getElementById('sec-services').classList.contains('active')) renderServicesAdmin();
+  if(document.getElementById('sec-orders').classList.contains('active'))    renderOrdersTable(getFilteredOrders());
+  if(document.getElementById('sec-slots').classList.contains('active'))     renderSlotsSection('ALL',null);
+  if(document.getElementById('sec-services').classList.contains('active'))  renderServicesAdmin();
 }
 
-/* ── Auto-refresh on focus ── */
-window.addEventListener('focus',refreshAll);
+/* ── Auto-refresh every 30s ── */
+setInterval(refreshAll, 30000);
 
 /* ── Init ── */
-syncKioskOrders();
-renderDashboard();
-renderOrdersTable([...orders]);
+loadAll();
 </script>
 </body>
 </html>

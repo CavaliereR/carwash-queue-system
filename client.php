@@ -779,41 +779,51 @@ header {
 </div>
 
 <script>
-/* ─── Data ─── */
-const SLOTS = [
-  { slotId:"A001", location:"Bay 1", isAvailable:false },
-  { slotId:"A002", location:"Bay 2", isAvailable:true  },
-  { slotId:"A003", location:"Bay 3", isAvailable:false },
-  { slotId:"A004", location:"Bay 4", isAvailable:false },
-  { slotId:"A005", location:"Bay 5", isAvailable:false },
-  { slotId:"A006", location:"Bay 6", isAvailable:false },
-  { slotId:"A007", location:"Bay 7", isAvailable:false },
-  { slotId:"A008", location:"Bay 8", isAvailable:true  },
-  { slotId:"A009", location:"Bay 9", isAvailable:false },
-  { slotId:"A010", location:"Bay 10",isAvailable:false }
-];
+/* ─── API helper ─── */
+const API = 'api.php';
+async function apiFetch(action, data=null){
+  const opts = data
+    ? {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)}
+    : {method:'GET'};
+  const res = await fetch(`${API}?action=${action}`, opts);
+  if(!res.ok) throw new Error(await res.text());
+  return res.json();
+}
 
-/* Services with car and moto pricing */
-const SERVICES = [
-  { id:1, name:"Basic Wash",       car:150,  moto:80  },
-  { id:2, name:"Premium Wash",     car:300,  moto:150 },
-  { id:3, name:"Interior Cleaning",car:200,  moto:100 },
-  { id:4, name:"Wax & Polish",     car:400,  moto:200 },
-  { id:5, name:"Engine Cleaning",  car:350,  moto:180 },
-  { id:6, name:"Valet Service",    car:100,  moto:80  },
-  { id:7, name:"Overnight Parking",car:250,  moto:150 },
-  { id:8, name:"Tire Cleaning",    car:120,  moto:70  }
-];
+/* ─── In-memory data (loaded from DB) ─── */
+let SLOTS    = [];
+let SERVICES = [];
 
 /* ─── State ─── */
 const st = {
-  category: null,   // 'car' | 'moto'
+  category: null,
   variant: null,
   name: '',
   plate: '',
   slot: null,
   services: new Set()
 };
+
+/* ─── Init: load slots + services from database ─── */
+async function initData(){
+  try {
+    const [rawSlots, rawServices] = await Promise.all([
+      apiFetch('get_slots'),
+      apiFetch('get_services')
+    ]);
+    SLOTS    = rawSlots.map(s=>({...s, isAvailable:!!Number(s.isAvailable)}));
+    SERVICES = rawServices
+      .filter(s=>!!Number(s.isAvailable))
+      .map(s=>({
+        id: Number(s.id),
+        name: s.name,
+        car:  Number(s.carPrice),
+        moto: Number(s.motoPrice)
+      }));
+  } catch(e){
+    console.error('Failed to load data from DB:', e);
+  }
+}
 
 /* ─── Step navigation ─── */
 function goTo(n) {
@@ -825,7 +835,6 @@ function goTo(n) {
     else if(i<n) si.classList.add('done');
   });
   window.scrollTo({top:0, behavior:'smooth'});
-
   if(n===2) renderInfoBar();
   if(n===3) renderServices();
 }
@@ -856,7 +865,7 @@ function renderInfoBar() {
     : '';
 }
 
-function checkSlots() {
+async function checkSlots() {
   const name = document.getElementById('fName').value.trim();
   const plate = document.getElementById('fPlate').value.trim();
   if(!name || !plate) { alert('Please fill in all fields.'); return; }
@@ -865,12 +874,19 @@ function checkSlots() {
   st.slot = null;
   document.getElementById('btnS2Next').disabled = true;
   document.getElementById('availSection').style.display = 'block';
-  renderSlots();
+  document.getElementById('slotGrid').innerHTML = '<p style="color:#94a3b8;text-align:center;padding:20px;">Loading slots…</p>';
+  await renderSlots();
   document.getElementById('availSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function renderSlots() {
-  const taken = getTakenSlots();
+async function renderSlots() {
+  // Re-fetch slots from DB for real-time availability
+  try {
+    const fresh = await apiFetch('get_slots');
+    SLOTS = fresh.map(s=>({...s, isAvailable:!!Number(s.isAvailable)}));
+  } catch(e){}
+
+  const taken = await getTakenSlots();
   const grid = document.getElementById('slotGrid');
   grid.innerHTML = '';
   SLOTS.forEach(s => {
@@ -889,16 +905,20 @@ function renderSlots() {
   });
 }
 
-function pickSlot(id) {
+async function pickSlot(id) {
   st.slot = id;
   document.getElementById('btnS2Next').disabled = false;
-  renderSlots();
+  await renderSlots();
 }
 
-function getTakenSlots() {
+async function getTakenSlots() {
+  // Get slots occupied by active (Pending/In Progress) orders from DB
   try {
-    const txs = JSON.parse(sessionStorage.getItem('carwash_active_transactions')||'[]');
-    return new Set(txs.map(t=>t.slotId).filter(Boolean));
+    const orders = await apiFetch('get_orders');
+    const taken = orders
+      .filter(o=>o.status==='Pending'||o.status==='In Progress')
+      .map(o=>o.slotId);
+    return new Set(taken);
   } catch { return new Set(); }
 }
 
@@ -942,14 +962,15 @@ function updateTotal() {
 }
 
 /* ─── Screen 4: Receipt ─── */
-function buildReceipt() {
+async function buildReceipt() {
   goTo(4);
   const refId = 'CW-' + Date.now().toString(36).toUpperCase().slice(-6);
   document.getElementById('receiptId').textContent = 'Ref: ' + refId;
 
   const chosen = SERVICES.filter(s=>st.services.has(s.id));
-  const total = chosen.reduce((sum,s)=>sum+getPrice(s),0);
-  const now = new Date().toLocaleString('en-PH',{dateStyle:'medium',timeStyle:'short'});
+  const total  = chosen.reduce((sum,s)=>sum+getPrice(s),0);
+  const now    = new Date().toLocaleString('en-PH',{dateStyle:'medium',timeStyle:'short'});
+  const svcNames = chosen.map(s=>s.name).join(', ');
 
   document.getElementById('receiptBody').innerHTML = `
     <div class="receipt-row"><span class="r-key">Customer</span><span class="r-val">${st.name}</span></div>
@@ -964,19 +985,21 @@ function buildReceipt() {
   `;
   document.getElementById('receiptTotal').textContent = '₱'+total;
 
-  /* Save to sessionStorage so admin.html can read it */
-  const txEntry = {
-    refId, customerName: st.name, plateNumber: st.plate,
-    vehicleType: st.variant, category: st.category,
-    slotId: st.slot,
-    services: chosen.map(s=>({ name:s.name, price:getPrice(s) })),
-    total, timestamp: now
-  };
+  /* Save order to DATABASE */
   try {
-    const existing = JSON.parse(sessionStorage.getItem('carwash_active_transactions')||'[]');
-    existing.push(txEntry);
-    sessionStorage.setItem('carwash_active_transactions', JSON.stringify(existing));
-  } catch(e){}
+    await apiFetch('submit_kiosk_order', {
+      refId,
+      customerName: st.name,
+      plateNumber:  st.plate,
+      vehicleType:  st.variant,
+      slotId:       st.slot,
+      service:      svcNames,
+      total,
+      source:       'kiosk'
+    });
+  } catch(e){
+    console.error('Failed to save order to DB:', e);
+  }
 }
 
 function submitAndReset() {
@@ -991,15 +1014,8 @@ function submitAndReset() {
   goTo(1);
 }
 
-/* Load slot overrides from localStorage (admin changes persist) */
-(function syncAdminSlots(){
-  try {
-    const saved = JSON.parse(localStorage.getItem('carwash_slots')||'null');
-    if(saved && Array.isArray(saved)) {
-      saved.forEach(s=>{ const found=SLOTS.find(x=>x.slotId===s.slotId); if(found) found.isAvailable=s.isAvailable; });
-    }
-  } catch(e){}
-})();
+/* ── Init ── */
+initData();
 </script>
 </body>
 </html>
