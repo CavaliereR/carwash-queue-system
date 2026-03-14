@@ -531,3 +531,34 @@ nav a:hover {
     background: rgba(255, 255, 255, 0.15);
     text-decoration: line-through;
 }
+/* Multi-select service */
+#fService{
+  height:auto;
+  padding:4px;
+}
+#fService option{
+  padding:8px 10px;
+  border-radius:6px;
+  margin:2px 0;
+  cursor:pointer;
+}
+#fService option:checked{
+  background:rgba(0,212,255,0.18);
+  color:var(--cyan);
+}
+.multi-hint{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.multi-hint kbd{
+  background:rgba(255,255,255,0.08);
+  border:1px solid var(--border2);
+  border-radius:4px;
+  padding:1px 6px;
+  font-size:10px;
+  font-family:'DM Mono',monospace;
+}
