@@ -195,6 +195,10 @@ table.orders-table{width:100%;border-collapse:collapse;}
 .slot-card.oc .slot-card-select{border:1.5px solid rgba(239,68,68,0.2);background-color:rgba(239,68,68,0.08);color:#fca5a5;}
 .slot-card.oc .slot-card-select:hover{border-color:rgba(239,68,68,0.4);background-color:rgba(239,68,68,0.14);}
 .slot-card-select option{background:var(--bg2);color:var(--text);}
+.btn-slot-delete{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:7px;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.07);color:#fca5a5;cursor:pointer;display:grid;place-items:center;opacity:0;transition:all .18s;padding:0;}
+.btn-slot-delete svg{width:13px;height:13px;}
+.slot-card:hover .btn-slot-delete{opacity:1;}
+.btn-slot-delete:hover{background:rgba(239,68,68,0.2);border-color:rgba(239,68,68,0.45);transform:scale(1.08);}
 .slot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}
 .slot-tile{border-radius:var(--r);border:1.5px solid;padding:14px 12px;transition:all .18s;}
 .slot-tile.av{border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.05);}
@@ -292,10 +296,27 @@ table.orders-table{width:100%;border-collapse:collapse;}
 .svc-selected-count{font-size:11px;color:var(--muted);}
 .svc-clear-btn{font-size:11px;color:var(--soft);background:none;border:none;cursor:pointer;padding:3px 8px;border-radius:5px;font-family:'Outfit',sans-serif;transition:color .15s;}
 .svc-clear-btn:hover{color:#fca5a5;}
-
-/* ══ ADD SERVICE MODAL extras ══ */
 .svc-modal-info{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.13);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--soft);margin-bottom:18px;line-height:1.6;}
 .svc-modal-info strong{color:var(--cyan);}
+
+/* ══ REVENUE SECTION ══ */
+.svc-rev-list{display:flex;flex-direction:column;gap:12px;padding:20px;}
+.svc-rev-item{display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:var(--r2);background:var(--bg3);border:1px solid var(--border);transition:border-color .2s,transform .2s;}
+.svc-rev-item:hover{border-color:var(--border2);transform:translateX(3px);}
+.svc-rev-rank{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;width:30px;flex-shrink:0;text-align:center;}
+.svc-rev-rank.r1{color:var(--amber);}
+.svc-rev-rank.r2{color:var(--soft);}
+.svc-rev-rank.r3{color:#cd7c3a;}
+.svc-rev-rank.rn{color:var(--muted);}
+.svc-rev-info{flex:1;min-width:0;}
+.svc-rev-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.svc-rev-bar-wrap{height:7px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;}
+.svc-rev-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--cyan));transition:width .6s cubic-bezier(.4,0,.2,1);}
+.svc-rev-right{text-align:right;flex-shrink:0;}
+.svc-rev-amount{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--cyan);}
+.svc-rev-count{font-size:11px;color:var(--muted);margin-top:2px;}
+.rev-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:60px 24px;color:var(--muted);font-size:13px;text-align:center;}
+.rev-empty svg{opacity:.25;}
 
 @media(max-width:960px){.sidebar{display:none;}.main{margin-left:0;}.stats-grid{grid-template-columns:repeat(2,1fr);}.form-row{grid-template-columns:1fr;}}
 @media(max-width:560px){.stats-grid{grid-template-columns:1fr 1fr;}.main{padding:0 16px 50px;}.slot-cards-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;padding:14px;}}
@@ -318,6 +339,10 @@ table.orders-table{width:100%;border-collapse:collapse;}
     <button class="nav-btn" id="navOrders" onclick="showSection('orders',this)">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>
       Orders
+    </button>
+    <button class="nav-btn" id="navRevenue" onclick="showSection('revenue',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Revenue
     </button>
     <button class="nav-btn" id="navSlots" onclick="showSection('slots',this)">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3" stroke-linecap="round"/><path stroke-linecap="round" d="M3 9h18M9 21V9"/></svg>
@@ -440,9 +465,33 @@ table.orders-table{width:100%;border-collapse:collapse;}
     </div>
   </section>
 
+  <!-- REVENUE -->
+  <section class="section" id="sec-revenue">
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-head-l">
+          <div class="panel-title">Most Profitable Services</div>
+          <span class="count-badge" id="revSvcCount">0</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);">Based on all completed orders</div>
+      </div>
+      <div class="svc-rev-list" id="revSvcList"></div>
+    </div>
+  </section>
+
   <!-- SLOTS -->
   <section class="section" id="sec-slots">
     <div class="panel" style="overflow:visible;">
+      <div class="panel-head">
+        <div class="panel-head-l">
+          <div class="panel-title">Slots / Bays</div>
+          <span class="count-badge" id="slotPanelCount">0</span>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddSlotModal()">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
+          Add Slot
+        </button>
+      </div>
       <div class="slots-summary">
         <div class="slots-stat">
           <span class="slots-stat-dot av"></span>
@@ -534,7 +583,7 @@ table.orders-table{width:100%;border-collapse:collapse;}
         <div class="form-error" id="errSlot"></div>
       </div>
     </div>
-    <div class="form-row">
+    <div class="form-row single">
       <div class="form-group">
         <label class="form-label">Service *</label>
         <div class="svc-dropdown-wrap" id="svcDropdownWrap">
@@ -552,16 +601,6 @@ table.orders-table{width:100%;border-collapse:collapse;}
         </div>
         <div class="form-error" id="errService"></div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Status *</label>
-        <select class="form-select" id="fStatus" onchange="clearErr('fStatus','errStatus')">
-          <option value="Pending">Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
-        </select>
-        <div class="form-error" id="errStatus"></div>
-      </div>
     </div>
     <div class="form-row single">
       <div class="form-group">
@@ -577,26 +616,20 @@ table.orders-table{width:100%;border-collapse:collapse;}
   </div>
 </div>
 
-<!-- ══ ADD SERVICE MODAL ══ -->
+<!-- ADD SERVICE MODAL -->
 <div class="modal-overlay" id="addServiceModal">
   <div class="modal">
     <div class="modal-header">
-      <div>
-        <div class="modal-title">Add New Service</div>
-        <div class="modal-title-sub">Create a new wash or detailing service</div>
-      </div>
+      <div><div class="modal-title">Add New Service</div><div class="modal-title-sub">Create a new wash or detailing service</div></div>
       <button class="modal-close" onclick="closeModal('addServiceModal')">✕</button>
     </div>
-    <div class="svc-modal-info">
-      The new service will appear in the order form immediately. You can toggle availability or adjust prices at any time from the Services panel.
-    </div>
+    <div class="svc-modal-info">The new service will appear in the order form immediately. You can toggle availability or adjust prices at any time from the Services panel.</div>
     <div class="modal-alert" id="svcModalAlert"></div>
     <div class="form-row single">
       <div class="form-group">
         <label class="form-label">Service Name *</label>
         <input class="form-input" id="fSvcName" placeholder="e.g. Full Detail, Undercarriage Wash…" oninput="clearErr('fSvcName','errSvcName')">
         <div class="form-error" id="errSvcName"></div>
-        <div class="form-hint">Use a clear, descriptive name customers will recognize.</div>
       </div>
     </div>
     <div class="form-row">
@@ -623,8 +656,47 @@ table.orders-table{width:100%;border-collapse:collapse;}
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('addServiceModal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveNewService()">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
-        Create Service
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>Create Service
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SLOT MODAL -->
+<div class="modal-overlay" id="addSlotModal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <div><div class="modal-title">Add New Slot</div><div class="modal-title-sub">Create a new washing bay</div></div>
+      <button class="modal-close" onclick="closeModal('addSlotModal')">✕</button>
+    </div>
+    <div class="svc-modal-info">The new slot will be immediately available for orders. You can toggle its availability at any time from the slots panel.</div>
+    <div class="modal-alert" id="slotModalAlert"></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Slot ID *</label>
+        <input class="form-input" id="fSlotId" placeholder="e.g. A011" style="font-family:'DM Mono',monospace;text-transform:uppercase;" oninput="clearErr('fSlotId','errSlotId');this.value=this.value.toUpperCase()">
+        <div class="form-error" id="errSlotId"></div>
+        <div class="form-hint">Unique ID like A011, B001…</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location / Label *</label>
+        <input class="form-input" id="fSlotLocation" placeholder="e.g. Bay 11" oninput="clearErr('fSlotLocation','errSlotLocation')">
+        <div class="form-error" id="errSlotLocation"></div>
+      </div>
+    </div>
+    <div class="form-row single">
+      <div class="form-group">
+        <label class="form-label">Initial Status</label>
+        <select class="form-select" id="fSlotAvail">
+          <option value="1">✓ Available — open for orders</option>
+          <option value="0">✗ Unavailable — closed / under maintenance</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('addSlotModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewSlot()">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>Create Slot
       </button>
     </div>
   </div>
@@ -651,7 +723,7 @@ table.orders-table{width:100%;border-collapse:collapse;}
 const API='api.php';
 async function apiFetch(action,data=null){
   const opts=data?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}:{method:'GET'};
-  const res=await fetch(`${API}?action=${action}`,opts);
+  const res=await fetch(${API}?action=${action},opts);
   if(!res.ok)throw new Error(await res.text());
   return res.json();
 }
@@ -677,11 +749,12 @@ async function loadAll(){
   services=sv.map(x=>({...x,isAvailable:!!Number(x.isAvailable)}));
   orders=o;renderAll();
 }
-function renderAll(){renderDashboard();renderOrdersSection();renderSlotsSection(currentSlotFilter,null);renderServicesAdmin();}
+function renderAll(){renderDashboard();renderOrdersSection();renderSlotsSection(currentSlotFilter,null);renderServicesAdmin();renderRevenue();}
 
 const SECTIONS={
   dashboard:{el:'sec-dashboard',title:'Dashboard',sub:'Overview of all operations'},
   orders:{el:'sec-orders',title:'Orders',sub:'Manage all car wash orders'},
+  revenue:{el:'sec-revenue',title:'Revenue',sub:'Track earnings and financial performance'},
   slots:{el:'sec-slots',title:'Slots / Bays',sub:'Manage washing bay availability'},
   services:{el:'sec-services',title:'Services',sub:'Configure service availability and pricing'},
 };
@@ -692,17 +765,21 @@ function showSection(key,btn){
   if(btn)btn.classList.add('active');
   document.getElementById('topbarTitle').textContent=sec.title;
   document.getElementById('topbarSub').textContent=sec.sub;
+  if(key==='revenue')renderRevenue();
 }
 
+/* ══ DASHBOARD ══ */
 function renderDashboard(){
+  const today=new Date().toISOString().slice(0,10);
   const active=orders.filter(o=>o.status==='Pending'||o.status==='In Progress');
   const completed=orders.filter(o=>o.status==='Completed');
-  const revenue=completed.reduce((s,o)=>s+(Number(o.total)||0),0);
+  const todayDone=completed.filter(o=>(o.timestamp||'').startsWith(today));
+  const revenue=todayDone.reduce((s,o)=>s+(Number(o.total)||0),0);
   document.getElementById('statTotal').textContent=orders.length;
   document.getElementById('statTotalSub').textContent=orders.filter(o=>o.source==='kiosk').length+' from kiosk';
   document.getElementById('statPending').textContent=active.length;
-  document.getElementById('statDone').textContent=completed.length;
-  document.getElementById('statRevenue').textContent='₱'+revenue.toLocaleString()+' revenue';
+  document.getElementById('statDone').textContent=todayDone.length;
+  document.getElementById('statRevenue').textContent='₱'+revenue.toLocaleString()+' revenue today';
   const svcCount={};
   orders.forEach(o=>{if(!o.service)return;o.service.split(',').forEach(s=>{const t=s.trim();svcCount[t]=(svcCount[t]||0)+1;});});
   const topSvc=Object.entries(svcCount).sort((a,b)=>b[1]-a[1])[0];
@@ -727,6 +804,7 @@ function renderDashboardSlots(){
 }
 function emptyState(h,p){return'<div class="empty-state"><svg width="44" height="44" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg><h3>'+h+'</h3><p>'+p+'</p></div>';}
 
+/* ══ ORDERS ══ */
 function switchOrderTab(tab){
   currentOrderTab=tab;
   document.getElementById('tabActive').classList.toggle('active',tab==='active');
@@ -764,6 +842,12 @@ function buildOrdersTable(list,mini){
   h+='</tr></thead><tbody>';
   list.forEach(o=>{
     const sc=statusCls(o.status);
+<<<<<<< HEAD
+    let timeCell='<span style="color:var(--muted)">—</span>';
+    if(!mini){const p=[];if(o.startTime||o.start_time)p.push('<strong>Start:</strong> '+fmtTime(o.startTime||o.start_time));if(o.endTime||o.end_time)p.push('<strong>End:</strong> '+fmtTime(o.endTime||o.end_time));if(o.duration)p.push('<span class="dur-badge">⏱ '+esc(o.duration)+'</span>');if(p.length)timeCell='<div class="time-cell">'+p.join('<br>')+'</div>';}
+=======
+>>>>>> 1e6fe8a8b4a5a58e4db63617ecf43158f573f82e
+
     let actions='';
     if(!mini){
       if(o.status==='Pending'){actions='<button class="btn-done" onclick="quickComplete('+o.id+',\'In Progress\')">▶ Start</button><button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';} 
@@ -793,7 +877,51 @@ function confirmComplete(id){
 }
 async function doComplete(id){closeModal('confirmModal');try{await apiFetch('update_order_status',{id,status:'Completed'});toast('success','Order marked as Completed. Slot released.');await refreshAll();}catch(e){toast('error','Failed: '+e.message);}}
 
-/* Service Dropdown (Order Form) */
+/* ══ REVENUE ══ */
+function renderRevenue(){
+  const completed=orders.filter(o=>o.status==='Completed');
+  const svcRev={};
+  const svcCount={};
+  completed.forEach(o=>{
+    if(!o.service)return;
+    const svcs=o.service.split(',').map(s=>s.trim()).filter(Boolean);
+    const perSvc=(Number(o.total)||0)/svcs.length;
+    svcs.forEach(s=>{
+      svcRev[s]=(svcRev[s]||0)+perSvc;
+      svcCount[s]=(svcCount[s]||0)+1;
+    });
+  });
+
+  const sorted=Object.entries(svcRev).sort((a,b)=>b[1]-a[1]);
+  const maxRev=sorted[0]?sorted[0][1]:1;
+  const mount=document.getElementById('revSvcList');
+  document.getElementById('revSvcCount').textContent=sorted.length;
+
+  if(!sorted.length){
+    mount.innerHTML='<div class="rev-empty"><svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>No completed orders yet. Revenue will appear here once orders are completed.</span></div>';
+    return;
+  }
+
+  const rankClass=['r1','r2','r3'];
+  mount.innerHTML=sorted.map(([name,rev],i)=>{
+    const pct=maxRev>0?(rev/maxRev*100):0;
+    const rc=rankClass[i]||'rn';
+    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+    return `<div class="svc-rev-item">
+      <div class="svc-rev-rank ${rc}">${medal}</div>
+      <div class="svc-rev-info">
+        <div class="svc-rev-name">${esc(name)}</div>
+        <div class="svc-rev-bar-wrap"><div class="svc-rev-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="svc-rev-right">
+        <div class="svc-rev-amount">₱${Math.round(rev).toLocaleString()}</div>
+        <div class="svc-rev-count">${svcCount[name]} order${svcCount[name]!==1?'s':''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ══ SERVICE DROPDOWN ══ */
 function toggleSvcDropdown(){const t=document.getElementById('svcDropdownTrigger');if(t.classList.contains('disabled'))return;svcDropOpen=!svcDropOpen;t.classList.toggle('open',svcDropOpen);document.getElementById('svcDropdownPanel').classList.toggle('open',svcDropOpen);}
 function closeSvcDropdown(){svcDropOpen=false;document.getElementById('svcDropdownTrigger').classList.remove('open');document.getElementById('svcDropdownPanel').classList.remove('open');}
 function buildSvcDropdownItems(vehicleType){
@@ -821,7 +949,7 @@ function clearSvcSelection(){svcSelected=[];document.querySelectorAll('#svcPanel
 function setSvcDropdownDisabled(d){const t=document.getElementById('svcDropdownTrigger');if(d){t.classList.add('disabled');closeSvcDropdown();}else t.classList.remove('disabled');}
 document.addEventListener('click',e=>{if(svcDropOpen&&!document.getElementById('svcDropdownWrap').contains(e.target))closeSvcDropdown();});
 
-/* Order Modal */
+/* ══ ORDER MODAL ══ */
 function openAddModal(){
   const av=slots.filter(s=>s.isAvailable).length,ao=orders.filter(o=>o.status==='Pending'||o.status==='In Progress').length;
   if(av>0&&ao>=av){toast('warn','All wash slots are currently occupied.');showModalAlert('warn','All wash slots are currently occupied.');}
@@ -836,15 +964,15 @@ function openEditModal(id){
   document.getElementById('modalSaveBtn').textContent='Update Order';document.getElementById('modalSaveBtn').style.display=ro?'none':'';
   document.getElementById('readonlyBanner').style.display=ro?'':'none';document.getElementById('modalAlert').className='modal-alert';
   resetForm(ro);
-  document.getElementById('fCustName').value=o.customerName;document.getElementById('fPlate').value=o.plateNumber;document.getElementById('fVehicle').value=o.vehicleType;document.getElementById('fStatus').value=o.status;
+  document.getElementById('fCustName').value=o.customerName;document.getElementById('fPlate').value=o.plateNumber;document.getElementById('fVehicle').value=o.vehicleType;
   populateSlotDropdown(id);document.getElementById('fSlot').value=o.slotId;
   svcSelected=o.service.split(',').map(s=>s.trim()).filter(Boolean);buildSvcDropdownItems(o.vehicleType);updatePriceDisplay();
   document.getElementById('orderModal').classList.add('open');
 }
 function closeModal(id){document.getElementById(id).classList.remove('open');if(id==='orderModal')closeSvcDropdown();}
 function resetForm(ro){
-  ['fCustName','fPlate','fVehicle','fSlot','fStatus'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('error');el.disabled=ro;}});
-  document.getElementById('fStatus').value='Pending';document.querySelectorAll('.form-error').forEach(e=>{e.textContent='';e.classList.remove('visible');});
+  ['fCustName','fPlate','fVehicle','fSlot'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('error');el.disabled=ro;}});
+  document.querySelectorAll('.form-error').forEach(e=>{e.textContent='';e.classList.remove('visible');});
   document.getElementById('priceDisplay').textContent='₱0';document.getElementById('modalAlert').className='modal-alert';
   svcSelected=[];closeSvcDropdown();buildSvcDropdownItems('');setSvcDropdownDisabled(ro);
 }
@@ -857,7 +985,7 @@ function populateSlotDropdown(ex){
 function onVehicleChange(){const v=document.getElementById('fVehicle').value;if(isMoto(v))svcSelected=svcSelected.filter(s=>!MOTO_INCOMPATIBLE.includes(s));buildSvcDropdownItems(v);updatePriceDisplay();clearErr('fVehicle','errVehicle');}
 function updatePriceDisplay(){const v=document.getElementById('fVehicle').value;if(!v||!svcSelected.length){document.getElementById('priceDisplay').textContent='₱0';return;}document.getElementById('priceDisplay').textContent='₱'+svcSelected.reduce((sum,s)=>sum+getServicePrice(s,v),0).toLocaleString();}
 async function saveOrder(){
-  const name=document.getElementById('fCustName').value.trim(),plate=document.getElementById('fPlate').value.trim(),vehicle=document.getElementById('fVehicle').value,slotId=document.getElementById('fSlot').value,status=document.getElementById('fStatus').value,service=svcSelected.join(', ');
+  const name=document.getElementById('fCustName').value.trim(),plate=document.getElementById('fPlate').value.trim(),vehicle=document.getElementById('fVehicle').value,slotId=document.getElementById('fSlot').value,service=svcSelected.join(', ');
   let valid=true;
   if(!name){setErr('fCustName','errCustName','Customer name is required.');valid=false;}
   if(!plate){setErr('fPlate','errPlate','Plate number is required.');valid=false;}
@@ -865,12 +993,10 @@ async function saveOrder(){
   if(!svcSelected.length){document.getElementById('svcDropdownTrigger').classList.add('error');setErr('svcDropdownTrigger','errService','Please select at least one service.');valid=false;}
   if(!slotId){setErr('fSlot','errSlot','Please select an available slot.');valid=false;}
   if(valid&&slotId){const occ=getOccupiedSlotIds();const cur=editingOrderId?orders.find(o=>o.id==editingOrderId)?.slotId:null;if(occ.has(slotId)&&slotId!==cur){setErr('fSlot','errSlot','This slot is already occupied.');valid=false;}}
-  if(valid&&status==='In Progress'&&slotId){const c=orders.find(o=>o.id!=editingOrderId&&o.slotId===slotId&&o.status==='In Progress');if(c){setErr('fSlot','errSlot',slotId+' is currently occupied.');valid=false;}}
   if(valid&&svcSelected.length&&vehicle&&isMoto(vehicle)){const bad=svcSelected.filter(s=>MOTO_INCOMPATIBLE.includes(s));if(bad.length){document.getElementById('svcDropdownTrigger').classList.add('error');setErr('svcDropdownTrigger','errService',bad.join(', ')+' not available for motorcycles.');valid=false;}}
-  if(valid&&editingOrderId&&status==='Completed'){const prev=orders.find(o=>o.id==editingOrderId);if(prev&&prev.status==='Pending'){setErr('fStatus','errStatus','Order must go through "In Progress" before Completed.');valid=false;}}
   if(!valid)return;
   const price=svcSelected.reduce((sum,s)=>sum+getServicePrice(s,vehicle),0);
-  const payload={customerName:name,plateNumber:plate,vehicleType:vehicle,slotId,service,total:price,status};
+  const payload={customerName:name,plateNumber:plate,vehicleType:vehicle,slotId,service,total:price,status:'Pending'};
   try{if(editingOrderId){await apiFetch('update_order',{...payload,id:editingOrderId});toast('success','Order updated.');}else{await apiFetch('add_order',{...payload,source:'admin'});toast('success','Order added.');}closeModal('orderModal');await refreshAll();}catch(e){toast('error','Save failed: '+e.message);}
 }
 
@@ -885,50 +1011,30 @@ async function deleteOrder(id){try{await apiFetch('delete_order',{id});closeModa
 
 /* ══ ADD SERVICE MODAL ══ */
 function openAddServiceModal(){
-  ['fSvcName','fSvcCarPrice','fSvcMotoPrice'].forEach(id=>{
-    const el=document.getElementById(id);if(el){el.value='';el.classList.remove('error');}
-  });
+  ['fSvcName','fSvcCarPrice','fSvcMotoPrice'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('error');}});
   document.getElementById('fSvcAvail').value='1';
   document.getElementById('svcModalAlert').className='modal-alert';
   document.querySelectorAll('#addServiceModal .form-error').forEach(e=>{e.textContent='';e.classList.remove('visible');});
   document.getElementById('addServiceModal').classList.add('open');
   setTimeout(()=>document.getElementById('fSvcName').focus(),100);
 }
-
 async function saveNewService(){
   const name=document.getElementById('fSvcName').value.trim();
   const carPriceRaw=document.getElementById('fSvcCarPrice').value;
   const motoPriceRaw=document.getElementById('fSvcMotoPrice').value;
   const isAvailable=parseInt(document.getElementById('fSvcAvail').value);
   let valid=true;
-
   if(!name){setErr('fSvcName','errSvcName','Service name is required.');valid=false;}
-  else if(services.some(s=>s.name.toLowerCase()===name.toLowerCase())){
-    setErr('fSvcName','errSvcName','A service with this name already exists.');valid=false;
-  }
-
+  else if(services.some(s=>s.name.toLowerCase()===name.toLowerCase())){setErr('fSvcName','errSvcName','A service with this name already exists.');valid=false;}
   const carPrice=parseFloat(carPriceRaw);
-  if(carPriceRaw===''||isNaN(carPrice)||carPrice<0){
-    setErr('fSvcCarPrice','errSvcCarPrice','Enter a valid price (0 or more).');valid=false;
-  }
-
+  if(carPriceRaw===''||isNaN(carPrice)||carPrice<0){setErr('fSvcCarPrice','errSvcCarPrice','Enter a valid price (0 or more).');valid=false;}
   const motoPrice=parseFloat(motoPriceRaw);
-  if(motoPriceRaw===''||isNaN(motoPrice)||motoPrice<0){
-    setErr('fSvcMotoPrice','errSvcMotoPrice','Enter a valid price (0 or more).');valid=false;
-  }
-
+  if(motoPriceRaw===''||isNaN(motoPrice)||motoPrice<0){setErr('fSvcMotoPrice','errSvcMotoPrice','Enter a valid price (0 or more).');valid=false;}
   if(!valid)return;
-
   try{
     await apiFetch('add_service',{name,carPrice,motoPrice,isAvailable});
-    toast('success','"'+name+'" added to services.');
-    closeModal('addServiceModal');
-    await refreshAll();
-  }catch(e){
-    const el=document.getElementById('svcModalAlert');
-    el.textContent='Failed to create service: '+e.message;
-    el.className='modal-alert error visible';
-  }
+    toast('success','"'+name+'" added to services.');closeModal('addServiceModal');await refreshAll();
+  }catch(e){const el=document.getElementById('svcModalAlert');el.textContent='Failed to create service: '+e.message;el.className='modal-alert error visible';}
 }
 
 /* ══ DELETE SERVICE ══ */
@@ -937,26 +1043,66 @@ function confirmDeleteService(id){
   document.getElementById('confirmTitle').textContent='Delete Service?';document.getElementById('confirmTitle').style.color='var(--red)';
   document.getElementById('confirmBody').innerHTML='Permanently delete <strong>'+esc(s.name)+'</strong>?<br><br>This removes it from all menus. Existing orders using this service are unaffected.';
   document.getElementById('confirmOkBtn').className='btn btn-danger';document.getElementById('confirmOkBtn').textContent='Delete Service';
-  document.getElementById('confirmOkBtn').onclick=()=>doDeleteService(id);
-  document.getElementById('confirmModal').classList.add('open');
+  document.getElementById('confirmOkBtn').onclick=()=>doDeleteService(id);document.getElementById('confirmModal').classList.add('open');
 }
 async function doDeleteService(id){
   try{await apiFetch('delete_service',{id});closeModal('confirmModal');toast('success','Service deleted.');await refreshAll();}
   catch(e){toast('error','Delete failed: '+e.message);}
 }
 
-/* Slots Section */
+/* ══ ADD SLOT MODAL ══ */
+function openAddSlotModal(){
+  ['fSlotId','fSlotLocation'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.classList.remove('error');}});
+  document.getElementById('fSlotAvail').value='1';
+  document.getElementById('slotModalAlert').className='modal-alert';
+  document.querySelectorAll('#addSlotModal .form-error').forEach(e=>{e.textContent='';e.classList.remove('visible');});
+  document.getElementById('addSlotModal').classList.add('open');
+  setTimeout(()=>document.getElementById('fSlotId').focus(),100);
+}
+async function saveNewSlot(){
+  const slotId=document.getElementById('fSlotId').value.trim().toUpperCase();
+  const location=document.getElementById('fSlotLocation').value.trim();
+  const isAvailable=parseInt(document.getElementById('fSlotAvail').value);
+  let valid=true;
+  if(!slotId){setErr('fSlotId','errSlotId','Slot ID is required.');valid=false;}
+  else if(slots.some(s=>s.slotId.toUpperCase()===slotId)){setErr('fSlotId','errSlotId','A slot with this ID already exists.');valid=false;}
+  if(!location){setErr('fSlotLocation','errSlotLocation','Location label is required.');valid=false;}
+  if(!valid)return;
+  try{
+    await apiFetch('add_slot',{slotId,location,isAvailable});
+    toast('success','Slot "'+slotId+'" added successfully.');closeModal('addSlotModal');await refreshAll();
+  }catch(e){const el=document.getElementById('slotModalAlert');el.textContent='Failed to create slot: '+e.message;el.className='modal-alert error visible';}
+}
+
+/* ══ DELETE SLOT ══ */
+function confirmDeleteSlot(slotId){
+  const s=slots.find(x=>x.slotId===slotId);if(!s)return;
+  const hasActive=orders.some(o=>o.slotId===slotId&&(o.status==='Pending'||o.status==='In Progress'));
+  document.getElementById('confirmTitle').textContent='Delete Slot?';document.getElementById('confirmTitle').style.color='var(--red)';
+  let body='Permanently delete slot <strong>'+esc(slotId)+'</strong> ('+esc(s.location)+')?<br><br>This removes it from all slot dropdowns.';
+  if(hasActive)body+='<br><br><span style="color:#fca5a5;font-weight:600;">⚠ This slot has active orders!</span>';
+  document.getElementById('confirmBody').innerHTML=body;
+  document.getElementById('confirmOkBtn').className='btn btn-danger';document.getElementById('confirmOkBtn').textContent='Delete Slot';
+  document.getElementById('confirmOkBtn').onclick=()=>doDeleteSlot(slotId);document.getElementById('confirmModal').classList.add('open');
+}
+async function doDeleteSlot(slotId){
+  try{await apiFetch('delete_slot',{slotId});closeModal('confirmModal');toast('success','Slot "'+slotId+'" deleted.');await refreshAll();}
+  catch(e){toast('error','Delete failed: '+e.message);}
+}
+
+/* ══ SLOTS SECTION ══ */
 function renderSlotsSection(filter,btn){
   currentSlotFilter=filter;
   if(btn){document.querySelectorAll('.slot-filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
   const occupied=getOccupiedSlotIds();
   let list=slots.map(s=>({...s,_eff:s.isAvailable&&!occupied.has(s.slotId)}));
   if(filter==='available')list=list.filter(s=>s._eff);
-  if(filter==='occupied') list=list.filter(s=>!s._eff);
+  if(filter==='occupied')list=list.filter(s=>!s._eff);
   const allList=slots.map(s=>({...s,_eff:s.isAvailable&&!occupied.has(s.slotId)}));
   document.getElementById('slotAvailNum').textContent=allList.filter(s=>s._eff).length;
   document.getElementById('slotOccNum').textContent=allList.filter(s=>!s._eff).length;
   document.getElementById('slotTotalNum').textContent=slots.length;
+  document.getElementById('slotPanelCount').textContent=slots.length;
   const grid=document.getElementById('adminSlotGrid');grid.innerHTML='';
   list.forEach((s,i)=>{
     const card=document.createElement('div');
@@ -969,7 +1115,10 @@ function renderSlotsSection(filter,btn){
       '<select class="slot-card-select" data-slotid="'+s.slotId+'">'+
         '<option value="available"'+(s.isAvailable?' selected':'')+'>✓ Available</option>'+
         '<option value="occupied"'+(!s.isAvailable?' selected':'')+'>✗ Occupied</option>'+
-      '</select>';
+      '</select>'+
+      '<button class="btn-slot-delete" onclick="confirmDeleteSlot(\''+s.slotId+'\')" title="Delete slot">'+
+        '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path stroke-linecap="round" d="M19 6l-1 14H6L5 6m5 0V4h4v2"/></svg>'+
+      '</button>';
     card.querySelector('select').addEventListener('change',async e=>{
       const slotId=e.target.getAttribute('data-slotid'),avail=e.target.value==='available'?1:0;
       try{await apiFetch('toggle_slot',{slotId,isAvailable:avail});const sl=slots.find(x=>x.slotId===slotId);if(sl)sl.isAvailable=!!avail;toast('success',slotId+' marked '+(avail?'Available':'Occupied'));renderSlotsSection(currentSlotFilter,null);renderDashboardSlots();}
@@ -979,7 +1128,7 @@ function renderSlotsSection(filter,btn){
   });
 }
 
-/* Services Admin */
+/* ══ SERVICES ADMIN ══ */
 function renderServicesAdmin(){
   document.getElementById('svcCount').textContent=services.length;
   const m=document.getElementById('svcAdminMount');m.innerHTML='';
@@ -994,15 +1143,7 @@ function renderServicesAdmin(){
     'Tire Cleaning':'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 3v2M12 19v2M3 12h2M19 12h2"/>',
   };
   const defIcon='<circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 8v4l3 3"/>';
-
-  if(!services.length){
-    m.innerHTML='<div class="empty-state" style="grid-column:1/-1;padding:60px 24px;">'+
-      '<svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>'+
-      '<h3>No services configured yet.</h3><p>Click "Add Service" to create your first service.</p>'+
-      '</div>';
-    return;
-  }
-
+  if(!services.length){m.innerHTML='<div class="empty-state" style="grid-column:1/-1;padding:60px 24px;"><svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="9"/></svg><h3>No services yet.</h3><p>Click "Add Service" to create your first service.</p></div>';return;}
   services.forEach((s,i)=>{
     const card=document.createElement('div');
     card.className='svc-card'+(s.isAvailable?'':' unavailable');
@@ -1032,10 +1173,7 @@ function renderServicesAdmin(){
     m.appendChild(card);
   });
 }
-function openPriceEdit(id){
-  document.querySelectorAll('.svc-edit-row.open').forEach(el=>{if(el.id!=='priceInputs_'+id)el.classList.remove('open');});
-  document.getElementById('priceInputs_'+id).classList.toggle('open');
-}
+function openPriceEdit(id){document.querySelectorAll('.svc-edit-row.open').forEach(el=>{if(el.id!=='priceInputs_'+id)el.classList.remove('open');});document.getElementById('priceInputs_'+id).classList.toggle('open');}
 function closePriceEdit(id){document.getElementById('priceInputs_'+id).classList.remove('open');}
 async function savePrice(id){
   const car=parseFloat(document.getElementById('carIn_'+id).value),moto=parseFloat(document.getElementById('motoIn_'+id).value);
@@ -1058,6 +1196,7 @@ async function toggleService(id,cb){
   }catch(e){toast('error','Failed.');cb.checked=!cb.checked;}
 }
 
+/* ══ UTILITIES ══ */
 function setErr(a,b,msg){const i=document.getElementById(a);if(i)i.classList.add('error');const e=document.getElementById(b);if(e){e.textContent=msg;e.classList.add('visible');}}
 function clearErr(a,b){const i=document.getElementById(a);if(i)i.classList.remove('error');const e=document.getElementById(b);if(e){e.textContent='';e.classList.remove('visible');}}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -1070,9 +1209,12 @@ function toast(type,msg,dur=3500){
 }
 async function refreshAll(){
   const[s,sv,o]=await Promise.all([apiFetch('get_slots'),apiFetch('get_services'),apiFetch('get_orders')]);
-  slots=s.map(x=>({...x,isAvailable:!!Number(x.isAvailable)}));services=sv.map(x=>({...x,isAvailable:!!Number(x.isAvailable)}));orders=o;
+  slots=s.map(x=>({...x,isAvailable:!!Number(x.isAvailable)}));
+  services=sv.map(x=>({...x,isAvailable:!!Number(x.isAvailable)}));
+  orders=o;
   if(document.getElementById('sec-dashboard').classList.contains('active'))renderDashboard();
   if(document.getElementById('sec-orders').classList.contains('active'))renderOrdersSection();
+  if(document.getElementById('sec-revenue').classList.contains('active'))renderRevenue();
   if(document.getElementById('sec-slots').classList.contains('active'))renderSlotsSection(currentSlotFilter,null);
   if(document.getElementById('sec-services').classList.contains('active'))renderServicesAdmin();
 }

@@ -4,7 +4,7 @@
 // ────────────────────────────────────────────────────────────
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-require_once __DIR__ . '/db.php';
+require_once _DIR_ . '/db.php';
 
 $action = $_REQUEST['action'] ?? '';
 
@@ -32,6 +32,51 @@ try {
             ]);
             break;
 
+        case 'add_slot':
+            $db       = getDB();
+            $data     = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+            $slotId   = strtoupper(trim($data['slotId'] ?? ''));
+            $location = trim($data['location'] ?? '');
+            $avail    = intval($data['isAvailable'] ?? 1);
+
+            if ($slotId === '' || $location === '') {
+                http_response_code(400);
+                echo json_encode(['ok' => false, 'error' => 'slotId and location are required']);
+                break;
+            }
+
+            $chk = $db->prepare("SELECT slot_id FROM slots WHERE slot_id = ?");
+            $chk->bind_param('s', $slotId);
+            $chk->execute();
+            if ($chk->get_result()->num_rows > 0) {
+                http_response_code(409);
+                echo json_encode(['ok' => false, 'error' => 'Slot ID already exists']);
+                break;
+            }
+
+            $stmt = $db->prepare("INSERT INTO slots (slot_id, location, is_available) VALUES (?, ?, ?)");
+            $stmt->bind_param('ssi', $slotId, $location, $avail);
+            $stmt->execute();
+            echo json_encode(['ok' => true, 'slotId' => $slotId]);
+            break;
+
+        case 'delete_slot':
+            $db     = getDB();
+            $data   = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+            $slotId = trim($data['slotId'] ?? '');
+
+            if ($slotId === '') {
+                http_response_code(400);
+                echo json_encode(['ok' => false, 'error' => 'slotId is required']);
+                break;
+            }
+
+            $stmt = $db->prepare("DELETE FROM slots WHERE slot_id = ?");
+            $stmt->bind_param('s', $slotId);
+            $stmt->execute();
+            echo json_encode(['ok' => true]);
+            break;
+
         // ════════════════════ SERVICES ═══════════════════════
         case 'get_services':
             $db  = getDB();
@@ -57,7 +102,7 @@ try {
             $result = $db->query("UPDATE services SET is_available=$avail WHERE id=$id");
             echo json_encode(['ok' => (bool)$result, 'id' => $id, 'isAvailable' => $avail, 'error' => $db->error ?: null]);
             break;
-        
+
         case 'add_service':
             $db        = getDB();
             $data      = json_decode(file_get_contents('php://input'), true) ?? $_POST;
@@ -71,25 +116,7 @@ try {
                 echo json_encode(['ok' => false, 'error' => 'Service name is required']);
                 break;
             }
-        
-        case 'delete_service':
-            $db   = getDB();
-            $data = json_decode(file_get_contents('php://input'), true) ?? $_POST;
-            $id   = intval($data['id'] ?? 0);
 
-            if ($id === 0) {
-                http_response_code(400);
-                echo json_encode(['ok' => false, 'error' => 'Invalid service ID']);
-                break;
-            }
-
-            $stmt = $db->prepare("DELETE FROM services WHERE id = ?");
-            $stmt->bind_param('i', $id);
-            $stmt->execute();
-            echo json_encode(['ok' => true]);
-            break;
-           
-           
             // Check for duplicate name
             $chk = $db->prepare("SELECT id FROM services WHERE LOWER(name) = LOWER(?)");
             $chk->bind_param('s', $name);
@@ -170,9 +197,7 @@ try {
             $status = $data['status'] ?? 'Pending';
             $source = $data['source'] ?? 'admin';
 
-            // If adding as In Progress, record start_time
             $startTime = ($status === 'In Progress') ? date('Y-m-d H:i:s') : null;
-            $startSql  = $startTime ? "'$startTime'" : 'NULL';
 
             $stmt = $db->prepare("
                 INSERT INTO orders
@@ -193,7 +218,6 @@ try {
             break;
 
         case 'update_order':
-            // Full edit from the modal (all fields)
             $db     = getDB();
             $data   = json_decode(file_get_contents('php://input'), true) ?? $_POST;
             $id     = intval($data['id'] ?? 0);
@@ -205,7 +229,6 @@ try {
             $total  = floatval($data['total']  ?? 0);
             $status = $data['status'] ?? 'Pending';
 
-            // Fetch current order to detect status transitions
             $cur = $db->query("SELECT status, start_time FROM orders WHERE id=$id")->fetch_assoc();
             $prevStatus = $cur['status'] ?? '';
 
@@ -213,15 +236,13 @@ try {
             $endTime   = null;
             $duration  = null;
 
-            // Transition: → In Progress → record start_time
-            if($status === 'In Progress' && $prevStatus !== 'In Progress'){
+            if ($status === 'In Progress' && $prevStatus !== 'In Progress') {
                 $startTime = date('Y-m-d H:i:s');
             }
 
-            // Transition: → Completed → record end_time + duration
-            if($status === 'Completed' && $prevStatus !== 'Completed'){
+            if ($status === 'Completed' && $prevStatus !== 'Completed') {
                 $endTime = date('Y-m-d H:i:s');
-                if($startTime){
+                if ($startTime) {
                     $secs     = strtotime($endTime) - strtotime($startTime);
                     $mins     = max(0, intdiv($secs, 60));
                     $duration = $mins >= 60
@@ -247,16 +268,15 @@ try {
             break;
 
         case 'update_order_status':
-            // Quick status-only update (Start / Complete buttons)
             $db     = getDB();
             $data   = json_decode(file_get_contents('php://input'), true) ?? $_POST;
             $id     = intval($data['id'] ?? 0);
             $status = $data['status'] ?? '';
 
             $allowed = ['Pending','In Progress','Completed','Cancelled'];
-            if(!in_array($status, $allowed)){
+            if (!in_array($status, $allowed)) {
                 http_response_code(400);
-                echo json_encode(['ok'=>false,'error'=>'Invalid status']);
+                echo json_encode(['ok' => false, 'error' => 'Invalid status']);
                 break;
             }
 
@@ -264,17 +284,17 @@ try {
             $prevSt  = $cur['status']     ?? '';
             $startTs = $cur['start_time'] ?? null;
 
-            $setSql  = "status='".  $db->real_escape_string($status)."'";
+            $setSql = "status='".$db->real_escape_string($status)."'";
 
-            if($status === 'In Progress' && $prevSt !== 'In Progress'){
+            if ($status === 'In Progress' && $prevSt !== 'In Progress') {
                 $now    = date('Y-m-d H:i:s');
                 $setSql .= ", start_time='$now'";
             }
 
-            if(($status === 'Completed' || $status === 'Cancelled') && $prevSt !== 'Completed' && $prevSt !== 'Cancelled'){
+            if (($status === 'Completed' || $status === 'Cancelled') && $prevSt !== 'Completed' && $prevSt !== 'Cancelled') {
                 $now    = date('Y-m-d H:i:s');
                 $setSql .= ", end_time='$now'";
-                if($startTs){
+                if ($startTs) {
                     $secs = strtotime($now) - strtotime($startTs);
                     $mins = max(0, intdiv($secs, 60));
                     $dur  = $mins >= 60
@@ -310,12 +330,11 @@ try {
             $svc    = $data['service']     ?? '';
             $total  = floatval($data['total'] ?? 0);
 
-            // Duplicate ref guard
             $chk = $db->prepare("SELECT id FROM orders WHERE ref_id=?");
-            $chk->bind_param('s',$refId);
+            $chk->bind_param('s', $refId);
             $chk->execute();
-            if($chk->get_result()->num_rows > 0){
-                echo json_encode(['ok'=>false,'error'=>'Duplicate ref']);
+            if ($chk->get_result()->num_rows > 0) {
+                echo json_encode(['ok' => false, 'error' => 'Duplicate ref']);
                 break;
             }
 
