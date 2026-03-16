@@ -760,7 +760,7 @@ function clearFilters(){document.getElementById('searchInput').value='';document
 
 function buildOrdersTable(list,mini){
   let h='<table class="orders-table"><thead><tr><th>Ref</th><th>Customer</th><th>Plate</th><th>Vehicle</th><th>Slot</th><th>Service</th><th>Total</th><th>Status</th>';
-  if(!mini)h+='<th>Actions</th>';
+  if(!mini)h+='<th>Time / Duration</th><th>Source</th><th>Actions</th>';
   h+='</tr></thead><tbody>';
   list.forEach(o=>{
     const sc=statusCls(o.status);
