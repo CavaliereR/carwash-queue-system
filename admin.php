@@ -760,20 +760,18 @@ function clearFilters(){document.getElementById('searchInput').value='';document
 
 function buildOrdersTable(list,mini){
   let h='<table class="orders-table"><thead><tr><th>Ref</th><th>Customer</th><th>Plate</th><th>Vehicle</th><th>Slot</th><th>Service</th><th>Total</th><th>Status</th>';
-  if(!mini)h+='<th>Time / Duration</th><th>Source</th><th>Actions</th>';
+  if(!mini)h+='<th>Actions</th>';
   h+='</tr></thead><tbody>';
   list.forEach(o=>{
     const sc=statusCls(o.status);
-    let timeCell='<span style="color:var(--muted)">—</span>';
-    if(!mini){const p=[];if(o.startTime)p.push('<strong>Start:</strong> '+fmtTime(o.startTime));if(o.endTime)p.push('<strong>End:</strong> '+fmtTime(o.endTime));if(o.duration)p.push('<span class="dur-badge">⏱ '+esc(o.duration)+'</span>');if(p.length)timeCell='<div class="time-cell">'+p.join('<br>')+'</div>';}
     let actions='';
     if(!mini){
-      if(o.status==='Pending'){actions='<button class="btn-done" onclick="quickComplete('+o.id+',\'In Progress\')">▶ Start</button><button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';}
-      else if(o.status==='In Progress'){actions='<button class="btn-done" onclick="confirmComplete('+o.id+')">✓ Done</button><button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';}
-      else{actions='<button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">View</button><button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';}
+      if(o.status==='Pending'){actions='<button class="btn-done" onclick="quickComplete('+o.id+',\'In Progress\')">▶ Start</button><button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';} 
+      else if(o.status==='In Progress'){actions='<button class="btn-done" onclick="confirmComplete('+o.id+')">✓ Done</button><button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';} 
+      else{actions='<button class="btn btn-ghost btn-sm" onclick="openEditModal('+o.id+')">View</button><button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder('+o.id+')">Delete</button>';} 
     }
-    h+='<tr><td><span class="ref-tag">'+esc(o.refId||'–')+'</span></td><td><strong>'+esc(o.customerName)+'</strong><div style="font-size:11px;color:var(--muted);">'+(o.timestamp||'')+'</div></td><td><span class="plate-tag">'+esc(o.plateNumber)+'</span></td><td>'+esc(o.vehicleType)+'</td><td><strong>'+esc(o.slotId)+'</strong></td><td style="max-width:160px;font-size:12px;color:var(--soft);">'+esc(o.service)+'</td><td><span class="price-tag">₱'+(Number(o.total)||0).toLocaleString()+'</span></td><td><span class="status-badge '+sc+'"><span class="bdot"></span>'+o.status+'</span></td>';
-    if(!mini)h+='<td>'+timeCell+'</td><td><span class="src-badge '+(o.source==='kiosk'?'src-kiosk':'src-admin')+'">'+(o.source==='kiosk'?'Kiosk':'Admin')+'</span></td><td><div class="row-actions">'+actions+'</div></td>';
+    h+='<tr><td><span class="ref-tag">'+esc(o.refId||'–')+'</span></td><td><strong>'+esc(o.customerName)+'</strong></td><td><span class="plate-tag">'+esc(o.plateNumber)+'</span></td><td>'+esc(o.vehicleType)+'</td><td><strong>'+esc(o.slotId)+'</strong></td><td style="max-width:160px;font-size:12px;color:var(--soft);">'+esc(o.service)+'</td><td><span class="price-tag">₱'+(Number(o.total)||0).toLocaleString()+'</span></td><td><span class="status-badge '+sc+'"><span class="bdot"></span>'+o.status+'</span></td>';
+    if(!mini)h+='<td><div class="row-actions">'+actions+'</div></td>';
     h+='</tr>';
   });
   return h+'</tbody></table>';
