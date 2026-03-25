@@ -978,7 +978,7 @@ function confirmComplete(id){
 }
 async function doComplete(id){closeModal('confirmModal');try{await apiFetch('update_order_status',{id,status:'Completed'});toast('success','Order marked as Completed. Slot released.');await refreshAll();}catch(e){toast('error','Failed: '+e.message);}}
 
-/* ══ REVENUE ══ */
+/* ══ REVENUEE ══ */
 function renderRevenue(){
   const completed=orders.filter(o=>o.status==='Completed');
   const svcRev={};
