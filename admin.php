@@ -300,26 +300,48 @@ table.orders-table{width:100%;border-collapse:collapse;}
 .svc-modal-info strong{color:var(--cyan);}
 
 /* ══ REVENUE SECTION ══ */
-.svc-rev-list{display:flex;flex-direction:column;gap:12px;padding:20px;}
-.svc-rev-item{display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:var(--r2);background:var(--bg3);border:1px solid var(--border);transition:border-color .2s,transform .2s;}
-.svc-rev-item:hover{border-color:var(--border2);transform:translateX(3px);}
-.svc-rev-rank{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;width:30px;flex-shrink:0;text-align:center;}
-.svc-rev-rank.r1{color:var(--amber);}
-.svc-rev-rank.r2{color:var(--soft);}
-.svc-rev-rank.r3{color:#cd7c3a;}
-.svc-rev-rank.rn{color:var(--muted);}
-.svc-rev-info{flex:1;min-width:0;}
-.svc-rev-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;}
-.svc-rev-bar-wrap{height:7px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;}
-.svc-rev-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--cyan));transition:width .6s cubic-bezier(.4,0,.2,1);}
-.svc-rev-right{text-align:right;flex-shrink:0;}
-.svc-rev-amount{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--cyan);}
-.svc-rev-count{font-size:11px;color:var(--muted);margin-top:2px;}
+.rev-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:20px;border-bottom:1px solid var(--border);}
+.rev-summary-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;}
+.rev-summary-label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.rev-summary-val{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--cyan);}
+.rev-summary-val.green{color:var(--green);}
+.rev-summary-val.amber{color:var(--amber);}
+.rev-summary-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+
+.rev-chart-wrap{padding:24px 20px;}
+.rev-chart-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.rev-chart-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Bar chart */
+.bar-chart{display:flex;flex-direction:column;gap:18px;}
+.bar-row{display:flex;align-items:center;gap:14px;}
+.bar-rank{width:24px;text-align:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;flex-shrink:0;}
+.bar-rank.r1{color:var(--amber);}
+.bar-rank.r2{color:var(--soft);}
+.bar-rank.r3{color:#cd7c3a;}
+.bar-rank.rn{color:var(--muted);}
+.bar-label-col{width:160px;flex-shrink:0;}
+.bar-svc-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-svc-meta{font-size:11px;color:var(--muted);margin-top:1px;}
+.bar-track{flex:1;height:28px;background:rgba(255,255,255,0.04);border-radius:8px;overflow:hidden;position:relative;}
+.bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--teal),var(--cyan));position:relative;min-width:4px;transition:width .7s cubic-bezier(.4,0,.2,1);}
+.bar-fill.r1{background:linear-gradient(90deg,#d97706,var(--amber2));}
+.bar-fill.r2{background:linear-gradient(90deg,#64748b,#94a3b8);}
+.bar-fill.r3{background:linear-gradient(90deg,#92400e,#d97706);}
+.bar-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.12) 0%,transparent 60%);border-radius:8px;}
+.bar-val-col{width:110px;flex-shrink:0;text-align:right;}
+.bar-amount{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--cyan);}
+.bar-amount.r1{color:var(--amber2);}
+.bar-amount.r2{color:#94a3b8;}
+.bar-amount.r3{color:#d97706;}
+.bar-orders{font-size:11px;color:var(--muted);margin-top:1px;}
+
 .rev-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:60px 24px;color:var(--muted);font-size:13px;text-align:center;}
 .rev-empty svg{opacity:.25;}
+.rev-empty p{max-width:280px;line-height:1.6;}
 
-@media(max-width:960px){.sidebar{display:none;}.main{margin-left:0;}.stats-grid{grid-template-columns:repeat(2,1fr);}.form-row{grid-template-columns:1fr;}}
-@media(max-width:560px){.stats-grid{grid-template-columns:1fr 1fr;}.main{padding:0 16px 50px;}.slot-cards-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;padding:14px;}}
+@media(max-width:960px){.sidebar{display:none;}.main{margin-left:0;}.stats-grid{grid-template-columns:repeat(2,1fr);}.form-row{grid-template-columns:1fr;}.rev-summary-grid{grid-template-columns:1fr 1fr;}.bar-label-col{width:110px;}}
+@media(max-width:560px){.stats-grid{grid-template-columns:1fr 1fr;}.main{padding:0 16px 50px;}.slot-cards-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;padding:14px;}.rev-summary-grid{grid-template-columns:1fr;}.bar-label-col{width:90px;}.bar-val-col{width:80px;}}
 ::-webkit-scrollbar{width:6px;height:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.09);border-radius:99px;}
 </style>
 </head>
@@ -470,12 +492,36 @@ table.orders-table{width:100%;border-collapse:collapse;}
     <div class="panel">
       <div class="panel-head">
         <div class="panel-head-l">
-          <div class="panel-title">Most Profitable Services</div>
+          <div class="panel-title">Revenue Analytics</div>
           <span class="count-badge" id="revSvcCount">0</span>
         </div>
-        <div style="font-size:12px;color:var(--muted);">Based on all completed orders</div>
+        <div style="font-size:12px;color:var(--muted);">Completed orders only</div>
       </div>
-      <div class="svc-rev-list" id="revSvcList"></div>
+
+      <!-- Summary cards -->
+      <div class="rev-summary-grid" id="revSummaryGrid">
+        <div class="rev-summary-card">
+          <div class="rev-summary-label">Total Revenue</div>
+          <div class="rev-summary-val" id="revTotalVal">₱0</div>
+          <div class="rev-summary-sub" id="revTotalSub">from 0 completed orders</div>
+        </div>
+        <div class="rev-summary-card">
+          <div class="rev-summary-label">Average per Order</div>
+          <div class="rev-summary-val green" id="revAvgVal">₱0</div>
+          <div class="rev-summary-sub">per completed order</div>
+        </div>
+        <div class="rev-summary-card">
+          <div class="rev-summary-label">Top Earning Service</div>
+          <div class="rev-summary-val amber" id="revTopSvcVal" style="font-size:16px;padding-top:4px;">—</div>
+          <div class="rev-summary-sub" id="revTopSvcSub">no data yet</div>
+        </div>
+      </div>
+
+      <!-- Bar chart -->
+      <div class="rev-chart-wrap">
+        <div class="rev-chart-title">Most Profitable Services</div>
+        <div class="bar-chart" id="revBarChart"></div>
+      </div>
     </div>
   </section>
 
@@ -781,7 +827,7 @@ function renderDashboard(){
   document.getElementById('statDone').textContent=todayDone.length;
   document.getElementById('statRevenue').textContent='₱'+revenue.toLocaleString()+' revenue today';
   const svcCount={};
-  orders.forEach(o=>{if(!o.service)return;o.service.split(',').forEach(s=>{const t=s.trim();svcCount[t]=(svcCount[t]||0)+1;});});
+  completed.forEach(o=>{if(!o.service)return;o.service.split(',').forEach(s=>{const t=s.trim();svcCount[t]=(svcCount[t]||0)+1;});});
   const topSvc=Object.entries(svcCount).sort((a,b)=>b[1]-a[1])[0];
   document.getElementById('statTopSvc').textContent=topSvc?topSvc[0].split(' ')[0]:'—';
   document.getElementById('statTopSvcCount').textContent=topSvc?topSvc[1]+' orders':'No data';
@@ -875,46 +921,85 @@ async function doComplete(id){closeModal('confirmModal');try{await apiFetch('upd
 
 /* ══ REVENUE ══ */
 function renderRevenue(){
-  const completed=orders.filter(o=>o.status==='Completed');
-  const svcRev={};
-  const svcCount={};
-  completed.forEach(o=>{
-    if(!o.service)return;
-    const svcs=o.service.split(',').map(s=>s.trim()).filter(Boolean);
-    const perSvc=(Number(o.total)||0)/svcs.length;
-    svcs.forEach(s=>{
-      svcRev[s]=(svcRev[s]||0)+perSvc;
-      svcCount[s]=(svcCount[s]||0)+1;
+  /* Only count COMPLETED orders */
+  const completed = orders.filter(o => o.status === 'Completed');
+  const totalRevenue = completed.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+  const avgRevenue = completed.length ? totalRevenue / completed.length : 0;
+
+  /* Build per-service revenue & count maps from completed orders only */
+  const svcRev = {};
+  const svcCnt = {};
+
+  completed.forEach(o => {
+    if (!o.service) return;
+    const svcs = o.service.split(',').map(s => s.trim()).filter(Boolean);
+    /* Distribute the order total evenly across its services */
+    const perSvc = (Number(o.total) || 0) / svcs.length;
+    svcs.forEach(s => {
+      svcRev[s] = (svcRev[s] || 0) + perSvc;
+      svcCnt[s] = (svcCnt[s] || 0) + 1;
     });
   });
 
-  const sorted=Object.entries(svcRev).sort((a,b)=>b[1]-a[1]);
-  const maxRev=sorted[0]?sorted[0][1]:1;
-  const mount=document.getElementById('revSvcList');
-  document.getElementById('revSvcCount').textContent=sorted.length;
+  const sorted = Object.entries(svcRev).sort((a, b) => b[1] - a[1]);
+  const maxRev = sorted.length ? sorted[0][1] : 1;
 
-  if(!sorted.length){
-    mount.innerHTML='<div class="rev-empty"><svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>No completed orders yet. Revenue will appear here once orders are completed.</span></div>';
+  /* Update badge count */
+  document.getElementById('revSvcCount').textContent = sorted.length;
+
+  /* Summary cards */
+  document.getElementById('revTotalVal').textContent = '₱' + Math.round(totalRevenue).toLocaleString();
+  document.getElementById('revTotalSub').textContent = 'from ' + completed.length + ' completed order' + (completed.length !== 1 ? 's' : '');
+  document.getElementById('revAvgVal').textContent = '₱' + Math.round(avgRevenue).toLocaleString();
+  if (sorted.length) {
+    document.getElementById('revTopSvcVal').textContent = sorted[0][0];
+    document.getElementById('revTopSvcSub').textContent = '₱' + Math.round(sorted[0][1]).toLocaleString() + ' · ' + svcCnt[sorted[0][0]] + ' order' + (svcCnt[sorted[0][0]] !== 1 ? 's' : '');
+  } else {
+    document.getElementById('revTopSvcVal').textContent = '—';
+    document.getElementById('revTopSvcSub').textContent = 'no data yet';
+  }
+
+  /* Bar chart */
+  const chart = document.getElementById('revBarChart');
+
+  if (!sorted.length) {
+    chart.innerHTML = '<div class="rev-empty"><svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p>No completed orders yet.<br>Revenue will appear here once orders are marked as completed.</p></div>';
     return;
   }
 
-  const rankClass=['r1','r2','r3'];
-  mount.innerHTML=sorted.map(([name,rev],i)=>{
-    const pct=maxRev>0?(rev/maxRev*100):0;
-    const rc=rankClass[i]||'rn';
-    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
-    return `<div class="svc-rev-item">
-      <div class="svc-rev-rank ${rc}">${medal}</div>
-      <div class="svc-rev-info">
-        <div class="svc-rev-name">${esc(name)}</div>
-        <div class="svc-rev-bar-wrap"><div class="svc-rev-bar-fill" style="width:${pct}%"></div></div>
-      </div>
-      <div class="svc-rev-right">
-        <div class="svc-rev-amount">₱${Math.round(rev).toLocaleString()}</div>
-        <div class="svc-rev-count">${svcCount[name]} order${svcCount[name]!==1?'s':''}</div>
-      </div>
-    </div>`;
-  }).join('');
+  const rankClass = ['r1', 'r2', 'r3'];
+  const medal = (i) => i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : String(i + 1);
+
+  chart.innerHTML = '';
+  sorted.forEach(([name, rev], i) => {
+    const pct = maxRev > 0 ? (rev / maxRev * 100) : 0;
+    const rc = rankClass[i] || 'rn';
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML =
+      '<div class="bar-rank ' + rc + '">' + medal(i) + '</div>' +
+      '<div class="bar-label-col">' +
+        '<div class="bar-svc-name" title="' + esc(name) + '">' + esc(name) + '</div>' +
+        '<div class="bar-svc-meta">' + svcCnt[name] + ' order' + (svcCnt[name] !== 1 ? 's' : '') + '</div>' +
+      '</div>' +
+      '<div class="bar-track">' +
+        '<div class="bar-fill ' + rc + '" style="width:0%" data-pct="' + pct + '"></div>' +
+      '</div>' +
+      '<div class="bar-val-col">' +
+        '<div class="bar-amount ' + rc + '">₱' + Math.round(rev).toLocaleString() + '</div>' +
+        '<div class="bar-orders">' + Math.round(rev / (svcCnt[name] || 1)).toLocaleString() + ' avg</div>' +
+      '</div>';
+    chart.appendChild(row);
+  });
+
+  /* Animate bars in after paint */
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      chart.querySelectorAll('.bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.pct + '%';
+      });
+    });
+  });
 }
 
 /* ══ SERVICE DROPDOWN ══ */
