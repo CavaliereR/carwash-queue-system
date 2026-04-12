@@ -376,7 +376,6 @@ table.orders-table{width:100%;border-collapse:collapse;}
     </button>
   </div>
   <div class="sb-bottom">
-    <div class="live-badge"><span class="live-dot"></span>Live sync active</div>
     <div class="sb-divider"></div>
     <a href="login.html" class="nav-btn" style="text-decoration:none;">
       <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
@@ -503,7 +502,7 @@ table.orders-table{width:100%;border-collapse:collapse;}
         <div class="rev-summary-card">
           <div class="rev-summary-label">Total Revenue</div>
           <div class="rev-summary-val" id="revTotalVal">₱0</div>
-          <div class="rev-summary-sub" id="revTotalSub">from 0 completed orders</div>
+          <div class="rev-summary-sub" id="revTotalSub"></div>
         </div>
         <div class="rev-summary-card">
           <div class="rev-summary-label">Average per Order</div>
@@ -947,7 +946,6 @@ function renderRevenue(){
   /* Update badge count */
   document.getElementById('revSvcCount').textContent = sorted.length;
 
-  /* Summary cards */
   document.getElementById('revTotalVal').textContent = '₱' + Math.round(totalRevenue).toLocaleString();
   document.getElementById('revTotalSub').textContent = 'from ' + completed.length + ' completed order' + (completed.length !== 1 ? 's' : '');
   document.getElementById('revAvgVal').textContent = '₱' + Math.round(avgRevenue).toLocaleString();
